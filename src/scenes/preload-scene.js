@@ -1,5 +1,5 @@
 
-import Phaser from "../lib/phaser";
+import Phaser from "../lib/phaser.js";
 
 
 export class PreloadScene extends Phaser.Scene {
@@ -9,7 +9,7 @@ export class PreloadScene extends Phaser.Scene {
         
     }
 
-    preload() { console.log('PreloadScene preload')}
-    create() {  console.log('PreloadScene create');}
-    update() {console.log('PreloadScene update'); }
+    preload() { }
+    create() {  }
+    update() { }
 }
