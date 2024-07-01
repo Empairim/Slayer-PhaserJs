@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Slayer</title>
     <style>
-      body {
-        margin: 0;
+      html,
+      body,
+      .container {
+        margin: 0px;
         height: 100vh;
         width: 100vw;
-        background-color: #000;
         overflow: hidden;
+        background: #d7d7d7;
       }
     </style>
-    <!-- phaser cdn link -->
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
   </head>
   <body>
-    <div id="game-container"></div>
-    <script src="./src/main.js" type="module"></script>
+    <div class="container" id="game-container"></div>
+    <script src="src/main.js" type="module"></script>
   </body>
 </html>
