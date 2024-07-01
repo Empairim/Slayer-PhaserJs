@@ -1,0 +1,14 @@
+//phaser.d.ts
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "checkJs": true,
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "phaser": ["node_modules/phaser/types/phaser.d.ts"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
