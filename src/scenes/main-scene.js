@@ -128,9 +128,11 @@ create() {
         // If the player is moving up, move up
         if (this.player.body.velocity.y < 0) {
             endY = this.player.y - 160;
+            this.player.setFlipY(false);
         } else {
             // If the player is moving down, move down
             endY = this.player.y + 160;
+            this.player.setFlipY(true);
         }
     } else {
         // If the player is not moving vertically, play the xRoll animation
@@ -161,7 +163,9 @@ this.player.on('animationcomplete', (animation) => {
     if (animation.key === 'xRoll' || animation.key === 'yRoll') {
         this.player.setVelocity(0);
         this.player.isRolling = false;
+        this.player.setFlipY(false);
         this.player.play('idle', true);
+
     }
 });
         this.bat.x = this.player.x;
