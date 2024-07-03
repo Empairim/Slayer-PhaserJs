@@ -1,5 +1,6 @@
 //so I can reference phaser instead of using global window
 import Phaser from './lib/phaser.js'
+import { MainScene } from './scenes/main-scene.js'
 import { PreloadScene } from './scenes/preload-scene.js'
 import { SceneKeys } from './scenes/scene-keys.js'
 
@@ -22,8 +23,8 @@ const game = new Phaser.Game({
         },
   },
     backgroundColor: '#D3D3D3',
-    // scene: [PreloadScene],//preload scene is the first scene to load
+    scene: [PreloadScene,MainScene],//preload scene is the first scene to load
 })
 
-game.scene.add(SceneKeys.PRELOAD_SCENE, PreloadScene) //reduant if I dont add the scene in the game object
-game.scene.start(SceneKeys.PRELOAD_SCENE) //start the scene
+// game.scene.add(SceneKeys.PRELOAD_SCENE, PreloadScene) //reduant if I dont add the scene in the game object
+// game.scene.start(SceneKeys.PRELOAD_SCENE) //start the scene
