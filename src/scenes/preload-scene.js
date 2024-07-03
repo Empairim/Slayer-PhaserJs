@@ -40,6 +40,9 @@ create() {
 
     //will cause types error but can be ignores just from the phaser ts config file in types folder meh -shrug- ;) Ill just put a no types check up top
 
+    //Rolling Check
+   
+
 
 
 
@@ -74,14 +77,14 @@ create() {
 
     //side roll
     this.anims.create({
-        key: 'roll',
-        frames: this.anims.generateFrameNumbers('xRoll', { start: 0, end: 6 }), // Adjust frame numbers as needed
+        key: 'xRoll',
+        frames: this.anims.generateFrameNumbers('xRoll', { start: 1, end: 6 }), // Adjust frame numbers as needed
         frameRate: 10,
-        repeat: -1
+        repeat: 0
     });
 
     this.player = this.physics.add.sprite(100, 100, 'idle').setScale(2);//scale the sprite
-    this.player.play('idle');
+     this.player.isRolling = false;
 }
     
 
@@ -91,42 +94,63 @@ create() {
         
 
         //left
-    if (cursors.left.isDown || this.wasdKeys.left.isDown) {
+    if ((cursors.left.isDown || this.wasdKeys.left.isDown) && !this.player.isRolling) {
         this.player.setVelocityX(-160);
         this.player.play('xwalk', true);
         this.player.setFlipX(true);
         //right
-    } else if (cursors.right.isDown || this.wasdKeys.right.isDown) {
+    } else if ((cursors.right.isDown || this.wasdKeys.right.isDown) && !this.player.isRolling) {
         this.player.setVelocityX(160);
         this.player.play('xwalk', true);
         this.player.setFlipX(false);
         //up
-    } else if (cursors.up.isDown || this.wasdKeys.up.isDown) {
+    } else if ((cursors.up.isDown || this.wasdKeys.up.isDown) && !this.player.isRolling) {
         this.player.setVelocityY(-160);
         this.player.play('uwalk', true);
         this.player.setFlipX(false);
         //down
-    } else if (cursors.down.isDown || this.wasdKeys.down.isDown) {
+    } else if ((cursors.down.isDown || this.wasdKeys.down.isDown) && !this.player.isRolling) {
         this.player.setVelocityY(160);
         this.player.play('dwWalk', true);
         this.player.setFlipX(true);
+        
+        }
         //idle
-    } else {
+    if (!cursors.left.isDown && !cursors.right.isDown && !cursors.up.isDown && !cursors.down.isDown && !this.player.isRolling) {
         this.player.setVelocity(0);
         this.player.play('idle', true);
     }
 
-        //space/roll
-    if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
-        this.player.play('roll', true);
-       
-    // Add velocity to the player in the direction they're facing
-    if (this.player.flipX) {
-        // If the player is facing left, move left
-        this.player.setVelocityX(-160);
-    } else {
-        // If the player is facing right, move right
-        this.player.setVelocityX(160);
+       //space/roll
+    if (Phaser.Input.Keyboard.JustDown(cursors.space) && !this.player.isRolling) {
+        this.player.play('xRoll', true);
+        this.player.isRolling = true;
+
+        // Add velocity to the player in the direction they're facing
+        let endX;
+        if (this.player.flipX) {
+            // If the player is facing left, move left
+            endX = this.player.x - 160;
+        } else {
+            // If the player is facing right, move right
+            endX = this.player.x + 160;
+        }
+
+        // Create a tween that animates the player's x-position to the end position over the duration of the roll animation
+        this.tweens.add({
+            targets: this.player,
+            x: endX,
+            duration: this.player.anims.currentAnim.duration,
+            ease: 'Power1'
+        });
     }
+
+    this.player.on('animationcomplete', (animation) => {
+        if (animation.key === 'xRoll') {
+            this.player.setVelocityX(0);
+            this.player.isRolling = false;
+            this.player.play('idle', true);
+        }
+    });
     }
-}}
+}
