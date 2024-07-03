@@ -13,8 +13,15 @@ const game = new Phaser.Game({
     height: 576,
     mode: Phaser.Scale.FIT, //resize the game to fit the screen
     autoCenter: Phaser.Scale.CENTER_BOTH,//center the game on the screen
+    },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: true,
+        },
   },
-    backgroundColor: '#000000',
+    backgroundColor: '#D3D3D3',
     // scene: [PreloadScene],//preload scene is the first scene to load
 })
 

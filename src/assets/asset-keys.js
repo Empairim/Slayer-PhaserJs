@@ -1,27 +1,44 @@
 export const AssetKeys = Object.freeze({
+    CHARACTER: {
+
+        MOVEMENT: {
+            //Movement Pngs
+            XROLL: 'src/assets/dude/xRoll.png',
+            YROLL: 'src/assets/dude/yRoll.png',
+            DWWALK: 'src/assets/dude/dWalk.png',
+            UPWALK: 'src/assets/dude/uWalk.png',
+            XWALK: 'src/assets/dude/xWalk.png',
+            IDLE: 'src/assets/dude/idle.png',
+            //Damage Pngs
+            GETHIT: 'src/assets/dude/getHit.png',
+            DIE: 'src/assets/dude/die.png',
+        },
+
+
+    },
      PLAYER: {
         //Movement
          MOVEMENT: {
-            DASH: 'assets/player/movement/Dash.png',
-            DIE: 'assets/player/movement/Die.png',
-            IDLE: 'assets/player/movement/Idle.png',
-            JUMPANDFALL: 'assets/player/movement/JumpAndFall.png',
-            RUN: 'assets/player/movement/Run.png',
-            TAKEHIT: 'assets/player/movement/TakeHit.png',
-            // Add more movement assets here
+            DASH: 'src/assets/player/movement/Dash.png',
+            DIE: 'src/assets/player/movement/Die.png',
+            IDLE: 'src/assets/player/movement/Idle.png',
+            JUMPANDFALL: 'src/assets/player/movement/JumpAndFall.png',
+            RUN: 'src/assets/player/movement/Run.png',
+            TAKEHIT: 'src/assets/player/movement/TakeHit.png',
+            // Add more movement src/assets here
         },
         //Air Attack
-        AIR_ATTACK1: 'assets/player/airAttack/AirCombo1.png',
-        AIR_ATTACK2: 'assets/player/airAttack/AirCombo2.png',
-        AIR_ATTACK3: 'assets/player/airAttack/AirCombo3.png',
-        SHOOTGUN: 'assets/player/airAttack/ShootGun1.png',
+        AIR_ATTACK1: 'src/assets/player/airAttack/AirCombo1.png',
+        AIR_ATTACK2: 'src/assets/player/airAttack/AirCombo2.png',
+        AIR_ATTACK3: 'src/assets/player/airAttack/AirCombo3.png',
+        SHOOTGUN: 'src/assets/player/airAttack/ShootGun1.png',
         //Attack
         ATTACK: {
-            ATTACK1: 'assets/player/attack/GroundCombo1.png',
-            ATTACK2: 'assets/player/attack/GroundCombo2.png',
-            ATTACK3: 'assets/player/attack/GroundCombo3.png',
-            LUNGINGSTAB: 'assets/player/attack/LungingStab.png',
-            SHOOTGUN: 'assets/player/attack/ShootGun1.png',
+            ATTACK1: 'src/assets/player/attack/GroundCombo1.png',
+            ATTACK2: 'src/assets/player/attack/GroundCombo2.png',
+            ATTACK3: 'src/assets/player/attack/GroundCombo3.png',
+            LUNGINGSTAB: 'src/assets/player/attack/LungingStab.png',
+            SHOOTGUN: 'src/assets/player/attack/ShootGun1.png',
         }
         // Add more player assets here
     },

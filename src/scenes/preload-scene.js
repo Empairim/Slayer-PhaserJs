@@ -1,5 +1,7 @@
+// @ts-nocheck
 
 import Phaser from "../lib/phaser.js";
+import { AssetKeys } from "../assets/asset-keys.js";
 
 
 export class PreloadScene extends Phaser.Scene {
@@ -9,7 +11,122 @@ export class PreloadScene extends Phaser.Scene {
         
     }
 
-    preload() { }
-    create() {  }
-    update() { }
+    // Load assets for the scene
+    preload() {
+        //side roll
+        this.load.spritesheet('xRoll', AssetKeys.CHARACTER.MOVEMENT.XROLL, { frameWidth: 64, frameHeight: 64 });
+        //up roll
+        this.load.spritesheet('yRoll', AssetKeys.CHARACTER.MOVEMENT.YROLL, { frameWidth: 64, frameHeight: 64 });
+        //down walk
+        this.load.spritesheet('dwWalk', AssetKeys.CHARACTER.MOVEMENT.DWWALK, { frameWidth: 64, frameHeight: 64 });
+        //up walk
+        this.load.spritesheet('upWalk', AssetKeys.CHARACTER.MOVEMENT.UPWALK, { frameWidth: 64, frameHeight: 64 });
+        //side walk
+        this.load.spritesheet('xWalk', AssetKeys.CHARACTER.MOVEMENT.XWALK, { frameWidth: 64, frameHeight: 64 });
+        //idle
+    this.load.spritesheet('idle', AssetKeys.CHARACTER.MOVEMENT.IDLE, { frameWidth: 64, frameHeight: 64 });
 }
+
+// Create things for the scene
+create() {
+
+    //wasd keys
+    this.wasdKeys = this.input.keyboard.addKeys({
+        up: Phaser.Input.Keyboard.KeyCodes.W,
+        down: Phaser.Input.Keyboard.KeyCodes.S,
+        left: Phaser.Input.Keyboard.KeyCodes.A,
+        right: Phaser.Input.Keyboard.KeyCodes.D
+    });
+
+    //will cause types error but can be ignores just from the phaser ts config file in types folder meh -shrug- ;) Ill just put a no types check up top
+
+
+
+
+    //idle
+    this.anims.create({
+        key: 'idle',
+        frames: this.anims.generateFrameNumbers('idle', { start: 0, end: 11 }), // Adjust frame numbers as needed
+        frameRate: 3,
+        repeat: -1
+    });
+    //side walk
+    this.anims.create({
+        key: 'xwalk',
+        frames: this.anims.generateFrameNumbers('xWalk', { start: 0, end: 5 }), // Adjust frame numbers as needed
+        frameRate: 10,
+        repeat: -1
+    });
+    //up walk
+    this.anims.create({
+        key: 'uwalk',
+        frames: this.anims.generateFrameNumbers('upWalk', { start: 0, end: 5 }), // Adjust frame numbers as needed
+        frameRate: 10,
+        repeat: -1
+    });
+    //down walk
+     this.anims.create({
+        key: 'dwWalk',
+        frames: this.anims.generateFrameNumbers('dwWalk', { start: 0, end: 5 }), // Adjust frame numbers as needed
+        frameRate: 10,
+        repeat: -1
+    });
+
+    //side roll
+    this.anims.create({
+        key: 'roll',
+        frames: this.anims.generateFrameNumbers('xRoll', { start: 0, end: 6 }), // Adjust frame numbers as needed
+        frameRate: 10,
+        repeat: -1
+    });
+
+    this.player = this.physics.add.sprite(100, 100, 'idle').setScale(2);//scale the sprite
+    this.player.play('idle');
+}
+    
+
+    // Update things for the scene
+    update() { 
+        const cursors = this.input.keyboard.createCursorKeys();
+        
+
+        //left
+    if (cursors.left.isDown || this.wasdKeys.left.isDown) {
+        this.player.setVelocityX(-160);
+        this.player.play('xwalk', true);
+        this.player.setFlipX(true);
+        //right
+    } else if (cursors.right.isDown || this.wasdKeys.right.isDown) {
+        this.player.setVelocityX(160);
+        this.player.play('xwalk', true);
+        this.player.setFlipX(false);
+        //up
+    } else if (cursors.up.isDown || this.wasdKeys.up.isDown) {
+        this.player.setVelocityY(-160);
+        this.player.play('uwalk', true);
+        this.player.setFlipX(false);
+        //down
+    } else if (cursors.down.isDown || this.wasdKeys.down.isDown) {
+        this.player.setVelocityY(160);
+        this.player.play('dwWalk', true);
+        this.player.setFlipX(true);
+        //idle
+    } else {
+        this.player.setVelocity(0);
+        this.player.play('idle', true);
+    }
+
+        //space/roll
+    if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
+        this.player.play('roll', true);
+       
+    // Add velocity to the player in the direction they're facing
+    if (this.player.flipX) {
+        // If the player is facing left, move left
+        this.player.setVelocityX(-160);
+    } else {
+        // If the player is facing right, move right
+        this.player.setVelocityX(160);
+    }
+    }
+}}
