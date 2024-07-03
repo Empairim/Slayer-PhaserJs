@@ -75,13 +75,21 @@ create() {
         repeat: -1
     });
 
-    //side roll
+    //horizontal roll
     this.anims.create({
         key: 'xRoll',
-        frames: this.anims.generateFrameNumbers('xRoll', { start: 1, end: 6 }), // Adjust frame numbers as needed
+        frames: this.anims.generateFrameNumbers('xRoll', { start: 0, end: 6 }), // Adjust frame numbers as needed
         frameRate: 10,
         repeat: 0
     });
+
+    //vertical roll
+    this.anims.create({
+        key: 'yRoll',
+        frames: this.anims.generateFrameNumbers('yRoll', { start: 0, end: 6 }), // Adjust frame numbers as needed
+        frameRate: 10,
+        repeat: 0
+    })
 
     this.player = this.physics.add.sprite(100, 100, 'idle').setScale(2);//scale the sprite
      this.player.isRolling = false;
@@ -122,35 +130,52 @@ create() {
     }
 
        //space/roll
-    if (Phaser.Input.Keyboard.JustDown(cursors.space) && !this.player.isRolling) {
-        this.player.play('xRoll', true);
-        this.player.isRolling = true;
+   if (Phaser.Input.Keyboard.JustDown(cursors.space) && !this.player.isRolling) {
+    let endX = this.player.x;
+    let endY = this.player.y;
 
-        // Add velocity to the player in the direction they're facing
-        let endX;
+    if (this.player.body.velocity.y !== 0) {
+        // If the player is moving vertically, play the yRoll animation
+        this.player.play('yRoll', true);
+
+        // If the player is moving up, move up
+        if (this.player.body.velocity.y < 0) {
+            endY = this.player.y - 160;
+        } else {
+            // If the player is moving down, move down
+            endY = this.player.y + 160;
+        }
+    } else {
+        // If the player is not moving vertically, play the xRoll animation
+        this.player.play('xRoll', true);
+
+        // If the player is facing left, move left
         if (this.player.flipX) {
-            // If the player is facing left, move left
             endX = this.player.x - 160;
         } else {
             // If the player is facing right, move right
             endX = this.player.x + 160;
         }
-
-        // Create a tween that animates the player's x-position to the end position over the duration of the roll animation
-        this.tweens.add({
-            targets: this.player,
-            x: endX,
-            duration: this.player.anims.currentAnim.duration,
-            ease: 'Power1'
-        });
     }
 
-    this.player.on('animationcomplete', (animation) => {
-        if (animation.key === 'xRoll') {
-            this.player.setVelocityX(0);
-            this.player.isRolling = false;
-            this.player.play('idle', true);
-        }
+    this.player.isRolling = true;
+
+    // Create a tween that animates the player's position to the end position over the duration of the roll animation
+    this.tweens.add({
+        targets: this.player,
+        x: endX,
+        y: endY,
+        duration: this.player.anims.currentAnim.duration,
+        ease: 'Power1'
     });
+}
+
+this.player.on('animationcomplete', (animation) => {
+    if (animation.key === 'xRoll' || animation.key === 'yRoll') {
+        this.player.setVelocity(0);
+        this.player.isRolling = false;
+        this.player.play('idle', true);
+    }
+});
     }
 }
