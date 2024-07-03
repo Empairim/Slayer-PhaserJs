@@ -13,6 +13,7 @@ export const AssetKeys = Object.freeze({
             GETHIT: 'src/assets/dude/getHit.png',
             DIE: 'src/assets/dude/die.png',
         },
+        WEAPON: {  BAT: 'src/assets/summons/bat.png', },
 
 
     },

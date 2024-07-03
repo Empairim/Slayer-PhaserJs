@@ -13,6 +13,7 @@ export class PreloadScene extends Phaser.Scene {
 
     // Load assets for the scene
     preload() {
+        //MOVEMENT ASSETS
         //side roll
         this.load.spritesheet('xRoll', AssetKeys.CHARACTER.MOVEMENT.XROLL, { frameWidth: 64, frameHeight: 64 });
         //up roll
@@ -25,6 +26,9 @@ export class PreloadScene extends Phaser.Scene {
         this.load.spritesheet('xWalk', AssetKeys.CHARACTER.MOVEMENT.XWALK, { frameWidth: 64, frameHeight: 64 });
         //idle
         this.load.spritesheet('idle', AssetKeys.CHARACTER.MOVEMENT.IDLE, { frameWidth: 64, frameHeight: 64 });
+
+        //WEAPON ASSETS
+        this.load.spritesheet('bat', AssetKeys.CHARACTER.WEAPON.BAT,{ frameWidth: 96, frameHeight: 80 });
     } 
     create() {
         this.scene.start('MainScene');

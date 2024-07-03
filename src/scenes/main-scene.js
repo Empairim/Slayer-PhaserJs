@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import Phaser from "../lib/phaser.js";
-import { AssetKeys } from "../assets/asset-keys.js";
 
 
 export class MainScene extends Phaser.Scene {
@@ -19,7 +18,9 @@ create() {
         up: Phaser.Input.Keyboard.KeyCodes.W,
         down: Phaser.Input.Keyboard.KeyCodes.S,
         left: Phaser.Input.Keyboard.KeyCodes.A,
-        right: Phaser.Input.Keyboard.KeyCodes.D
+        right: Phaser.Input.Keyboard.KeyCodes.D,
+        space: Phaser.Input.Keyboard.KeyCodes.SPACE
+        
     });
 
     //will cause types error but can be ignores just from the phaser ts config file in types folder meh -shrug- ;) Ill just put a no types check up top
@@ -30,6 +31,7 @@ create() {
 
 
 
+    //PLAYER MOVEMENT ANIMATIONS
     //idle
     this.anims.create({
         key: 'idle',
@@ -76,45 +78,46 @@ create() {
     })
 
     this.player = this.physics.add.sprite(100, 100, 'idle').setScale(2);//scale the sprite
-     this.player.isRolling = false;
+    this.player.isRolling = false;
+    
+    //WEAPON
+    this.anims.create({ key: 'bat', frames: this.anims.generateFrameNumbers('bat', { start: 0, end: 5 }), frameRate: 10, repeat: -1 });
+    this.bat = this.add.sprite(0, 0, 'bat');
+    this.bat.setOrigin(0.5, 0.9);
 }
     
 
     // Update things for the scene
     update() { 
-        const cursors = this.input.keyboard.createCursorKeys();
-        
-            
-        //left
-    if ((cursors.left.isDown || this.wasdKeys.left.isDown) && !this.player.isRolling) {
+     //left
+    if (this.wasdKeys.left.isDown && !this.player.isRolling) {
         this.player.setVelocityX(-160);
         this.player.play('xwalk', true);
         this.player.setFlipX(true);
-        //right
-    } else if ((cursors.right.isDown || this.wasdKeys.right.isDown) && !this.player.isRolling) {
+    //right
+    } else if (this.wasdKeys.right.isDown && !this.player.isRolling) {
         this.player.setVelocityX(160);
         this.player.play('xwalk', true);
         this.player.setFlipX(false);
-        //up
-    } else if ((cursors.up.isDown || this.wasdKeys.up.isDown) && !this.player.isRolling) {
+    //up
+    } else if (this.wasdKeys.up.isDown && !this.player.isRolling) {
         this.player.setVelocityY(-160);
         this.player.play('uwalk', true);
         this.player.setFlipX(false);
-        //down
-    } else if ((cursors.down.isDown || this.wasdKeys.down.isDown) && !this.player.isRolling) {
+    //down
+    } else if (this.wasdKeys.down.isDown && !this.player.isRolling) {
         this.player.setVelocityY(160);
         this.player.play('dwWalk', true);
         this.player.setFlipX(true);
-        
-        }
-        //idle
-    if (!cursors.left.isDown && !cursors.right.isDown && !cursors.up.isDown && !cursors.down.isDown && !this.player.isRolling) {
+    }
+    //idle
+    if (!this.wasdKeys.left.isDown && !this.wasdKeys.right.isDown && !this.wasdKeys.up.isDown && !this.wasdKeys.down.isDown && !this.player.isRolling) {
         this.player.setVelocity(0);
         this.player.play('idle', true);
     }
 
        //space/roll
-   if (Phaser.Input.Keyboard.JustDown(cursors.space) && !this.player.isRolling) {
+   if (Phaser.Input.Keyboard.JustDown(this.wasdKeys.space) && !this.player.isRolling) {
     let endX = this.player.x;
     let endY = this.player.y;
 
@@ -161,5 +164,13 @@ this.player.on('animationcomplete', (animation) => {
         this.player.play('idle', true);
     }
 });
+        this.bat.x = this.player.x;
+        this.bat.y = this.player.y;
+        this.bat.setTint(0xff0000); // Tints the sprite red
+        this.bat.play('bat', true);
+        // In your update method
+const pointer = this.input.activePointer;
+const angle = Phaser.Math.Angle.Between(this.player.x, this.player.y, pointer.x, pointer.y);
+this.bat.setRotation(angle);
     }
 }
