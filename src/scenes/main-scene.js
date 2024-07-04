@@ -17,19 +17,19 @@ export class MainScene extends Phaser.Scene {
 // Create things for the scene
     create() {
 
+    //     this.anims.create({
+    //     key: 'fire1',
+    //     frames: this.anims.generateFrameNumbers('fire1', { start: 0, end: 10 }),
+    //     frameRate: 30,
+    //     repeat: -1,
+    // });
+
         // Create player
         this.player = new Player(this, 100, 100);
-        this.player.createAnimations();
-        this.player.on('animationcomplete', (animation) => {
-            this.player.onAnimationComplete(animation);
-        });
         // Create bat
         this.bat = new Bat(this, 0, 0);
-        this.bat.createAnimations();
-
         // Create enemy
         this.enemy = new Enemy(this, 500, 500);
-
         //input
         this.input.on('pointerdown', this.shootProjectile, this);
 
@@ -39,11 +39,9 @@ export class MainScene extends Phaser.Scene {
     }
     //shoot
     shootProjectile(pointer) {
-        const angle = Phaser.Math.Angle.Between(this.player.x, this.player.y, pointer.x, pointer.y);
-        const projectile = new Projectile(this, this.player.x, this.player.y); // Scene is passed only once in the constructor
-        projectile.fire(this.player.x, this.player.y, Phaser.Math.RadToDeg(angle));
-        this.projectiles.push(projectile);
-    }
+    const projectile = new Projectile(this, this.player, pointer);
+    this.projectiles.push(projectile);
+}
 
     
 

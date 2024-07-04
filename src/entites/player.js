@@ -16,6 +16,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             right: Phaser.Input.Keyboard.KeyCodes.D,
             space: Phaser.Input.Keyboard.KeyCodes.SPACE
         });
+        this.createAnimations();// so animations are created on creation
+        this.on('animationcomplete', this.onAnimationComplete.bind(this), this); //to check if the animation is complete before doing something else bind it to that specific instance of player
+
        
     }
 

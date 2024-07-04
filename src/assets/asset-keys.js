@@ -17,10 +17,16 @@ export const AssetKeys = Object.freeze({
     },
     SPELLS: {
         //Spell Pngs
-        FIRE: {},
+        //fire beats air
+        FIRE: {
+            FIRE1: 'src/assets/spells/fire/fire1.png',
+        },
+        //water beats fire
         WATER: {},
+        //earth beats water
         EARTH: {},
-        WIND: {}
+        //air beats earth
+        AIR: {}
     },
     ENEMY:
         //Enemy Pngs

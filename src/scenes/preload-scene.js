@@ -28,7 +28,10 @@ export class PreloadScene extends Phaser.Scene {
         this.load.spritesheet('idle', AssetKeys.CHARACTER.MOVEMENT.IDLE, { frameWidth: 64, frameHeight: 64 });
 
         //WEAPON ASSETS
-        this.load.spritesheet('bat', AssetKeys.CHARACTER.WEAPON.BAT,{ frameWidth: 96, frameHeight: 80 });
+        this.load.spritesheet('bat', AssetKeys.CHARACTER.WEAPON.BAT, { frameWidth: 96, frameHeight: 80 });
+        
+        //SPELL ASSETS
+        this.load.spritesheet('fire1', AssetKeys.SPELLS.FIRE.FIRE1, { frameWidth: 100, frameHeight: 100 });
     } 
     create() {
         this.scene.start('MainScene');
