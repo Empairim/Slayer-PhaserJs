@@ -26,6 +26,10 @@ Multiple enemy types or levels
 Scoring system
 Power-ups or special abilities for the player
 Level progression or increasing difficulty
+Sound effects and background music
+Create title screen and game over screen
+Create a game loop that transitions between screens
+Create save/load system for high scores
 
 
 Remember, this is just a suggestion and you should feel free to add, remove, or change items based on your vision for your game. Game development is a creative process, and the most important thing is that you're creating a game that you're excited about.
