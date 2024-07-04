@@ -3,6 +3,7 @@
 import Phaser from "../lib/phaser.js";
 import Player from "../entites/player.js";
 import Bat from "../entites/bat.js";
+import Enemy from "../entites/enemy.js";
 
 
 export class MainScene extends Phaser.Scene {
@@ -24,6 +25,10 @@ create() {
     // Create bat
     this.bat = new Bat(this, 0, 0);
     this.bat.createAnimations();
+
+    // Create enemy
+    this.enemy = new Enemy(this, 500, 500);
+    
     
     
 }
@@ -35,6 +40,8 @@ create() {
         this.player.update();
         // Update bat
         this.bat.update(this.player);
+        // Update enemy
+        this.enemy.update(this.player);
     }
 
 }

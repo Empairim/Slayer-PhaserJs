@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import Phaser from "../lib/phaser.js";
 
 export default class Bat extends Phaser.Physics.Arcade.Sprite {

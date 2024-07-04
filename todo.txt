@@ -1,0 +1,31 @@
+TODO:
+
+Create a new Phaser project
+*Set Up File Structure - preload scene main scene and methods
+*Player character with animations
+*Bat summoning mechanic
+*Bat animations
+*Bat Summon that follows
+*Enemy character that follows the player
+Enemy attack mechanic
+Enemy animations
+Player attack/shooting mechanic
+Create a Bullet class
+Add a shoot method to the Player class
+Update the bullets in the Scene's update method
+Enemy health and damage system
+Add health property to Enemy class
+Implement damage mechanic in Bullet class or Scene's update method
+Add death mechanic when enemy health reaches zero
+Player health and game over condition
+Add health property to Player class
+Implement damage mechanic when player collides with enemy
+Add game over condition when player health reaches zero
+Enemy animations (walking, attack, death)
+Multiple enemy types or levels
+Scoring system
+Power-ups or special abilities for the player
+Level progression or increasing difficulty
+
+
+Remember, this is just a suggestion and you should feel free to add, remove, or change items based on your vision for your game. Game development is a creative process, and the most important thing is that you're creating a game that you're excited about.
