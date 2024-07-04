@@ -26,4 +26,15 @@ export default class Bat extends Phaser.Physics.Arcade.Sprite {
         const angle = Phaser.Math.Angle.Between(player.x, player.y, pointer.x, pointer.y);
         this.setRotation(angle);
     }
+
+    createAnimations() {
+        this.scene.anims.create({
+            key: 'bat',
+            frames: this.scene.anims.generateFrameNumbers('bat', { start: 0, end: 5 }),
+            frameRate: 10,
+            repeat: -1,
+        });
+        
+    }
+
 }

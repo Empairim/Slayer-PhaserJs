@@ -1,0 +1,21 @@
+In Phaser, the following elements are global once created:
+
+1. **Animations**: As we discussed earlier, animations are global and can be used in any scene once they are created.
+
+2. **Plugins**: Plugins are also global. Once a plugin is installed, it can be accessed from any scene.
+
+3. **Cache**: The cache is global and is accessible from any scene. The cache is where Phaser stores loaded assets, so any assets you load into the cache in one scene will be available in all other scenes.
+
+4. **Registry**: The registry is a global object where you can store data that needs to be shared between scenes.
+
+5. **Input Manager**: The input manager is global and handles all input across all scenes.
+
+6. **Sound Manager**: The sound manager is global and manages all sounds and music.
+
+7. **Game Configuration**: The game configuration object is global and contains the configuration settings for the entire game.
+
+Remember, while these elements are global, it's important to manage them carefully to avoid conflicts and ensure your game runs smoothly.
+
+Can flip the sprite to make it face the other direction. This is done by setting the `flipX` or `flipY` property of the sprite to `true`.
+
+Tweens are a way to create animations in Phaser. A tween is an animation that changes a property of an object over time. For example, you can create a tween that moves a sprite from one position to another, or changes its scale or alpha value.

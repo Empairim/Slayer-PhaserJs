@@ -5,8 +5,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y) {
         super(scene, x, y, 'idle');
         this.scene = scene;
-        this.scene.add.existing(this);
-        this.scene.physics.world.enable(this);
+        this.scene.add.existing(this); //add to the scene display list
+        this.scene.physics.world.enable(this); //enable physics on creation
         this.setScale(2);
         this.isRolling = false;
         this.wasdKeys = this.scene.input.keyboard.addKeys({
@@ -19,7 +19,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
        
     }
 
-   update() {
+    //UPDATE PLAYERS ACTIONS
+    update() {
         if (this.wasdKeys.left.isDown && !this.isRolling) {
             this.setVelocityX(-160);
             this.play('xwalk', true);
@@ -46,6 +47,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
+    //PLAYER SKILLS ACTIONS TBD IF I WANT TO ADD MORE
+    
+    // roll method
     roll() {
         let endX = this.x;
         let endY = this.y;
@@ -87,4 +91,62 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.play('idle', true);
         }
     }
+
+    createAnimations() { 
+
+
+
+
+    //PLAYER MOVEMENT ANIMATIONS
+    //idle
+    this.anims.create({
+        key: 'idle',
+        frames: this.anims.generateFrameNumbers('idle', { start: 0, end: 11 }), // Adjust frame numbers as needed
+        frameRate: 5,
+        repeat: -1
+    });
+    //side walk
+    this.anims.create({
+        key: 'xwalk',
+        frames: this.anims.generateFrameNumbers('xWalk', { start: 0, end: 5 }), // Adjust frame numbers as needed
+        frameRate: 10,
+        repeat: -1
+    });
+    //up walk
+    this.anims.create({
+        key: 'uwalk',
+        frames: this.anims.generateFrameNumbers('upWalk', { start: 0, end: 5 }), // Adjust frame numbers as needed
+        frameRate: 10,
+        repeat: -1
+    });
+    //down walk
+     this.anims.create({
+        key: 'dwWalk',
+        frames: this.anims.generateFrameNumbers('dwWalk', { start: 0, end: 5 }), // Adjust frame numbers as needed
+        frameRate: 10,
+        repeat: -1
+    });
+
+    //horizontal roll
+    this.anims.create({
+        key: 'xRoll',
+        frames: this.anims.generateFrameNumbers('xRoll', { start: 0, end: 6 }), // Adjust frame numbers as needed
+        frameRate: 10,
+        repeat: 0
+    });
+
+    //vertical roll
+    this.anims.create({
+        key: 'yRoll',
+        frames: this.anims.generateFrameNumbers('yRoll', { start: 0, end: 6 }), // Adjust frame numbers as needed
+        frameRate: 10,
+        repeat: 0
+    })
+
+
+    }
+
+    
+
+   
 }
