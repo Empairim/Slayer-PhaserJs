@@ -9,10 +9,10 @@ Create a new Phaser project
 *Enemy character that follows the player
 Enemy attack mechanic
 Enemy animations
-Player attack/shooting mechanic
-Create a Bullet class
-Add a shoot method to the Player class
-Update the bullets in the Scene's update method
+*Player attack/shooting mechanic
+*Create a Bullet class
+*Add a shoot method to the Main scene
+*Update the bullets in the Scene's update method
 Enemy health and damage system
 Add health property to Enemy class
 Implement damage mechanic in Bullet class or Scene's update method

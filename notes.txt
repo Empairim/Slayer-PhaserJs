@@ -13,9 +13,38 @@ In Phaser, the following elements are global once created:
 6. **Sound Manager**: The sound manager is global and manages all sounds and music.
 
 7. **Game Configuration**: The game configuration object is global and contains the configuration settings for the entire game.
-
-Remember, while these elements are global, it's important to manage them carefully to avoid conflicts and ensure your game runs smoothly.
-
 Can flip the sprite to make it face the other direction. This is done by setting the `flipX` or `flipY` property of the sprite to `true`.
+
+setScale(2) // doubles the size of the sprite
+setBodySize(width, height) // sets the size of the sprite's hitbox
+setCollideWorldBounds(true) // makes the sprite collide with the world bounds
+setDepth(depth) // sets the rendering order of the sprite
+setOrigin(x, y) // sets the origin of the sprite
+setRotation(angle) // rotates the sprite by the specified angle
+setTint(color) // sets the tint color of the sprite
+setVisible(visible) // sets the visibility of the sprite
+setVelocity(x, y) // sets the velocity of the sprite
+setVelocityX(x) // sets the horizontal velocity of the sprite
+setVelocityY(y) // sets the vertical velocity of the sprite
+setX(x) // sets the x position of the sprite
+setY(y) // sets the y position of the sprite
+scene.add.existing(this) // adds the sprite to the scene
+scene.physics.add.existing(this) // adds physics to the sprite
+this.on('animationcomplete', this.onAnimationComplete.bind(this), this ) // listens for the animationcomplete event and calls the onAnimationComplete method
+.input.keyboard.addKeys('W,A,S,D,SPACE') // creates keyboard input for the specified keys
+setBounce(1) // sets the bounce factor of the sprite
+Phaser.Math.Angle.BetweenPoints(point1, point2) // calculates the angle between two points
+Phaser.Math.RadToDeg(angle) // converts an angle from radians to degrees
+Phaser.Math.DegToRad(angle) // converts an angle from degrees to radians
+Phaser.Math.Distance.Between(x1, y1, x2, y2) // calculates the distance between two points
+Phaser.Math.Clamp(value, min, max) // clamps a value between a minimum and maximum
+Phaser.Math.Random.Between(min, max) // generates a random number between a minimum and maximum
+Phaser.Math.Random.RndSign() // generates a random sign (-1 or 1)
+Phaser.Math.Random.Rnd() // generates a random number between 0 and 1
+Phaser.Math.Random.RndBool() // generates a random boolean value
+Phaser.Math.Random.RndArray(array) // selects a random element from an array
+Phaser.Math.Random.RndElement(array) // selects a random element from an array
+Phaser.Math.Random.RndWeightedElement(array) // selects a random element from an array with weighted probabilities
+ this.input.on('pointerdown', this.onPointerDown, this) // listens for the pointerdown event and calls the onPointerDown method
 
 Tweens are a way to create animations in Phaser. A tween is an animation that changes a property of an object over time. For example, you can create a tween that moves a sprite from one position to another, or changes its scale or alpha value.

@@ -7,8 +7,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene = scene;
         this.scene.add.existing(this); //add to the scene display list
         this.scene.physics.world.enable(this); //enable physics on creation
+        this.setCollideWorldBounds(true);
         this.setScale(2);
+        this.setBodySize(this.width * 0.3, this.height * 0.3); // Adjust the size of the body
+
         this.isRolling = false;
+        this.speed = 300;
+
+        //create animations and key bindings on creation
+        this.createAnimations();
+        this.on('animationcomplete', this.onAnimationComplete.bind(this), this); //to check if the animation is complete before doing something else bind it to that specific instance of player
         this.wasdKeys = this.scene.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
             down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -16,8 +24,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             right: Phaser.Input.Keyboard.KeyCodes.D,
             space: Phaser.Input.Keyboard.KeyCodes.SPACE
         });
-        this.createAnimations();// so animations are created on creation
-        this.on('animationcomplete', this.onAnimationComplete.bind(this), this); //to check if the animation is complete before doing something else bind it to that specific instance of player
+      
 
        
     }
@@ -25,19 +32,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     //UPDATE PLAYERS ACTIONS
     update() {
         if (this.wasdKeys.left.isDown && !this.isRolling) {
-            this.setVelocityX(-160);
+            this.setVelocityX(-this.speed);
             this.play('xwalk', true);
             this.setFlipX(true);
         } else if (this.wasdKeys.right.isDown && !this.isRolling) {
-            this.setVelocityX(160);
+            this.setVelocityX(this.speed);
             this.play('xwalk', true);
             this.setFlipX(false);
         } else if (this.wasdKeys.up.isDown && !this.isRolling) {
-            this.setVelocityY(-160);
+            this.setVelocityY(-this.speed);
             this.play('uwalk', true);
             this.setFlipX(false);
         } else if (this.wasdKeys.down.isDown && !this.isRolling) {
-            this.setVelocityY(160);
+            this.setVelocityY(this.speed);
             this.play('dwWalk', true);
             this.setFlipX(true);
         } else if (!this.wasdKeys.left.isDown && !this.wasdKeys.right.isDown && !this.wasdKeys.up.isDown && !this.wasdKeys.down.isDown && !this.isRolling) {
@@ -60,18 +67,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (this.body.velocity.y !== 0) {
             this.play('yRoll', true);
             if (this.body.velocity.y < 0) {
-                endY = this.y - 160;
+                endY = this.y - this.speed;
                 this.setFlipY(false);
             } else {
-                endY = this.y + 160;
+                endY = this.y + this.speed;
                 this.setFlipY(true);
             }
         } else {
             this.play('xRoll', true);
             if (this.flipX) {
-                endX = this.x - 160;
+                endX = this.x - this.speed;
             } else {
-                endX = this.x + 160;
+                endX = this.x + this.speed;
             }
         }
 
@@ -112,21 +119,21 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.anims.create({
         key: 'xwalk',
         frames: this.anims.generateFrameNumbers('xWalk', { start: 0, end: 5 }), // Adjust frame numbers as needed
-        frameRate: 10,
+        frameRate: 20,
         repeat: -1
     });
     //up walk
     this.anims.create({
         key: 'uwalk',
         frames: this.anims.generateFrameNumbers('upWalk', { start: 0, end: 5 }), // Adjust frame numbers as needed
-        frameRate: 10,
+        frameRate: 20,
         repeat: -1
     });
     //down walk
      this.anims.create({
         key: 'dwWalk',
         frames: this.anims.generateFrameNumbers('dwWalk', { start: 0, end: 5 }), // Adjust frame numbers as needed
-        frameRate: 10,
+        frameRate: 20,
         repeat: -1
     });
 
@@ -134,7 +141,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.anims.create({
         key: 'xRoll',
         frames: this.anims.generateFrameNumbers('xRoll', { start: 0, end: 6 }), // Adjust frame numbers as needed
-        frameRate: 10,
+        frameRate: 11,
         repeat: 0
     });
 
@@ -142,7 +149,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.anims.create({
         key: 'yRoll',
         frames: this.anims.generateFrameNumbers('yRoll', { start: 0, end: 6 }), // Adjust frame numbers as needed
-        frameRate: 10,
+        frameRate: 11,
         repeat: 0
     })
 

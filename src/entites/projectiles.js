@@ -24,10 +24,6 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
         this.setPosition(x, y);
         this.setAngle(angle);
         this.scene.physics.velocityFromAngle(angle, 500, this.body.velocity);
-         // Set the size and offset of the physics body
-        // const frame = this.anims.currentFrame;
-        // this.body.setSize(frame.width, frame.height);
-        // this.body.setOffset(-frame.width / 2, -frame.height / 2);
         this.play('fire1', true);
 
 
