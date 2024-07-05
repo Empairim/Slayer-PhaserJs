@@ -13,18 +13,10 @@ export class MainScene extends Phaser.Scene {
         super({ key: 'MainScene' });
         
     }
-
+    /////////////////PHASER METHODS//////////////////////////////////////////
 // Create things for the scene
     create() {
-
-    //     this.anims.create({
-    //     key: 'fire1',
-    //     frames: this.anims.generateFrameNumbers('fire1', { start: 0, end: 10 }),
-    //     frameRate: 30,
-    //     repeat: -1,
-    // });
-
-        // Create player
+    // Create player
         this.player = new Player(this, 100, 100);
         // Create bat
         this.bat = new Bat(this, 0, 0);
@@ -37,36 +29,36 @@ export class MainScene extends Phaser.Scene {
         this.projectiles = []
         
     }
-    //shoot
-    shootProjectile(pointer) {
-    const projectile = new Projectile(this, this.player, pointer);
-    this.projectiles.push(projectile);
-}
-
-    
-
-    
-    
-    
-
-    
+   
 
     // Update things for the scene
     update() { 
          // Update player
         this.player.update();
         // Update bat
-        this.bat.update(this.player);
+        this.bat.update(this.player);// pass player as target to follow
         // Update enemy
-        this.enemy.update(this.player);
-
+        if (this.enemy.isAlive) {
+            this.enemy.update(this.player);// pass player as target to follow
+        }
       // Check for collisions between projectiles and enemies
-        this.physics.overlap(this.projectiles, this.enemy, this.hitEnemy, null, this);
+        this.physics.collide(this.projectiles, this.enemy, this.hitEnemy, null, this);
+    }
+
+    ////////////////GAMES METHODS///////////////////////////////////////////
+    shootProjectile(pointer) {
+    const projectile = new Projectile(this, this.player, pointer);
+    this.projectiles.push(projectile);
     }
 
     hitEnemy(projectile, enemy) {
-    projectile.destroy();
+        enemy.die();
+        projectile.destroy();
+           
+        }
+   
     
-    }
+    
+
 }
 
