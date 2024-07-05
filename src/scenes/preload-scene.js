@@ -13,7 +13,7 @@ export class PreloadScene extends Phaser.Scene {
 
     // Load assets for the scene
     preload() {
-        //MOVEMENT ASSETS
+        //MOVEMENT ASSETS///////////
         //side roll
         this.load.spritesheet('xRoll', AssetKeys.CHARACTER.MOVEMENT.XROLL, { frameWidth: 64, frameHeight: 64 });
         //up roll
@@ -27,11 +27,15 @@ export class PreloadScene extends Phaser.Scene {
         //idle
         this.load.spritesheet('idle', AssetKeys.CHARACTER.MOVEMENT.IDLE, { frameWidth: 64, frameHeight: 64 });
 
-        //WEAPON ASSETS
+        //WEAPON ASSETS/////////////////////
         this.load.spritesheet('bat', AssetKeys.CHARACTER.WEAPON.BAT, { frameWidth: 96, frameHeight: 80 });
         
-        //SPELL ASSETS
+        //SPELL ASSETS/////////////////////
         this.load.spritesheet('fire1', AssetKeys.SPELLS.FIRE.FIRE1, { frameWidth: 100, frameHeight: 100 });
+
+        //ENEMY ASSETS/////////////////////
+        this.load.spritesheet('goblin', AssetKeys.ENIMIES.GOBLIN.PNG.RUN, { frameWidth: 64, frameHeight: 64 });
+        this.load.spritesheet('goblinDie', AssetKeys.ENIMIES.GOBLIN.PNG.DIE, { frameWidth: 64, frameHeight: 64 });
     } 
     create() {
         this.scene.start('MainScene');

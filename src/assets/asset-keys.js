@@ -13,7 +13,7 @@ export const AssetKeys = Object.freeze({
             GETHIT: 'src/assets/dude/getHit.png',
             DIE: 'src/assets/dude/die.png',
         },
-        WEAPON: {  BAT: 'src/assets/summons/bat.png', },
+        WEAPON: { BAT: 'src/assets/summons/bat.png', },
     },
     SPELLS: {
         //Spell Pngs
@@ -28,11 +28,21 @@ export const AssetKeys = Object.freeze({
         //air beats earth
         AIR: {}
     },
-    ENEMY:
-        //Enemy Pngs
-        {},
+    ENIMIES:
+    //Enemy Pngs
+    {
+        GOBLIN:
+        {
+            PNG:
+        
+            {
+                RUN: 'src/assets/enemies/goblin/goblinBlackrun.png',
+                DIE: 'src/assets/enemies/goblin/goblinBlackdie.png',
+            },
+        },
 
            
     
-    // Add more asset categories here
+        // Add more asset categories here
+    }
 });

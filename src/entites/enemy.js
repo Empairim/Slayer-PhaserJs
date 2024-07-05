@@ -2,37 +2,62 @@
 import Phaser from "../lib/phaser.js";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y) {
-        super(scene, x, y, 'enemy');
-        this.scene = scene;
-          // Create a new Graphics object and draw a rectangle
-        const graphics = scene.add.graphics({ fillStyle: { color: 0x0000ff } });
-        const rec = new Phaser.Geom.Rectangle(0, 0, 15, 15);
-        graphics.fillRectShape(rec);
-        graphics.generateTexture('enemy', 15, 15);
+  constructor(scene, x, y) {
+    super(scene, x, y, "enemy");
+    this.scene = scene;
 
+    // Enable physics and scale
+    this.scene.physics.world.enable(this);
+    this.setScale(2);
+    this.body.setCollideWorldBounds(true);
+    // Add the enemy to the scene
+    this.scene.add.existing(this);
+    this.isAlive = true;
+    this.isDying = false; // Add this line
+    this.playChaseAnimation();
+  }
 
-        // Enable physics and scale
-        this.scene.physics.world.enable(this);
-        this.setScale(2);
-
-        // Add the enemy to the scene
-        this.scene.add.existing(this);
-        this.isAlive = true;
-        
+  // Update the enemy
+  update(target) {
+    if (this.isDying) {
+    return;
+  }
+    // Move towards the target if alive and body is not null
+    if (this.isAlive && this.body) {
+      const angle = Phaser.Math.Angle.Between(
+        this.x,
+        this.y,
+        target.x,
+        target.y
+      );
+      const speed = 100;
+      this.body.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
+      // Rotate the enemy towards the target
+      this.flipX = this.x > target.x;
+      //checks for body property before stopping movement so that the game does not crash when the enemy is destroyed
+    } else if (this.body) {
+      // Stop moving if the enemy is dead
+      this.body.setVelocity(0, 0);
     }
+  }
 
-    // Update the enemy
-    update(target) {
-        // Move the enemy after player
-        const angle = Phaser.Math.Angle.Between(this.x, this.y, target.x, target.y);
-        const speed = 100;
-        this.body.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
-        
+  die() {
+    this.isAlive = false;
+    this.isDying = true; // Add this line
+    this.playDieAnimation();
+  }
 
-    }
-    die() {
-        this.isAlive = false;
-        this.destroy();
-    }
+  playChaseAnimation() {
+    // To be overridden by subclasses
+  }
+
+  playDieAnimation() {
+    // To be overridden by subclasses
+    // Add the following lines
+    this.on('animationcomplete', function (animation, frame) {
+        if (animation.key === 'enemyDie') {
+            this.isDying = false;
+        }
+    }, this);
+  }
 }

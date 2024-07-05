@@ -9,8 +9,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.physics.world.enable(this); //enable physics on creation
         this.setCollideWorldBounds(true);
         this.setScale(2);
-        this.setBodySize(this.width * 0.3, this.height * 0.3); // Adjust the size of the body
-
+this.body.setSize(this.width * 0.3, this.height * 0.3);
         this.isRolling = false;
         this.speed = 300;
 
