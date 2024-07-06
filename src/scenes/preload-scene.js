@@ -36,6 +36,8 @@ export class PreloadScene extends Phaser.Scene {
         this.load.spritesheet('fire1', AssetKeys.SPELLS.FIRE.FIRE1, { frameWidth: 100, frameHeight: 100 });
 
         //ENEMY ASSETS/////////////////////
+
+        //goblin
         this.load.spritesheet('goblin', AssetKeys.ENIMIES.GOBLIN.PNG.RUN, { frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('goblinDie', AssetKeys.ENIMIES.GOBLIN.PNG.DIE, { frameWidth: 64, frameHeight: 64 });
     } 
