@@ -1,4 +1,7 @@
 export const AssetKeys = Object.freeze({
+    ENVIORNMENT: {
+        BACKGROUND: { MAIN: 'src/assets/background/grass.png', },
+    },
     CHARACTER: {
 
         MOVEMENT: {

@@ -13,6 +13,8 @@ export class PreloadScene extends Phaser.Scene {
 
     // Load assets for the scene
     preload() {
+        //BACKGROUND ASSETS/////////////////////
+        this.load.image('background', AssetKeys.ENVIORNMENT.BACKGROUND.MAIN);
         //MOVEMENT ASSETS///////////
         //side roll
         this.load.spritesheet('xRoll', AssetKeys.CHARACTER.MOVEMENT.XROLL, { frameWidth: 64, frameHeight: 64 });

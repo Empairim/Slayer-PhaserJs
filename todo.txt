@@ -8,20 +8,20 @@ Create a new Phaser project
 *Bat Summon that follows
 *Enemy character that follows the player
 Enemy attack mechanic
-Enemy animations
+*Enemy animations
 *Player attack/shooting mechanic
 *Create a Bullet class
 *Add a shoot method to the Main scene
 *Update the bullets in the Scene's update method
 Enemy health and damage system
 Add health property to Enemy class
-Implement damage mechanic in Bullet class or Scene's update method
-Add death mechanic when enemy health reaches zero
+*Implement damage mechanic in Bullet class or Scene's update method
+*Add death mechanic when enemy health reaches zero
 Player health and game over condition
 Add health property to Player class
 Implement damage mechanic when player collides with enemy
 Add game over condition when player health reaches zero
-Enemy animations (walking, attack, death)
+Enemy animations (*walking, attack, death)
 Multiple enemy types or levels
 Scoring system
 Power-ups or special abilities for the player

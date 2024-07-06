@@ -20,6 +20,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   // Update the enemy
   update(target) {
     if (this.isDying) {
+      
     return;
   }
     // Move towards the target if alive and body is not null
@@ -56,7 +57,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     // Add the following lines
     this.on('animationcomplete', function (animation, frame) {
         if (animation.key === 'enemyDie') {
-            this.isDying = false;
+          this.isDying = false;
+          
         }
     }, this);
   }

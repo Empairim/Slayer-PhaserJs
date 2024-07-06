@@ -14,7 +14,11 @@ export class MainScene extends Phaser.Scene {
 
   //PHASER SCENE LIFECYCLE METHODS
   // Create things for the scene
-  create() {
+    create() {
+        // Create background
+        // let bg = this.add.image(400, 300, "background");
+        // bg.setScale(2);
+
     // Create player
     this.player = new Player(this, 100, 100);
     // Create player collision group

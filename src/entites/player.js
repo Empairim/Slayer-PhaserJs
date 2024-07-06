@@ -9,9 +9,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.physics.world.enable(this); //enable physics on creation
         this.setCollideWorldBounds(true);
         this.setScale(2);
-this.body.setSize(this.width * 0.3, this.height * 0.3);
+        this.body.setSize(this.width * 0.3, this.height * 0.3);
         this.isRolling = false;
-        this.speed = 300;
+        this.speed = 260;
 
         //create animations and key bindings on creation
         this.createAnimations();
@@ -59,38 +59,59 @@ this.body.setSize(this.width * 0.3, this.height * 0.3);
     //PLAYER SKILLS ACTIONS TBD IF I WANT TO ADD MORE
     
     // roll method
-    roll() {
-        let endX = this.x;
-        let endY = this.y;
+   roll() {
+    let endX = this.x;
+    let endY = this.y;
+    let diagSpeed = this.speed / Math.sqrt(2);//speed for diagonal movement is the speed divided by the square root of 2 since the player is moving in two directions at once 
 
-        if (this.body.velocity.y !== 0) {
-            this.play('yRoll', true);
-            if (this.body.velocity.y < 0) {
-                endY = this.y - this.speed;
-                this.setFlipY(false);
-            } else {
-                endY = this.y + this.speed;
-                this.setFlipY(true);
-            }
+    if (this.wasdKeys.up.isDown && this.wasdKeys.right.isDown) {
+        // Diagonal roll up-right
+        this.play('yRoll', true);
+        endX = this.x + diagSpeed;
+        endY = this.y - diagSpeed;
+    } else if (this.wasdKeys.up.isDown && this.wasdKeys.left.isDown) {
+        // Diagonal roll up-left
+        this.play('yRoll', true);
+        endX = this.x - diagSpeed;
+        endY = this.y - diagSpeed;
+    } else if (this.wasdKeys.down.isDown && this.wasdKeys.right.isDown) {
+        // Diagonal roll down-right
+        this.play('xRoll', true);
+        endX = this.x + diagSpeed;
+        endY = this.y + diagSpeed;
+    } else if (this.wasdKeys.down.isDown && this.wasdKeys.left.isDown) {
+        // Diagonal roll down-left
+        this.play('xRoll', true);
+        endX = this.x - diagSpeed;
+        endY = this.y + diagSpeed;
+    } else if (this.body.velocity.y !== 0) {
+        this.play('yRoll', true);
+        if (this.body.velocity.y < 0) {
+            endY = this.y - this.speed;
+            this.setFlipY(false);
         } else {
-            this.play('xRoll', true);
-            if (this.flipX) {
-                endX = this.x - this.speed;
-            } else {
-                endX = this.x + this.speed;
-            }
+            endY = this.y + this.speed;
+            this.setFlipY(true);
         }
-
-        this.isRolling = true;
-
-        this.scene.tweens.add({
-            targets: this,
-            x: endX,
-            y: endY,
-            duration: this.anims.currentAnim.duration,
-            ease: 'Power1'
-        });
+    } else {
+        this.play('xRoll', true);
+        if (this.flipX) {
+            endX = this.x - this.speed;
+        } else {
+            endX = this.x + this.speed;
+        }
     }
+
+    this.isRolling = true;
+
+    this.scene.tweens.add({
+        targets: this,
+        x: endX,
+        y: endY,
+        duration: this.anims.currentAnim.duration,
+        ease: 'Power1'
+    });
+}
 
     onAnimationComplete(animation) {
         if (animation.key === 'xRoll' || animation.key === 'yRoll') {
