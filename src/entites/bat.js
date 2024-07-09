@@ -3,11 +3,7 @@
 import Phaser from "../lib/phaser.js";
 
 export default class Bat extends Phaser.Physics.Arcade.Sprite {
-    /**
-     * @param {Phaser.Scene} scene
-     * @param {number} x
-     * @param {number} y
-     */
+   
     constructor(scene, x, y) {
         super(scene, x, y, 'bat');
         this.scene = scene;
@@ -17,9 +13,6 @@ export default class Bat extends Phaser.Physics.Arcade.Sprite {
         this.createAnimations();
     }
 
-    /**
-     * @param {{ x: number; y: number; }} player
-     */
     update(player) {
         this.x = player.x;
         this.y = player.y;

@@ -53,10 +53,12 @@ export class MainScene extends Phaser.Scene {
     // Add a collider between the enemies group and itself. Efficient way to check for collisions between enemies without having to check each enemy against each other which would be O(n^2)
     this.physics.add.collider(this.enemies, this.enemies);
 
-    // Mouse Input
-    this.input.on("pointerdown", this.shootProjectile, this);
+     // Mouse Input
+    this.input.on("pointerup", this.player.handleCombat.bind(this.player), this);
 
-    
+    // In the create method
+    this.physics.add.overlap(this.projectiles, this.enemyCollisionGroup, this.hitEnemy, null, this);
+  
   }
 
   // Update things for the scene
@@ -65,46 +67,23 @@ export class MainScene extends Phaser.Scene {
     this.player.update();
     // Update bat
     this.bat.update(this.player); // Pass player as target to follow
-    // Update enemies
+       // Update enemies
     this.enemies.children.iterate((enemy) => {
       enemy.update(this.player); // Pass player as target to follow
     });
+
     // Check for collisions between projectiles and enemies
-    this.projectiles.children.iterate((projectile) => {
-      this.enemies.children.iterate((enemy) => {
-        this.physics.collide(projectile, enemy, this.hitEnemy, null, this);
-      });
-    });
+    this.physics.world.collide(this.projectiles, this.enemies, this.hitEnemy, null, this);
   }
 
+
   // Game methods
-  shootProjectile(pointer) {
-    const projectile = this.projectiles.get(
-      this.player.x,
-      this.player.y,
-      "projectile"
-    );
-    if (projectile) {
-      projectile.fire(this.player, pointer);
-      this.physics.add.collider(
-        this.projectiles,
-        this.enemyCollisionGroup,
-        this.hitEnemy,
-        null,
-        this
-      );
-    }
-  }
+
 
   hitEnemy(projectile, enemy) {
     enemy.die();
     projectile.destroy();
   }
-
-    
-    
-    
-    
 
     
     

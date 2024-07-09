@@ -10,6 +10,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     this.body.setSize(this.width , this.height /2 );
     this.body.setOffset(27, 30);
     this.setScale(2);
+    
   }
 
   fire(player, pointer) {

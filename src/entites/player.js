@@ -1,5 +1,6 @@
 // @ts-nocheck
 import Phaser from "../lib/phaser.js";
+import Projectile from "./projectiles.js";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y) {
@@ -24,6 +25,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             space: Phaser.Input.Keyboard.KeyCodes.SPACE
         });
       
+        this.pointer = this.scene.input.activePointer; // Get mouse pointer
 
        
     }
@@ -54,10 +56,41 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (Phaser.Input.Keyboard.JustDown(this.wasdKeys.space) && !this.isRolling) {
             this.roll();
         }
+        this.handleCombat(); // Call the combat handler
+
     }
 
     //PLAYER SKILLS ACTIONS TBD IF I WANT TO ADD MORE
-    
+
+    handleCombat() {
+        //based on the distance between the player and the pointer, the player will perform a melee or ranged attack
+        if (this.pointer.isDown) {
+            const distance = Phaser.Math.Distance.Between(this.x, this.y, this.pointer.worldX, this.pointer.worldY);
+            if (distance < 100) {
+                this.performMeleeAttack();
+            } else {
+                this.performRangedAttack();
+            }
+        }
+    }
+
+    performMeleeAttack() {
+        //TBD
+         
+    }
+
+    performRangedAttack() {
+       
+     
+        const projectile = new Projectile(this.scene, this);
+        this.scene.projectiles.add(projectile);
+        projectile.fire(this, this.pointer);
+        
+        
+    }
+
+
+
     // roll method
    roll() {
     let endX = this.x;
