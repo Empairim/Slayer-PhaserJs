@@ -3,13 +3,13 @@
 import Phaser from "../lib/phaser.js";
 
 export default class Projectile extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, player, pointer) {
+  constructor(scene, player) {
     super(scene, player.x, player.y, "projectile");
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.body.setSize(this.width , this.height /2 );
     this.body.setOffset(27, 30);
-    this.setScale(2);
+    this.speed = 500;
     
   }
 
@@ -20,9 +20,9 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
       pointer.y - player.y
     );
     direction.normalize();
-    const speed = 500;
-    this.body.velocity.x = direction.x * speed;
-    this.body.velocity.y = direction.y * speed;
+    
+    this.body.velocity.x = direction.x * this.speed;
+    this.body.velocity.y = direction.y * this.speed;
     // Calculate the angle in degrees and set the projectile's angle
     const angle = Phaser.Math.RadToDeg(Math.atan2(direction.y, direction.x));
     this.setAngle(angle);

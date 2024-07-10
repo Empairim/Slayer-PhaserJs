@@ -5,6 +5,7 @@ import Projectile from "./projectiles.js";
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y) {
         super(scene, x, y, 'idle');
+        //phaser game properties
         this.scene = scene;
         this.scene.add.existing(this); //add to the scene display list
         this.scene.physics.world.enable(this); //enable physics on creation
@@ -25,8 +26,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             space: Phaser.Input.Keyboard.KeyCodes.SPACE
         });
       
-        this.pointer = this.scene.input.activePointer; // Get mouse pointer
-
+        //Combat properties
+        this.pointer = this.scene.input.activePointer; 
+        this.lastFired = 0;
+        this.fireDelay = 500;
        
     }
 
@@ -62,16 +65,20 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     //PLAYER SKILLS ACTIONS TBD IF I WANT TO ADD MORE
 
-    handleCombat() {
-        //based on the distance between the player and the pointer, the player will perform a melee or ranged attack
-        if (this.pointer.isDown) {
+     handleCombat() {
+        const currentTime = this.scene.time.now;
+        if (this.scene.input.activePointer.isDown && currentTime - this.lastFired > this.fireDelay) {
+            // Enough time has passed, the player can fire a projectile
             const distance = Phaser.Math.Distance.Between(this.x, this.y, this.pointer.worldX, this.pointer.worldY);
             if (distance < 100) {
                 this.performMeleeAttack();
             } else {
                 this.performRangedAttack();
             }
+            // Update the lastFired property
+            this.lastFired = currentTime;
         }
+    
     }
 
     performMeleeAttack() {

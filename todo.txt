@@ -30,6 +30,7 @@ Sound effects and background music
 Create title screen and game over screen
 Create a game loop that transitions between screens
 Create save/load system for high scores
+add an elemental system tied to the bat and enimies water beats fire ,fire beats air, air beats, earth earth beats water and the chosen element will be tied to the setTintColor method in the bat class and the enemy class I can make a seperate elemental class that will be called in the bat and enemy class to set the tint color of the sprite and also tie it to hp and damage
 
 
 Remember, this is just a suggestion and you should feel free to add, remove, or change items based on your vision for your game. Game development is a creative process, and the most important thing is that you're creating a game that you're excited about.
