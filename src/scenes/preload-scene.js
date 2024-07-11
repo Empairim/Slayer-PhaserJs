@@ -34,6 +34,8 @@ export class PreloadScene extends Phaser.Scene {
         
         //SPELL ASSETS/////////////////////
         this.load.spritesheet('fire1', AssetKeys.SPELLS.FIRE.FIRE1, { frameWidth: 100, frameHeight: 100 });
+        this.load.spritesheet('water1', AssetKeys.SPELLS.WATER.WATER1, { frameWidth: 100, frameHeight: 100 });
+
 
         //ENEMY ASSETS/////////////////////
 

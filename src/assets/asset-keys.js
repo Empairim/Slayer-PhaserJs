@@ -25,7 +25,9 @@ export const AssetKeys = Object.freeze({
             FIRE1: 'src/assets/spells/fire/fire1.png',
         },
         //water beats fire
-        WATER: {},
+        WATER: {
+            WATER1: 'src/assets/spells/water/water100x100px.png',
+        },
         //earth beats water
         EARTH: {},
         //air beats earth

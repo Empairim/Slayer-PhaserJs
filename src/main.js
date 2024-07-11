@@ -26,3 +26,4 @@ const game = new Phaser.Game({
     backgroundColor: '#333333',
     scene: [PreloadScene,MainScene],//preload scene is the first scene to load
 })
+

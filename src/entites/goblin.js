@@ -21,6 +21,7 @@ export default class Goblin extends Enemy {
     }
 
     playDieAnimation() {
-        this.play('goblinDie');
+        // this.play('goblinDie');
+        this.destroy();
     }
 }

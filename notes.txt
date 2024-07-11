@@ -47,4 +47,7 @@ Phaser.Math.Random.RndElement(array) // selects a random element from an array
 Phaser.Math.Random.RndWeightedElement(array) // selects a random element from an array with weighted probabilities
  this.input.on('pointerdown', this.onPointerDown, this) // listens for the pointerdown event and calls the onPointerDown method
 
+ emitter = scene.add.particles(x,y,texture, {projectile properties}) // creates a particle emitter at the specified position with the specified texture then pass an object with the properties of the particles
+ particleEmitter.startFollow(player) // makes the particle emitter follow the player or the specified object passed as an argument
+
 Tweens are a way to create animations in Phaser. A tween is an animation that changes a property of an object over time. For example, you can create a tween that moves a sprite from one position to another, or changes its scale or alpha value.

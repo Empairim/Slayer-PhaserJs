@@ -15,6 +15,7 @@ export class MainScene extends Phaser.Scene {
   //PHASER SCENE LIFECYCLE METHODS
   // Create things for the scene
     create() {
+    // Get the game configuration
         const config = this.sys.game.config;
 
     // Set the world bounds
@@ -41,7 +42,7 @@ export class MainScene extends Phaser.Scene {
     this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
     // Create enemy collision group
     this.enemyCollisionGroup = this.physics.add.group();
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 4; i++) {
       const x = Math.floor(Math.random() * 800);
       const y = Math.floor(Math.random() * 600);
       const enemy = new Goblin(this, x, y);
@@ -72,16 +73,24 @@ export class MainScene extends Phaser.Scene {
       enemy.update(this.player); // Pass player as target to follow
     });
 
+      // Update projectiles
+        this.projectiles.children.iterate((projectile) => {
+        projectile.update();
+    });
     // Check for collisions between projectiles and enemies
-    this.physics.world.collide(this.projectiles, this.enemies, this.hitEnemy, null, this);
+      this.physics.world.collide(this.projectiles, this.enemies, this.hitEnemy, null, this);
+      
+      
   }
+    
 
 
   // Game methods
 
 
   hitEnemy(projectile, enemy) {
-    enemy.die();
+      enemy.die();
+    projectile.emitter.explode();
     projectile.destroy();
   }
 
@@ -96,12 +105,22 @@ export class MainScene extends Phaser.Scene {
       frameRate: 30,
       repeat: -1,
     });
+  
+    this.anims.create({
+        key: 'water1_anim', // The name of the animation
+        frames: this.anims.generateFrameNumbers('water1', { start: 0, end: -1 }), // Generate frames for all images in the spritesheet
+        frameRate: 10, // The speed of the animation
+        repeat: -1 // Repeat the animation indefinitely
+    });
 
+  // ...existing code...
+
+     
     // Create enemy animations
     this.anims.create({
       key: "goblin",
       frames: this.anims.generateFrameNumbers("goblin", { start: 0, end: 7 }),
-      frameRate: 20,
+      frameRate: 8,
       repeat: -1,
     });
     this.anims.create({

@@ -92,6 +92,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         const projectile = new Projectile(this.scene, this);
         this.scene.projectiles.add(projectile);
         projectile.fire(this, this.pointer);
+        projectile.update(this);
         
         
     }
