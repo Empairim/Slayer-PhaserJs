@@ -16,21 +16,21 @@ export class PreloadScene extends Phaser.Scene {
         //BACKGROUND ASSETS/////////////////////
         this.load.image('background', AssetKeys.ENVIORNMENT.BACKGROUND.MAIN);
         //MOVEMENT ASSETS///////////
-        //side roll
-        this.load.spritesheet('xRoll', AssetKeys.CHARACTER.MOVEMENT.XROLL, { frameWidth: 64, frameHeight: 64 });
-        //up roll
-        this.load.spritesheet('yRoll', AssetKeys.CHARACTER.MOVEMENT.YROLL, { frameWidth: 64, frameHeight: 64 });
-        //down walk
-        this.load.spritesheet('dwWalk', AssetKeys.CHARACTER.MOVEMENT.DWWALK, { frameWidth: 64, frameHeight: 64 });
-        //up walk
-        this.load.spritesheet('upWalk', AssetKeys.CHARACTER.MOVEMENT.UPWALK, { frameWidth: 64, frameHeight: 64 });
-        //side walk
-        this.load.spritesheet('xWalk', AssetKeys.CHARACTER.MOVEMENT.XWALK, { frameWidth: 64, frameHeight: 64 });
-        //idle
-        this.load.spritesheet('idle', AssetKeys.CHARACTER.MOVEMENT.IDLE, { frameWidth: 64, frameHeight: 64 });
+        
+
+        //CHARACTER ASSETS/////////////////////
+        this.load.spritesheet('gunner', AssetKeys.CHARACTER.GUNNER.SPRITESHEET, { frameWidth: 48, frameHeight: 32 });
 
         //WEAPON ASSETS/////////////////////
-        this.load.spritesheet('bat', AssetKeys.CHARACTER.WEAPON.BAT, { frameWidth: 96, frameHeight: 80 });
+        this.load.image('pistol', AssetKeys.CHARACTER.GUN.PISTOL);
+        
+
+        //BULLET ASSETS/////////////////////
+        this.load.image('wBullet', AssetKeys.BULLETS.WBULLET);
+        this.load.image('bullet', AssetKeys.BULLETS.BULLET);
+
+        //PARTICLE ASSETS/////////////////////
+        this.load.image('wSmoke', AssetKeys.PARTICLES.SMOKE.WSMOKE);
         
         //SPELL ASSETS/////////////////////
         this.load.spritesheet('fire1', AssetKeys.SPELLS.FIRE.FIRE1, { frameWidth: 100, frameHeight: 100 });

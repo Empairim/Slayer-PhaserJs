@@ -1,13 +1,11 @@
 // @ts-nocheck
 import Phaser from "../lib/phaser.js";
-import ElementSystem from "./elementSystem.js";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, "enemy");
     this.scene = scene;
-    this.elementSystem = new ElementSystem();
-    this.elementSystem.setElement(this, this.elementSystem.getRandomElement());
+
     
 
     // Enable physics and scale

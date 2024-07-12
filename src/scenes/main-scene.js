@@ -2,7 +2,7 @@
 
 import Phaser from "../lib/phaser.js";
 import Player from "../entites/player.js";
-import Bat from "../entites/bat.js";
+import Gat from "../entites/gat.js";
 import Goblin from "../entites/goblin.js";
 import Projectile from "../entites/projectiles.js";
 
@@ -36,13 +36,13 @@ export class MainScene extends Phaser.Scene {
         classType: Projectile, //class to create new instances of the group
       runChildUpdate: true,//automatically calls update on each child in the group
     });
-    // Create bat
-    this.bat = new Bat(this, 0, 0);
+    // Create Gat
+    this.gat = new Gat(this, 0, 0);
     // Create enemies
     this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
     // Create enemy collision group
     this.enemyCollisionGroup = this.physics.add.group();
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 1; i++) {
       const x = Math.floor(Math.random() * 800);
       const y = Math.floor(Math.random() * 600);
       const enemy = new Goblin(this, x, y);
@@ -54,7 +54,8 @@ export class MainScene extends Phaser.Scene {
     // Add a collider between the enemies group and itself. Efficient way to check for collisions between enemies without having to check each enemy against each other which would be O(n^2)
     this.physics.add.collider(this.enemies, this.enemies);
 
-     // Mouse Input
+        // Mouse Input
+    this.input.setDefaultCursor('crosshair')
     this.input.on("pointerup", this.player.handleCombat.bind(this.player), this);
 
     // In the create method
@@ -66,8 +67,8 @@ export class MainScene extends Phaser.Scene {
   update() {
     // Update player
     this.player.update();
-    // Update bat
-    this.bat.update(this.player); // Pass player as target to follow
+    // Update gat
+    this.gat.update(this.player); // Pass player as target to follow
        // Update enemies
     this.enemies.children.iterate((enemy) => {
       enemy.update(this.player); // Pass player as target to follow
@@ -76,7 +77,8 @@ export class MainScene extends Phaser.Scene {
       // Update projectiles
         this.projectiles.children.iterate((projectile) => {
         projectile.update();
-    });
+        });
+    
     // Check for collisions between projectiles and enemies
       this.physics.world.collide(this.projectiles, this.enemies, this.hitEnemy, null, this);
       
@@ -98,7 +100,7 @@ export class MainScene extends Phaser.Scene {
     
     // Animation creation
   createAnimations() {
-    // Create spell animations
+      // Create spell animations
     this.anims.create({
       key: "fire1",
       frames: this.anims.generateFrameNumbers("fire1", { start: 0, end: 10 }),
@@ -112,8 +114,6 @@ export class MainScene extends Phaser.Scene {
         frameRate: 10, // The speed of the animation
         repeat: -1 // Repeat the animation indefinitely
     });
-
-  // ...existing code...
 
      
     // Create enemy animations

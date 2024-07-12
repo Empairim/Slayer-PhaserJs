@@ -1,4 +1,4 @@
-import Phaser from "../lib/phaser.js";
+import Phaser from "../src/lib/phaser.js";
 
 export default class ElementSystem {
     constructor() {

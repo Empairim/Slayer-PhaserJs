@@ -14,7 +14,9 @@ In Phaser, the following elements are global once created:
 
 7. **Game Configuration**: The game configuration object is global and contains the configuration settings for the entire game.
 Can flip the sprite to make it face the other direction. This is done by setting the `flipX` or `flipY` property of the sprite to `true`.
-
+//spritesheetnotes
+if a sprite sheet has different amount of frame in its sheet just multiple the max horizontal row and the amount of verticle frames to know where to start so if a sheet is 10x10 but 3rd row only has 3 frames the 4th row is still going to start at 30 0 indexed.
+//sprite notes
 setScale(2) // doubles the size of the sprite
 setBodySize(width, height) // sets the size of the sprite's hitbox
 setCollideWorldBounds(true) // makes the sprite collide with the world bounds
@@ -33,6 +35,7 @@ scene.physics.add.existing(this) // adds physics to the sprite
 this.on('animationcomplete', this.onAnimationComplete.bind(this), this ) // listens for the animationcomplete event and calls the onAnimationComplete method
 .input.keyboard.addKeys('W,A,S,D,SPACE') // creates keyboard input for the specified keys
 setBounce(1) // sets the bounce factor of the sprite
+//physics notes
 Phaser.Math.Angle.BetweenPoints(point1, point2) // calculates the angle between two points
 Phaser.Math.RadToDeg(angle) // converts an angle from radians to degrees
 Phaser.Math.DegToRad(angle) // converts an angle from degrees to radians
@@ -47,7 +50,11 @@ Phaser.Math.Random.RndElement(array) // selects a random element from an array
 Phaser.Math.Random.RndWeightedElement(array) // selects a random element from an array with weighted probabilities
  this.input.on('pointerdown', this.onPointerDown, this) // listens for the pointerdown event and calls the onPointerDown method
 
+    //particle emitter notes
  emitter = scene.add.particles(x,y,texture, {projectile properties}) // creates a particle emitter at the specified position with the specified texture then pass an object with the properties of the particles
  particleEmitter.startFollow(player) // makes the particle emitter follow the player or the specified object passed as an argument
+
+ //angles notes 
+ //math.atan2 returns the angle in radians, so we convert it to degrees, we pass y first because it's the vertical axis to the x horizontal axis to get the angle. 
 
 Tweens are a way to create animations in Phaser. A tween is an animation that changes a property of an object over time. For example, you can create a tween that moves a sprite from one position to another, or changes its scale or alpha value.

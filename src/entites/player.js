@@ -11,7 +11,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.physics.world.enable(this); //enable physics on creation
         this.body.setCollideWorldBounds(true);
         this.setScale(2);
-        this.body.setSize(this.width * 0.3, this.height * 0.3);
+        this.body.setSize(this.width * 2/3, this.height * 2/3);
+        this.body.setOffset((this.width - this.body.width) / 2, (this.height - this.body.height) / 2);
+
         this.isRolling = false;
         this.speed = 260;
 
@@ -132,7 +134,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.setFlipY(false);
         } else {
             endY = this.y + this.speed;
-            this.setFlipY(true);
+            this.setFlipY(false);
         }
     } else {
         this.play('xRoll', true);
@@ -172,45 +174,45 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     //idle
     this.anims.create({
         key: 'idle',
-        frames: this.anims.generateFrameNumbers('idle', { start: 0, end: 11 }), // Adjust frame numbers as needed
+        frames: this.anims.generateFrameNumbers('gunner', { start: 0, end: 5 }), // Adjust frame numbers as needed
         frameRate: 5,
         repeat: -1
     });
     //side walk
     this.anims.create({
         key: 'xwalk',
-        frames: this.anims.generateFrameNumbers('xWalk', { start: 0, end: 5 }), // Adjust frame numbers as needed
-        frameRate: 20,
+        frames: this.anims.generateFrameNumbers('gunner', { start: 45, end: 52 }), // Adjust frame numbers as needed
+        frameRate: 5,
         repeat: -1
     });
     //up walk
     this.anims.create({
         key: 'uwalk',
-        frames: this.anims.generateFrameNumbers('upWalk', { start: 0, end: 5 }), // Adjust frame numbers as needed
-        frameRate: 20,
+        frames: this.anims.generateFrameNumbers('gunner', { start: 45, end: 52 }), // Adjust frame numbers as needed
+        frameRate: 5,
         repeat: -1
     });
     //down walk
      this.anims.create({
         key: 'dwWalk',
-        frames: this.anims.generateFrameNumbers('dwWalk', { start: 0, end: 5 }), // Adjust frame numbers as needed
-        frameRate: 20,
+        frames: this.anims.generateFrameNumbers('gunner', { start: 45, end: 52 }), // Adjust frame numbers as needed
+        frameRate: 5,
         repeat: -1
     });
 
     //horizontal roll
     this.anims.create({
         key: 'xRoll',
-        frames: this.anims.generateFrameNumbers('xRoll', { start: 0, end: 6 }), // Adjust frame numbers as needed
-        frameRate: 11,
+        frames: this.anims.generateFrameNumbers('gunner', { start: 63, end: 67 }), // Adjust frame numbers as needed
+        frameRate: 10,
         repeat: 0
     });
 
     //vertical roll
     this.anims.create({
         key: 'yRoll',
-        frames: this.anims.generateFrameNumbers('yRoll', { start: 0, end: 6 }), // Adjust frame numbers as needed
-        frameRate: 11,
+        frames: this.anims.generateFrameNumbers('gunner', { start: 63, end: 67 }), // Adjust frame numbers as needed
+        frameRate: 10,
         repeat: 0
     })
 

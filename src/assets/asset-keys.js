@@ -4,6 +4,17 @@ export const AssetKeys = Object.freeze({
     },
     CHARACTER: {
 
+        GUNNER: {
+            //Gunner Pngs
+
+            SPRITESHEET: 'src/assets/gunner/gunner48x32.png',
+        },
+        GUN: {
+            //Gun Pngs
+            PISTOL: 'src/assets/guns/pistol.png',
+        },
+
+
         MOVEMENT: {
             //Movement Pngs
             XROLL: 'src/assets/dude/xRoll.png',
@@ -17,6 +28,17 @@ export const AssetKeys = Object.freeze({
             DIE: 'src/assets/dude/die.png',
         },
         WEAPON: { BAT: 'src/assets/summons/bat.png', },
+    },
+    BULLETS: {
+        //Bullet Pngs
+        WBULLET: 'src/assets/bullets/Wbullet.png',
+        BULLET: 'src/assets/bullets/bullet.png'
+    },
+    PARTICLES: {
+        //Particle Pngs
+        SMOKE: {
+            WSMOKE: 'src/assets/particles/Wsmoke.png',
+        },
     },
     SPELLS: {
         //Spell Pngs
