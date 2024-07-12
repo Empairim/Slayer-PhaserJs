@@ -32,7 +32,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.pointer = this.scene.input.activePointer;
     this.lastFired = 0;
     this.fireDelay = 500;
-    this.damage = 25;
+    this.damage = 10;
   }
 
   //UPDATE PLAYERS ACTIONS

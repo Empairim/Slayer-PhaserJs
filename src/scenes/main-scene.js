@@ -104,7 +104,6 @@ export class MainScene extends Phaser.Scene {
 
   hitEnemy(projectile, enemy) {
     enemy.takeDamage(projectile.damage);
-    console.log(enemy.health);
     projectile.emitter.explode();
     projectile.destroy();
   }
