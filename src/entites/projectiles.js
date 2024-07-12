@@ -15,8 +15,8 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
   createEmitter(scene) {
     // Create a particle emitter and attach it to the projectile
     this.emitter = scene.add.particles(this.x, this.y, "wSmoke", {
-      speed: 50, // Speed of the particles
-      lifespan: 100, // How long the particles will live
+      speed: 100, // Speed of the particles
+      lifespan: 300, // How long the particles will live
       angle: { min: -30, max: 30 }, // Angle of the particles
       scale: { start: 0.5, end: 0 }, // Scale of the particles
       ease: "Power2.easeOut", // Easing of the particles
