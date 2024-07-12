@@ -16,6 +16,17 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.isDying = false; // Add this line
     this.setBounce(1, 0);
     this.playChaseAnimation();
+
+    this.scene.anims.create({
+      key: "die",
+      frames: this.scene.anims.generateFrameNumbers("splatter", {
+        start: 4,
+        end: 0,
+      }),
+      frameRate: 5,
+      repeat: 0,
+      hideOnComplete: true,
+    });
   }
 
   // Update the enemy
@@ -53,12 +64,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   }
 
   playDieAnimation() {
-    // To be overridden by subclasses
-    // Add the following lines
+    // To be overridden by subclasses if needed
+    this.play("die");
+    this.body.enable = false;
     this.on(
       "animationcomplete",
-      function (animation, frame) {
-        if (animation.key === "enemyDie") {
+      function (animation) {
+        if (animation.key === "die") {
           this.isDying = false;
         }
       },

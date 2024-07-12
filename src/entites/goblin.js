@@ -9,7 +9,7 @@ export default class Goblin extends Enemy {
     this.on(
       "animationcomplete",
       function (animation) {
-        if (animation.key === "goblinDie") {
+        if (animation.key === "die") {
           this.destroy();
         }
       },
@@ -22,7 +22,6 @@ export default class Goblin extends Enemy {
   }
 
   playDieAnimation() {
-    // this.play('goblinDie');
-    this.destroy();
+    this.play("die");
   }
 }

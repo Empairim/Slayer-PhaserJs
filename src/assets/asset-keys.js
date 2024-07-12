@@ -36,6 +36,7 @@ export const AssetKeys = Object.freeze({
     //Particle Pngs
     SMOKE: {
       WSMOKE: "src/assets/particles/Wsmoke.png",
+      SPLATTER: "src/assets/particles/blood.png",
     },
   },
   SPELLS: {
