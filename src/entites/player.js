@@ -32,6 +32,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.pointer = this.scene.input.activePointer;
     this.lastFired = 0;
     this.fireDelay = 500;
+    this.damage = 25;
   }
 
   //UPDATE PLAYERS ACTIONS
@@ -102,7 +103,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   performRangedAttack() {
-    const projectile = new Projectile(this.scene, this);
+    const projectile = new Projectile(this.scene, this, this.damage);
     this.scene.projectiles.add(projectile);
     projectile.fire(this, this.pointer);
     projectile.update(this);

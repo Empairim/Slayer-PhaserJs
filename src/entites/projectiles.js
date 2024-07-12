@@ -3,13 +3,14 @@
 import Phaser from "../lib/phaser.js";
 
 export default class Projectile extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, player) {
+  constructor(scene, player, damage) {
     super(scene, player.x, player.y, "projectile");
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.setOrigin(0.3, 0.3);
     this.speed = 500;
     this.createEmitter(scene);
+    this.damage = damage;
   }
 
   createEmitter(scene) {
@@ -47,7 +48,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     const angle = Phaser.Math.RadToDeg(Math.atan2(direction.y, direction.x));
     this.setAngle(angle);
 
-    this.setTexture("bullet");
+    this.setTexture("bullet").setTint(0xff0000);
   }
   update() {
     this.emitter.setPosition(this.x, this.y);

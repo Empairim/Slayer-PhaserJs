@@ -13,15 +13,15 @@ Enemy attack mechanic
 *Create a Bullet class
 *Add a shoot method to the Main scene
 *Update the bullets in the Scene's update method
-Enemy health and damage system
-Add health property to Enemy class
+*Enemy health and damage system
+*Add health property to Enemy class
 *Implement damage mechanic in Bullet class or Scene's update method
 *Add death mechanic when enemy health reaches zero
 Player health and game over condition
 Add health property to Player class
 Implement damage mechanic when player collides with enemy
 Add game over condition when player health reaches zero
-Enemy animations (*walking, attack, death)
+Enemy animations (*walking, attack, *death)
 Multiple enemy types or levels
 Scoring system
 Power-ups or special abilities for the player
@@ -30,7 +30,7 @@ Sound effects and background music
 Create title screen and game over screen
 Create a game loop that transitions between screens
 Create save/load system for high scores
-add an elemental system tied to the bat and enimies water beats fire ,fire beats air, air beats, earth earth beats water and the chosen element will be tied to the setTintColor method in the bat class and the enemy class I can make a seperate elemental class that will be called in the bat and enemy class to set the tint color of the sprite and also tie it to hp and damage
+Add mobile controls or touch screen support
 
 
 Remember, this is just a suggestion and you should feel free to add, remove, or change items based on your vision for your game. Game development is a creative process, and the most important thing is that you're creating a game that you're excited about.

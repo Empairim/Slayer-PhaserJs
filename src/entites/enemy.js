@@ -17,16 +17,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.setBounce(1, 0);
     this.playChaseAnimation();
 
-    this.scene.anims.create({
-      key: "die",
-      frames: this.scene.anims.generateFrameNumbers("splatter", {
-        start: 4,
-        end: 0,
-      }),
-      frameRate: 5,
-      repeat: 0,
-      hideOnComplete: true,
-    });
+    //Health and damage system
+    this.health = 100;
   }
 
   // Update the enemy
@@ -72,9 +64,18 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       function (animation) {
         if (animation.key === "die") {
           this.isDying = false;
+          this.destroy();
         }
       },
       this
     );
+  }
+
+  // Damage the enemy 07/12/2024
+  takeDamage(damage) {
+    this.health -= damage;
+    if (this.health <= 0) {
+      this.die();
+    }
   }
 }

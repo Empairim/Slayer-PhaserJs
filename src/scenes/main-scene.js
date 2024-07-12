@@ -24,27 +24,27 @@ export class MainScene extends Phaser.Scene {
     // let bg = this.add.image(400, 300, "background");
     // bg.setScale(2);
 
-    // Create game animations
+    // CREATE ANIMATIONS
     this.createAnimations();
-    // Create player
+    // CREATE PLAYER
     this.player = new Player(this, 100, 100);
-    // Create player collision group
+    // CREATE PLAYER COLLISION GROUP
     this.playerCollisionGroup = this.physics.add.group({
       collideWorldBounds: true,
     });
     this.playerCollisionGroup.add(this.player);
-    // Create projectiles group
+    // CREATE PROJECTILE GROUP
     this.projectiles = this.physics.add.group({
       classType: Projectile, //class to create new instances of the group
       runChildUpdate: true, //automatically calls update on each child in the group
     });
-    // Create Gat
+    // CREATE GAT
     this.gat = new Gat(this, 0, 0);
-    // Create enemies
+    // CREATE ENEMIES
     this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
-    // Create enemy collision group
+    // CREATE ENEMY COLLISION GROUP
     this.enemyCollisionGroup = this.physics.add.group();
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 1; i++) {
       const x = Math.floor(Math.random() * 800);
       const y = Math.floor(Math.random() * 600);
       const enemy = new Goblin(this, x, y);
@@ -56,7 +56,7 @@ export class MainScene extends Phaser.Scene {
     // Add a collider between the enemies group and itself. Efficient way to check for collisions between enemies without having to check each enemy against each other which would be O(n^2)
     this.physics.add.collider(this.enemies, this.enemies);
 
-    // Mouse Input
+    // MOUSE INPUT
     this.input.setDefaultCursor("crosshair");
     this.input.on(
       "pointerup",
@@ -76,16 +76,16 @@ export class MainScene extends Phaser.Scene {
 
   // Update things for the scene
   update() {
-    // Update player
+    // UPDATE PLAYER
     this.player.update();
-    // Update gat
+    // UPDATE GAT
     this.gat.update(this.player); // Pass player as target to follow
-    // Update enemies
+    // UPDATE ENEMIES
     this.enemies.children.iterate((enemy) => {
       enemy.update(this.player); // Pass player as target to follow
     });
 
-    // Update projectiles
+    // UPDATE PROJECTILES
     this.projectiles.children.iterate((projectile) => {
       projectile.update();
     });
@@ -100,15 +100,16 @@ export class MainScene extends Phaser.Scene {
     );
   }
 
-  // Game methods
+  // Custom methods
 
   hitEnemy(projectile, enemy) {
-    enemy.die();
+    enemy.takeDamage(projectile.damage);
+    console.log(enemy.health);
     projectile.emitter.explode();
     projectile.destroy();
   }
 
-  // Animation creation
+  // ANIMATION METHODS
   createAnimations() {
     // Create spell animations
     this.anims.create({
@@ -125,21 +126,23 @@ export class MainScene extends Phaser.Scene {
       repeat: -1, // Repeat the animation indefinitely
     });
 
-    // Create enemy animations
+    // CREATE ENEMY ANIMATIONS
     this.anims.create({
       key: "goblin",
       frames: this.anims.generateFrameNumbers("goblin", { start: 0, end: 7 }),
       frameRate: 8,
       repeat: -1,
     });
+
     this.anims.create({
-      key: "goblinDie",
-      frames: this.anims.generateFrameNumbers("goblinDie", {
-        start: 0,
-        end: 7,
+      key: "die",
+      frames: this.anims.generateFrameNumbers("splatter", {
+        start: 4,
+        end: 0,
       }),
-      frameRate: 10,
+      frameRate: 12,
       repeat: 0,
+      hideOnComplete: true,
     });
   }
 }
