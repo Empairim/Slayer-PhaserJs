@@ -18,13 +18,13 @@ export default class Gat extends Phaser.Physics.Arcade.Sprite {
       this.scene.cameras.main.scrollX + this.scene.cameras.main.width / 2 <
       player.x
     ) {
-      this.x = player.x - 20;
+      this.x = player.x - 15;
       this.setFlipY(true);
     } else {
-      this.x = player.x + 20;
+      this.x = player.x + 15;
       this.setFlipY(false);
     }
-    this.y = player.y + 22;
+    this.y = player.y + 17.5;
 
     // Scale and set the texture of the gun
     this.setScale(2);

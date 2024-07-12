@@ -1,6 +1,4 @@
 // @ts-nocheck
-
-import Phaser from "../lib/phaser.js";
 import Enemy from "../entites/enemy.js";
 
 export default class Goblin extends Enemy {
@@ -10,7 +8,7 @@ export default class Goblin extends Enemy {
     this.body.setOffset(27, 30);
     this.on(
       "animationcomplete",
-      function (animation, frame) {
+      function (animation) {
         if (animation.key === "goblinDie") {
           this.destroy();
         }

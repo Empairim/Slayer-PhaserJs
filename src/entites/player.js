@@ -12,10 +12,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.body.setCollideWorldBounds(true);
     this.setScale(2);
     this.body.setSize((this.width * 2) / 3, (this.height * 2) / 3);
-    this.body.setOffset(
-      (this.width - this.body.width) / 2,
-      (this.height - this.body.height) / 2
-    );
+    this.body.setOffset(13, 10);
 
     this.isRolling = false;
     this.speed = 260;
