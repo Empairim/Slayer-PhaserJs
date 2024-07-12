@@ -6,8 +6,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, "enemy");
     this.scene = scene;
 
-    
-
     // Enable physics and scale
     this.scene.physics.world.enable(this);
     this.setScale(2);
@@ -23,9 +21,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   // Update the enemy
   update(target) {
     if (this.isDying) {
-      
-    return;
-  }
+      return;
+    }
     // Move towards the target if alive and body is not null
     if (this.isAlive && this.body) {
       const angle = Phaser.Math.Angle.Between(
@@ -58,11 +55,14 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   playDieAnimation() {
     // To be overridden by subclasses
     // Add the following lines
-    this.on('animationcomplete', function (animation, frame) {
-        if (animation.key === 'enemyDie') {
+    this.on(
+      "animationcomplete",
+      function (animation, frame) {
+        if (animation.key === "enemyDie") {
           this.isDying = false;
-          
         }
-    }, this);
+      },
+      this
+    );
   }
 }
