@@ -33,10 +33,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.lastFired = 0;
     this.fireDelay = 600;
     this.damage = 10;
+    this.health = 100;
   }
 
   //UPDATE PLAYERS ACTIONS
   update() {
+    if (!this.active) {
+      return;
+    }
     if (this.wasdKeys.left.isDown && !this.isRolling) {
       this.setVelocityX(-this.speed);
       this.play("xwalk", true);
@@ -109,6 +113,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     projectile.update(this);
   }
 
+  //PLAYER HEALTH AND DAMAGE SYSTEM////////
+  takeDamage(damage) {
+    this.health -= damage;
+    if (this.health <= 0) {
+      this.destroy();
+    }
+  }
+
+  //MOVEMENT METHODS
   // roll method
   roll() {
     let endX = this.x;

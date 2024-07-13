@@ -11,7 +11,6 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     this.body.checkCollision = true;
     this.body.onWorldBounds = true;
     this.body.collideWorldBounds = true;
-    console.log("Projectile created:", this);
 
     this.speed = 500;
     this.createEmitter(scene);
@@ -54,7 +53,6 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     this.setAngle(angle);
 
     this.setTexture("bullet").setTint(0xff0000);
-    console.log("Projectile fired with velocity:", this.body.velocity);
   }
   update() {
     this.emitter.setPosition(this.x, this.y);

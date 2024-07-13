@@ -66,7 +66,13 @@ export class MainScene extends Phaser.Scene {
 
     // Add a collider between the enemies group and itself. Efficient way to check for collisions between enemies without having to check each enemy against each other which would be O(n^2)
     this.physics.add.collider(this.enemies, this.enemies);
-    this.physics.add.collider(this.player, this.enemies);
+    this.physics.add.collider(
+      this.player,
+      this.enemies,
+      this.hitPlayer,
+      null,
+      this
+    );
     //collide so the player can't walk through the enemies
 
     //overlap so the projectile can pass through the enemy
@@ -111,6 +117,10 @@ export class MainScene extends Phaser.Scene {
     enemy.takeDamage(projectile.damage);
     projectile.emitter.explode();
     projectile.destroy();
+  }
+
+  hitPlayer(player, enemy) {
+    player.takeDamage(enemy.damage);
   }
 
   // ANIMATION METHODS

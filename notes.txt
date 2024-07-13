@@ -14,6 +14,7 @@ In Phaser, the following elements are global once created:
 
 7. **Game Configuration**: The game configuration object is global and contains the configuration settings for the entire game.
 Can flip the sprite to make it face the other direction. This is done by setting the `flipX` or `flipY` property of the sprite to `true`.
+// to add collision and dmaage to game use collid() and overlap() methods then you pass the 2 objects you want to collide and a callback function that will be called when the collision happens and then null and the scene object or scope of the function
 //spritesheetnotes
 if a sprite sheet has different amount of frame in its sheet just multiple the max horizontal row and the amount of verticle frames to know where to start so if a sheet is 10x10 but 3rd row only has 3 frames the 4th row is still going to start at 30 0 indexed.
 //sprite notes
