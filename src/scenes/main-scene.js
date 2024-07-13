@@ -45,18 +45,14 @@ export class MainScene extends Phaser.Scene {
     // CREATE ENEMIES
     this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
     // CREATE ENEMY COLLISION GROUP
-    this.enemyCollisionGroup = this.physics.add.group();
+    this.enemies = this.physics.add.group();
     for (let i = 0; i < 2; i++) {
       const x = Math.floor(Math.random() * 800);
       const y = Math.floor(Math.random() * 600);
       const enemy = new Goblin(this, x, y);
       enemy.setImmovable(true);
       this.enemies.add(enemy);
-      this.enemyCollisionGroup.add(enemy);
     }
-
-    // Add a collider between the enemies group and itself. Efficient way to check for collisions between enemies without having to check each enemy against each other which would be O(n^2)
-    this.physics.add.collider(this.enemies, this.enemies);
 
     // MOUSE INPUT
     this.input.setDefaultCursor("crosshair");
@@ -66,10 +62,17 @@ export class MainScene extends Phaser.Scene {
       this
     );
 
-    // In the create method
+    // COLLISIONS
+
+    // Add a collider between the enemies group and itself. Efficient way to check for collisions between enemies without having to check each enemy against each other which would be O(n^2)
+    this.physics.add.collider(this.enemies, this.enemies);
+    this.physics.add.collider(this.player, this.enemies);
+    //collide so the player can't walk through the enemies
+
+    //overlap so the projectile can pass through the enemy
     this.physics.add.overlap(
       this.projectiles,
-      this.enemyCollisionGroup,
+      this.enemies,
       this.hitEnemy,
       null,
       this

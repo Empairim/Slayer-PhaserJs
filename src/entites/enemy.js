@@ -55,7 +55,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocity(0, 0);
     }
   }
-
+  //ENEMY ANIMATIONS
   die() {
     this.isAlive = false;
     this.isDying = true; // Add this line
@@ -82,7 +82,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     );
   }
 
-  // Damage the enemy 07/12/2024
+  //  ENEMY GAMEPLAY LOGIC
   takeDamage(damage) {
     this.health -= damage;
     if (this.health <= 0) {
