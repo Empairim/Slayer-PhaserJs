@@ -6,15 +6,6 @@ export default class Goblin extends Enemy {
     super(scene, x, y, "goblin");
     this.body.setSize(this.width * 0.3, this.height * 0.3);
     this.body.setOffset(27, 30);
-    // this.on(
-    //   "animationcomplete",
-    //   function (animation) {
-    //     if (animation.key === "die") {
-    //       this.destroy();
-    //     }
-    //   },
-    //   this
-    // );
   }
 
   playChaseAnimation() {

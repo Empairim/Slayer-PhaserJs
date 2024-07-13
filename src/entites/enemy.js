@@ -13,7 +13,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     // Add the enemy to the scene
     this.scene.add.existing(this);
     this.isAlive = true;
-    this.isDying = false; // Add this line
+    this.isDying = false;
     this.setBounce(1, 1);
     this.playChaseAnimation();
 
@@ -21,7 +21,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.health = 100;
     this.speed = 100;
     this.state = "normal";
-    this.hitStun = 65;
+    this.hitStun = 200;
+    this.damage = 5;
   }
 
   // Update the enemy
@@ -62,7 +63,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   }
 
   playChaseAnimation() {
-    // To be overridden by subclasses
+    // To be overridden by subclasses for unique animations
   }
 
   playDieAnimation() {

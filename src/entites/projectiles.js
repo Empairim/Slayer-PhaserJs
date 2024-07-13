@@ -8,6 +8,11 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.setOrigin(0.3, 0.3);
+    this.body.checkCollision = true;
+    this.body.onWorldBounds = true;
+    this.body.collideWorldBounds = true;
+    console.log("Projectile created:", this);
+
     this.speed = 500;
     this.createEmitter(scene);
     this.damage = damage;
@@ -49,6 +54,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     this.setAngle(angle);
 
     this.setTexture("bullet").setTint(0xff0000);
+    console.log("Projectile fired with velocity:", this.body.velocity);
   }
   update() {
     this.emitter.setPosition(this.x, this.y);
@@ -60,6 +66,20 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
       //math.atan2 returns the angle in radians, so we convert it to degrees, we pass y first because it's the vertical axis to the x horizontal axis to get the angle.
       this.emitter.setAngle(angle);
       //then pass that angle to the emitter
+    }
+    // Destroy the projectile if it goes out of bounds for optimization
+    if (
+      this.x < 0 ||
+      this.y < 0 ||
+      this.x > this.scene.game.config.width ||
+      this.y > this.scene.game.config.height
+    ) {
+      // console.log("A projectile has been destroyed due to world bounds");
+      this.body.collideWorldBounds = false;
+      if (this.emitter) {
+        this.emitter.destroy(); // Destroy the emitter when the projectile is destroyed
+      }
+      this.destroy();
     }
   }
 }

@@ -20,6 +20,8 @@ export class MainScene extends Phaser.Scene {
 
     // Set the world bounds
     this.physics.world.setBounds(0, 0, config.width, config.height);
+    console.log("World bounds set:", this.physics.world.bounds);
+
     // Create background
     // let bg = this.add.image(400, 300, "background");
     // bg.setScale(2);
@@ -44,7 +46,7 @@ export class MainScene extends Phaser.Scene {
     this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
     // CREATE ENEMY COLLISION GROUP
     this.enemyCollisionGroup = this.physics.add.group();
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 2; i++) {
       const x = Math.floor(Math.random() * 800);
       const y = Math.floor(Math.random() * 600);
       const enemy = new Goblin(this, x, y);

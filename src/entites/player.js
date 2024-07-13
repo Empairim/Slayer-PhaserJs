@@ -31,7 +31,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     //Combat properties
     this.pointer = this.scene.input.activePointer;
     this.lastFired = 0;
-    this.fireDelay = 500;
+    this.fireDelay = 600;
     this.damage = 10;
   }
 
@@ -88,7 +88,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.pointer.worldX,
         this.pointer.worldY
       );
-      if (distance < 100) {
+      if (distance < 75) {
         this.performMeleeAttack();
       } else {
         this.performRangedAttack();
