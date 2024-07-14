@@ -5,6 +5,7 @@ import Player from "../entites/player.js";
 import Gat from "../entites/gat.js";
 import Goblin from "../entites/goblin.js";
 import Projectile from "../entites/projectiles.js";
+import EnemySpawner from "../entites/enemySpawner.js";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -45,14 +46,8 @@ export class MainScene extends Phaser.Scene {
     // CREATE ENEMIES
     this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
     // CREATE ENEMY COLLISION GROUP
-    this.enemies = this.physics.add.group();
-    for (let i = 0; i < 2; i++) {
-      const x = Math.floor(Math.random() * 800);
-      const y = Math.floor(Math.random() * 600);
-      const enemy = new Goblin(this, x, y);
-      enemy.setImmovable(true);
-      this.enemies.add(enemy);
-    }
+    this.enemySpawner = new EnemySpawner(this);
+    this.enemySpawner.start();
 
     // MOUSE INPUT
     this.input.setDefaultCursor("crosshair");
