@@ -116,6 +116,7 @@ export class MainScene extends Phaser.Scene {
 
   hitPlayer(player, enemy) {
     player.takeDamage(enemy.damage);
+    console.log("Player health:", player.health);
   }
 
   // ANIMATION METHODS

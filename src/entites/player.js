@@ -11,6 +11,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.world.enable(this); //enable physics on creation
     this.body.setCollideWorldBounds(true);
     this.setScale(2);
+    this.setBounce(0.2);
     this.body.setSize((this.width * 2) / 3, (this.height * 2) / 3);
     this.body.setOffset(13, 10);
 
@@ -34,6 +35,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.fireDelay = 600;
     this.damage = 10;
     this.health = 100;
+    this.isInvincible = false;
+    this.invincibilityDuration = 2000;
   }
 
   //UPDATE PLAYERS ACTIONS
@@ -115,7 +118,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   //PLAYER HEALTH AND DAMAGE SYSTEM////////
   takeDamage(damage) {
-    this.health -= damage;
+    if (!this.isInvincible) {
+      this.health -= damage;
+      this.setTint(0xff0000); // Red
+      this.isInvincible = true;
+
+      // Set a timer to remove invincibility after the duration
+      setTimeout(() => {
+        this.isInvincible = false;
+        this.clearTint();
+      }, this.invincibilityDuration);
+    }
     if (this.health <= 0) {
       this.destroy();
     }
@@ -167,6 +180,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     this.isRolling = true;
+    this.isInvincible = true; // Set invincibility when rolling starts
 
     this.scene.tweens.add({
       targets: this,
@@ -174,6 +188,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       y: endY,
       duration: this.anims.currentAnim.duration,
       ease: "Power1",
+      onComplete: () => {
+        this.isInvincible = false; // Remove invincibility when roll animation ends
+      },
     });
   }
 
