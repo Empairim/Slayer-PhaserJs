@@ -5,6 +5,7 @@ import Player from "../entites/player.js";
 import Gat from "../entites/gat.js";
 import Projectile from "../entites/projectiles.js";
 import EnemySpawner from "../entites/enemySpawner.js";
+import { AmmoPickup } from "../entites/enemy.js";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -78,6 +79,23 @@ export class MainScene extends Phaser.Scene {
       this.projectiles,
       this.enemies,
       this.hitEnemy,
+      null,
+      this
+    );
+
+    //AMMO PICKUPS
+    this.ammoPickups = this.physics.add.group();
+
+    // When an enemy dies and you create an ammo pickup
+    const ammoPickup = new AmmoPickup(this, this.x, this.y);
+
+    this.ammoPickups.add(ammoPickup);
+
+    // Add overlap between player and ammo pickups
+    this.physics.add.collider(
+      this.player,
+      this.ammoPickups,
+      this.collectAmmo,
       null,
       this
     );
@@ -186,6 +204,15 @@ export class MainScene extends Phaser.Scene {
   hitPlayer(player, enemy) {
     player.takeDamage(enemy.damage);
     this.cameras.main.shake(200, 0.005);
+  }
+  //GAMEPLAY METHODS
+  collectAmmo(player, ammoPickup) {
+    player.pickUpAmmo(ammoPickup.ammoType);
+    console.log("collectAmmo called"); // Add this line
+    console.log(ammoPickup); // Add this line    player.pickUpAmmo(ammoPickup.ammoType);
+
+    // Destroy the ammo pickup after it's collected
+    ammoPickup.destroy();
   }
 
   // ANIMATION METHODS

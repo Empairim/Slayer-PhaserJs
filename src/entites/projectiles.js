@@ -9,19 +9,11 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 
     // Create a graphics object
     const graphics = scene.make.graphics();
-    graphics.fillStyle(0x00ff00, 1);
-    graphics.beginPath();
-    graphics.arc(
-      0,
-      0,
-      100,
-      Phaser.Math.DegToRad(0),
-      Phaser.Math.DegToRad(280),
-      false,
-      0.01
-    );
-    graphics.fillPath();
-    graphics.closePath();
+    graphics.fillStyle(ammoType.particleProperties.color, 1); // Set the color of the bullet to the color of the ammo type
+    const radius =
+      Math.min(ammoType.bulletSize.width, ammoType.bulletSize.height) / 2;
+
+    graphics.fillCircle(radius, radius, radius);
 
     // Generate a texture from the graphics object
     graphics.generateTexture(
@@ -38,14 +30,25 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     this.body.collideWorldBounds = true;
 
     this.speed = ammoType.bulletSpeed;
-    this.createEmitter(scene, ammoType.emitterProperties); //will be used for "bullet" visual effects
+    this.createEmitter(scene, ammoType); //will be used for "bullet" visual effects
+
     this.damage = ammoType.damage;
   }
 
-  createEmitter(scene, emitterProperties) {
+  createEmitter(scene, ammoType) {
     // Create a particle emitter and attach it to the projectile
-    this.emitter = scene.add.particles(this.x, this.y, "wSmoke", {
-      ...emitterProperties,
+    // Create a graphics object for the particles
+    const particleGraphics = scene.make.graphics();
+    particleGraphics.fillStyle(ammoType.particleProperties.color, 1);
+    particleGraphics.fillCircle(0, 0, ammoType.particleProperties.size);
+    particleGraphics.generateTexture(
+      "particleTexture",
+      ammoType.particleProperties.size,
+      ammoType.particleProperties.size
+    );
+
+    this.emitter = scene.add.particles(this.x, this.y, "particleTexture", {
+      ...ammoType.emitterProperties,
       ease: "Sine.easeOut", // Easing of the particles
       blendMode: "ADD", // Blend mode of the particles
     });

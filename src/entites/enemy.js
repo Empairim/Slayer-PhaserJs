@@ -1,5 +1,6 @@
 // @ts-nocheck
 import Phaser from "../lib/phaser.js";
+import { AmmoTypes } from "../data/ammoTypes.js";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -61,6 +62,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.isAlive = false;
     this.isDying = true; // Add this line
     this.playDieAnimation();
+    const ammoKeys = Object.keys(AmmoTypes);
+    const randomAmmo = ammoKeys[Math.floor(Math.random() * ammoKeys.length)];
+    // Create a pickup item for the ammo type
+    const ammoPickup = new AmmoPickup(this.scene, this.x, this.y, randomAmmo);
+    this.scene.add.existing(ammoPickup);
+    this.scene.ammoPickups.add(ammoPickup); // add to main scene
+    this.destroy();
   }
 
   playChaseAnimation() {
@@ -100,5 +108,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       });
     }
     return actualDamage;
+  }
+}
+//Helper class to create a pickup that will change the player's ammo type
+export class AmmoPickup extends Phaser.Physics.Arcade.Sprite {
+  constructor(scene, x, y, ammoType) {
+    super(scene, x, y, "ammoPickup");
+    this.ammoType = ammoType;
+    scene.physics.world.enable(this);
   }
 }
