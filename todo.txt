@@ -23,7 +23,8 @@ Create a new Phaser project
 *Add game over condition when player health reaches zero
 *Enemy animations (*walking, *attack, *death)
 Multiple enemy types or levels
-Scoring system
+Different enemy behaviors or attack patterns
+Ammo types that effect damage or behavior of gun
 Power-ups or special abilities for the player
 Level progression or increasing difficulty
 Sound effects and background music

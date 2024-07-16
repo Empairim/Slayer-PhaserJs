@@ -3,7 +3,6 @@
 import Phaser from "../lib/phaser.js";
 import Player from "../entites/player.js";
 import Gat from "../entites/gat.js";
-import Goblin from "../entites/goblin.js";
 import Projectile from "../entites/projectiles.js";
 import EnemySpawner from "../entites/enemySpawner.js";
 
@@ -21,7 +20,6 @@ export class MainScene extends Phaser.Scene {
 
     // Set the world bounds
     this.physics.world.setBounds(0, 0, config.width, config.height);
-    console.log("World bounds set:", this.physics.world.bounds);
 
     // Create background
     // let bg = this.add.image(400, 300, "background");
@@ -31,6 +29,10 @@ export class MainScene extends Phaser.Scene {
     this.createAnimations();
     // CREATE PLAYER
     this.player = new Player(this, 100, 100);
+    this.playerHealthBar = this.add.graphics({
+      fillStyle: { color: 0x00ff00 },
+    });
+
     // CREATE PLAYER COLLISION GROUP
     this.playerCollisionGroup = this.physics.add.group({
       collideWorldBounds: true,
@@ -43,6 +45,7 @@ export class MainScene extends Phaser.Scene {
     });
     // CREATE GAT
     this.gat = new Gat(this, 0, 0);
+    this.reloadBar = this.add.graphics({ fillStyle: { color: 0xffffff } });
     // CREATE ENEMIES
     this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
     // CREATE ENEMY COLLISION GROUP
@@ -84,8 +87,10 @@ export class MainScene extends Phaser.Scene {
   update() {
     // UPDATE PLAYER
     this.player.update();
+    this.updatePlayerHealthBar();
     // UPDATE GAT
     this.gat.update(this.player); // Pass player as target to follow
+    this.updatePlayerReloadBar();
     // UPDATE ENEMIES
     this.enemies.children.iterate((enemy) => {
       enemy.update(this.player); // Pass player as target to follow
@@ -108,15 +113,79 @@ export class MainScene extends Phaser.Scene {
 
   // Custom methods
 
+  //DAMAGE AND HEALTH METHODS
+  updatePlayerHealthBar() {
+    // Clear the previous health bar
+    this.playerHealthBar.clear();
+
+    // Calculate the width and percentage of the health bar
+    let healthBarWidth = (this.player.health / this.player.maxHealth / 2) * 100;
+    let healthPercent = this.player.health / this.player.maxHealth;
+
+    // Change the color of the health bar based on the player's health
+    let color;
+    if (healthPercent > 0.5) {
+      color = 0x00ff00; // Green
+    } else if (healthPercent > 0.2) {
+      color = 0xffff00; // Yellow
+    } else {
+      color = 0xff0000; // Red
+    }
+
+    // Set the color of the health bar
+    this.playerHealthBar.fillStyle(color, 0.5);
+
+    // Draw the health bar
+    this.playerHealthBar.fillRect(
+      this.player.x - 25,
+      this.player.y + this.player.height,
+      healthBarWidth,
+      5
+    );
+  }
+  updatePlayerReloadBar() {
+    // Clear the previous reload bar
+    this.reloadBar.clear();
+
+    // Calculate the reload progress
+    const reloadProgress =
+      Math.min(
+        (this.time.now - this.player.lastFired) / this.player.fireDelay,
+        1
+      ) / 3;
+
+    // Set the color of the reload bar
+    this.reloadBar.fillStyle(0xffffff, 0.5); //white
+    // Draw the reload bar
+    this.reloadBar.fillRect(
+      this.player.x - 40,
+      this.player.y,
+      5,
+      100 * reloadProgress
+    );
+  }
   hitEnemy(projectile, enemy) {
-    enemy.takeDamage(projectile.damage);
+    const actualDamage = enemy.takeDamage(projectile.damage);
+    this.cameras.main.shake(200, 0.005);
+    let damageText = this.add.text(enemy.x, enemy.y, actualDamage, {
+      color: "#ff0000",
+    });
+    this.tweens.add({
+      targets: damageText,
+      y: enemy.y - 50,
+      duration: 1000,
+      ease: "Power1",
+      onComplete: () => {
+        damageText.destroy(); // Destroy the text object when the animation completes
+      },
+    });
     projectile.emitter.explode();
     projectile.destroy();
   }
 
   hitPlayer(player, enemy) {
     player.takeDamage(enemy.damage);
-    console.log("Player health:", player.health);
+    this.cameras.main.shake(200, 0.005);
   }
 
   // ANIMATION METHODS

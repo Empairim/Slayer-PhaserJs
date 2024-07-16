@@ -1,30 +1,52 @@
 // @ts-nocheck
 
 import Phaser from "../lib/phaser.js";
+import { AmmoTypes } from "../data/ammoTypes.js";
 
 export default class Projectile extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, player, damage) {
+  constructor(scene, player, ammoType) {
     super(scene, player.x, player.y, "projectile");
+
+    // Create a graphics object
+    const graphics = scene.make.graphics();
+    graphics.fillStyle(0x00ff00, 1);
+    graphics.beginPath();
+    graphics.arc(
+      0,
+      0,
+      100,
+      Phaser.Math.DegToRad(0),
+      Phaser.Math.DegToRad(280),
+      false,
+      0.01
+    );
+    graphics.fillPath();
+    graphics.closePath();
+
+    // Generate a texture from the graphics object
+    graphics.generateTexture(
+      "bullet",
+      ammoType.bulletSize.width,
+      ammoType.bulletSize.height
+    );
     scene.add.existing(this);
+    this.visible = true; //hide the projectile but keep its body
     scene.physics.add.existing(this);
     this.setOrigin(0.3, 0.3);
     this.body.checkCollision = true;
     this.body.onWorldBounds = true;
     this.body.collideWorldBounds = true;
 
-    this.speed = 500;
-    this.createEmitter(scene);
-    this.damage = damage;
+    this.speed = ammoType.bulletSpeed;
+    this.createEmitter(scene, ammoType.emitterProperties); //will be used for "bullet" visual effects
+    this.damage = ammoType.damage;
   }
 
-  createEmitter(scene) {
+  createEmitter(scene, emitterProperties) {
     // Create a particle emitter and attach it to the projectile
     this.emitter = scene.add.particles(this.x, this.y, "wSmoke", {
-      speed: 100, // Speed of the particles
-      lifespan: 300, // How long the particles will live
-      angle: { min: -30, max: 30 }, // Angle of the particles
-      scale: { start: 0.5, end: 0 }, // Scale of the particles
-      ease: "Power2.easeOut", // Easing of the particles
+      ...emitterProperties,
+      ease: "Sine.easeOut", // Easing of the particles
       blendMode: "ADD", // Blend mode of the particles
     });
 
@@ -52,7 +74,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     const angle = Phaser.Math.RadToDeg(Math.atan2(direction.y, direction.x));
     this.setAngle(angle);
 
-    this.setTexture("bullet").setTint(0xff0000);
+    this.setTexture("bullet");
   }
   update() {
     this.emitter.setPosition(this.x, this.y);

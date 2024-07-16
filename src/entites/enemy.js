@@ -20,9 +20,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     //Health and damage system
     this.health = 100;
     this.speed = 100;
+    this.defense = 1;
     this.state = "normal";
     this.hitStun = 200;
-    this.damage = 5;
+    this.damage = 1;
   }
 
   // Update the enemy
@@ -84,7 +85,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
   //  ENEMY GAMEPLAY LOGIC
   takeDamage(damage) {
-    this.health -= damage;
+    const actualDamage =
+      Math.floor(Math.random() * (damage.max - damage.min + 1)) + damage.min;
+    this.health -= actualDamage;
     if (this.health <= 0) {
       this.die();
     } else {
@@ -96,5 +99,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.clearTint(); // Clear the red tint
       });
     }
+    return actualDamage;
   }
 }

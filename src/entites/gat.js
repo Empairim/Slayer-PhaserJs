@@ -3,7 +3,7 @@ import Phaser from "../lib/phaser.js";
 
 export default class Gat extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, "bat");
+    super(scene, x, y, "gat");
     this.scene = scene;
     this.scene.add.existing(this);
     // this.scene.physics.world.enable(this); // may not need this

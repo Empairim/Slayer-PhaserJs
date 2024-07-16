@@ -25,8 +25,9 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image("pistol", AssetKeys.CHARACTER.GUN.PISTOL);
 
     //BULLET ASSETS/////////////////////
-    this.load.image("wBullet", AssetKeys.BULLETS.WBULLET);
-    this.load.image("bullet", AssetKeys.BULLETS.BULLET);
+    // this.load.image("wBullet", AssetKeys.BULLETS.WBULLET);
+    // this.load.image("bullet", AssetKeys.BULLETS.BULLET);
+    //not really needed particle system will handle this for now
 
     //PARTICLE ASSETS/////////////////////
     this.load.image("wSmoke", AssetKeys.PARTICLES.SMOKE.WSMOKE);
@@ -58,6 +59,7 @@ export class PreloadScene extends Phaser.Scene {
     });
   }
   create() {
+    // this.scene.start("UIScene");
     this.scene.start("MainScene");
   }
 }

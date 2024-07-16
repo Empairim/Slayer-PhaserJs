@@ -7,7 +7,6 @@ export default class Goblin extends Enemy {
     this.body.setSize(this.width * 0.3, this.height * 0.3);
     this.body.setOffset(27, 30);
     this.health = 20;
-    this.damage = 10;
   }
 
   playChaseAnimation() {
