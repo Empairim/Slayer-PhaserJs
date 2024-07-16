@@ -10,53 +10,69 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     // Create a graphics object
     const graphics = scene.make.graphics();
     graphics.fillStyle(ammoType.particleProperties.color, 1); // Set the color of the bullet to the color of the ammo type
-    const radius =
-      Math.min(ammoType.bulletSize.width, ammoType.bulletSize.height) / 2;
-
-    graphics.fillCircle(radius, radius, radius);
+    const radius = Math.max(
+      ammoType.bulletSize.width,
+      ammoType.bulletSize.height
+    );
+    graphics.fillRect(ammoType.bulletSize.width, ammoType.bulletSize.height);
 
     // Generate a texture from the graphics object
     graphics.generateTexture(
-      "bullet",
+      ammoType.particleTexture,
       ammoType.bulletSize.width,
       ammoType.bulletSize.height
     );
     scene.add.existing(this);
-    this.visible = true; //hide the projectile but keep its body
     scene.physics.add.existing(this);
-    this.setOrigin(0.3, 0.3);
+    this.visible = true; //hide the projectile but keep its body
+    this.setOrigin(0.5, 0.5); //set the origin to the center of the projectile
     this.body.checkCollision = true;
     this.body.onWorldBounds = true;
     this.body.collideWorldBounds = true;
+    // Set the size of the projectile's image
+    this.setScale(
+      ammoType.bulletSize.width / this.width,
+      ammoType.bulletSize.height / this.height
+    );
 
-    this.speed = ammoType.bulletSpeed;
+    // Set the size of the projectile's physics body
+    this.body.setSize(ammoType.bulletSize.width, ammoType.bulletSize.height);
+
     this.createEmitter(scene, ammoType); //will be used for "bullet" visual effects
-
+    //Bullet combat properties
+    this.ammoType = ammoType;
     this.damage = ammoType.damage;
+    this.speed = ammoType.bulletSpeed;
+    this.penetrates = ammoType.penetrates;
   }
 
   createEmitter(scene, ammoType) {
     // Create a particle emitter and attach it to the projectile
     // Create a graphics object for the particles
     const particleGraphics = scene.make.graphics();
-    particleGraphics.fillStyle(ammoType.particleProperties.color, 1);
-    particleGraphics.fillCircle(0, 0, ammoType.particleProperties.size);
+    // particleGraphics.fillStyle(ammoType.particleProperties.color, 1);
+    // particleGraphics.fillCircle(0, 0, ammoType.particleProperties.size);
     particleGraphics.generateTexture(
-      "particleTexture",
+      ammoType.particleTexture,
       ammoType.particleProperties.size,
       ammoType.particleProperties.size
     );
 
-    this.emitter = scene.add.particles(this.x, this.y, "particleTexture", {
-      ...ammoType.emitterProperties,
-      ease: "Sine.easeOut", // Easing of the particles
-      blendMode: "ADD", // Blend mode of the particles
-    });
+    this.emitter = scene.add.particles(
+      this.x,
+      this.y,
+      ammoType.particleTexture,
+      {
+        ...ammoType.emitterProperties,
+        ease: "Sine.easeOut", // Easing of the particles
+        blendMode: "ADD", // Blend mode of the particles
+      }
+    );
 
     // Set the emitter to follow the projectile
   }
 
-  fire(player, pointer) {
+  fire(player, pointer, ammoType) {
     // Calculate the offset for the starting position of the projectile
 
     const offsetX = player.flipX ? -23 : 23;
@@ -77,7 +93,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     const angle = Phaser.Math.RadToDeg(Math.atan2(direction.y, direction.x));
     this.setAngle(angle);
 
-    this.setTexture("bullet");
+    this.setTexture(ammoType.particleTexture);
   }
   update() {
     this.emitter.setPosition(this.x, this.y);

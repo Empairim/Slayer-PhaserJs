@@ -54,8 +54,15 @@ Phaser.Math.Random.RndWeightedElement(array) // selects a random element from an
     //particle emitter notes
  emitter = scene.add.particles(x,y,texture, {projectile properties}) // creates a particle emitter at the specified position with the specified texture then pass an object with the properties of the particles
  particleEmitter.startFollow(player) // makes the particle emitter follow the player or the specified object passed as an argument
+ { min: 0, max: 0 }: All particles are emitted to the right.
+{ min: 90, max: 90 }: All particles are emitted upwards.
+{ min: 0, max: 360 }: Particles are emitted in all directions, creating an explosion-like effect.
+{ min: -30, max: 30 }: Particles are emitted in a cone shape to the right. This could be used for a shotgun effect.
+{ min: 45, max: 135 }: Particles are emitted in a cone shape upwards. This could be used for a fountain effect
 
  //angles notes 
  //math.atan2 returns the angle in radians, so we convert it to degrees, we pass y first because it's the vertical axis to the x horizontal axis to get the angle. 
+
+ how widht and height works in top down game//Yes, in a top-down game where bullets move vertically (up or down), the height property of the bullet, which controls the "width" of the bullet in terms of its hit area, will have a more significant impact on the bullet's collision detection. This is because the bullet's hit area (or hitbox) is typically determined by these dimensions. The width property, on the other hand, will control the "length" of the bullet, which may not be as relevant in this case. The height property will be more important for detecting collisions with other objects in the game world.
 
 Tweens are a way to create animations in Phaser. A tween is an animation that changes a property of an object over time. For example, you can create a tween that moves a sprite from one position to another, or changes its scale or alpha value.

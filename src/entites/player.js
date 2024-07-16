@@ -41,8 +41,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.invincibilityDuration = 1000;
 
     //Ammo System
-    this.currentAmmoType = "single"; // Default ammo type
-    this.ammoInventory = { single: Infinity }; // Default ammo inventory object will provide better speed and memory usage
+    this.currentAmmoType = "shotgun"; // Default ammo type
+    this.ammoInventory = { shotgun: Infinity }; // Default ammo inventory object will provide better speed and memory usage
     this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
   }
 
@@ -83,11 +83,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         Math.floor(Math.random() * (damageRange.max - damageRange.min + 1)) +
         damageRange.min; // Random damage within the range of the current ammo type
       const projectile = new Projectile(this.scene, this, ammoType);
-      if (this.currentAmmoType !== "single") {
+      if (this.currentAmmoType !== "pistol") {
         this.ammoInventory[this.currentAmmoType]--;
       }
       this.scene.projectiles.add(projectile);
-      projectile.fire(this, this.pointer);
+      projectile.fire(this, this.pointer, ammoType);
       projectile.update(this);
     }
   }

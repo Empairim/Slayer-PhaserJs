@@ -19,7 +19,7 @@ const game = new Phaser.Game({
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: false,
+      debug: true,
     },
   },
   backgroundColor: "#333333",

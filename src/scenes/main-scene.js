@@ -184,7 +184,10 @@ export class MainScene extends Phaser.Scene {
   }
   hitEnemy(projectile, enemy) {
     const actualDamage = enemy.takeDamage(projectile.damage);
-    this.cameras.main.shake(200, 0.005);
+    this.cameras.main.shake(
+      projectile.ammoType.screenShake.duration,
+      projectile.ammoType.screenShake.intensity
+    );
     let damageText = this.add.text(enemy.x, enemy.y, actualDamage, {
       color: "#ff0000",
     });
@@ -198,7 +201,13 @@ export class MainScene extends Phaser.Scene {
       },
     });
     projectile.emitter.explode();
-    projectile.destroy();
+    if (!projectile.penetrates) {
+      projectile.setActive(false); // Set the projectile as inactive
+      projectile.setVisible(false); // Set the projectile as invisible
+      this.time.delayedCall(100, () => {
+        projectile.destroy();
+      });
+    }
   }
 
   hitPlayer(player, enemy) {
@@ -218,19 +227,19 @@ export class MainScene extends Phaser.Scene {
   // ANIMATION METHODS
   createAnimations() {
     // Create spell animations
-    this.anims.create({
-      key: "fire1",
-      frames: this.anims.generateFrameNumbers("fire1", { start: 0, end: 10 }),
-      frameRate: 30,
-      repeat: -1,
-    });
+    // this.anims.create({
+    //   key: "fire1",
+    //   frames: this.anims.generateFrameNumbers("fire1", { start: 0, end: 10 }),
+    //   frameRate: 30,
+    //   repeat: -1,
+    // });
 
-    this.anims.create({
-      key: "water1_anim", // The name of the animation
-      frames: this.anims.generateFrameNumbers("water1", { start: 0, end: -1 }), // Generate frames for all images in the spritesheet
-      frameRate: 10, // The speed of the animation
-      repeat: -1, // Repeat the animation indefinitely
-    });
+    // this.anims.create({
+    //   key: "water1_anim", // The name of the animation
+    //   frames: this.anims.generateFrameNumbers("water1", { start: 0, end: -1 }), // Generate frames for all images in the spritesheet
+    //   frameRate: 10, // The speed of the animation
+    //   repeat: -1, // Repeat the animation indefinitely
+    // });
 
     // CREATE ENEMY ANIMATIONS
     this.anims.create({
