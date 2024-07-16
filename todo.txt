@@ -24,9 +24,16 @@ Create a new Phaser project
 *Enemy animations (*walking, *attack, *death)
 Multiple enemy types or levels
 Different enemy behaviors or attack patterns
-Ammo types that effect damage or behavior of gun
+*Ammo types that effect damage or behavior of gun
 Power-ups or special abilities for the player
-Level progression or increasing difficulty
+Level progression or increasing difficulty maybe a toggle before starting mission to multiple difficulty meaning more rooms and enemies before you can head back to base and maybe boss
+Procedurally generated levels or enemy placement
+Must kill all enemies to progress to next room 
+Will start in a base hub room where you can by upgrades and health and ammo types
+Add a shop system where you can buy upgrades and ammo types
+Add a health system where you can buy health
+Add a ammo system where you can buy ammo
+Add a upgrade system where you can buy upgrades maybe like a double shot or a triple shot and maybe defense upgrades
 Sound effects and background music
 Create title screen and game over screen
 Create a game loop that transitions between screens
