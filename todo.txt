@@ -1,4 +1,9 @@
 TODO:
+//GAME BALANCE
+height effects width of bullets thus increasing "spread" of bullets and also will increase "accuracy" of bullets since they are bigger so easier to hit enemies
+lifespan will affect "range" of bullets since they will disappear after a certain amount of time so if you want to hit further enemies you will need to be closer.
+speed will affect "fire rate" of bullets since they will be able to hit more enemies in a shorter amount of time and it can also affect range if bullet flies fast enough to beat out its lifespan so keep that in mind maybe good for upgrades in the shop
+penetrates will make bullets hit multiple enemies so its good for crowd control but have to be careful of being overpowered best to keep on low fire rate guns like a shot gun or sniper
 
 Create a new Phaser project
 *Set Up File Structure - preload scene main scene and methods
@@ -22,6 +27,7 @@ Create a new Phaser project
 *Implement damage mechanic when player collides with enemy
 *Add game over condition when player health reaches zero
 *Enemy animations (*walking, *attack, *death)
+dynamic update for ammotypes and gat class, will show Different gun based on ammo type and the ammount of ammo and on ammo pick up the image will match the ammo type and the ammo count will increase
 Multiple enemy types or levels
 Different enemy behaviors or attack patterns
 Make enemies based around the ammo types fast low hp for machine gun slow high hp for shotgun and pistol is in between

@@ -25,6 +25,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.state = "normal";
     this.hitStun = 200;
     this.damage = 1;
+    //Behavioral properties
   }
 
   // Update the enemy

@@ -159,20 +159,18 @@ export class MainScene extends Phaser.Scene {
     this.reloadBar.clear();
 
     // Calculate the reload progress
-    const reloadProgress =
-      Math.min(
-        (this.time.now - this.player.lastFired) / this.player.fireDelay,
-        1
-      ) / 3;
+    const reloadProgress = Math.min(
+      (this.time.now - this.player.lastFired) / this.player.fireDelay,
+      1
+    );
 
     // Set the color of the reload bar
-    this.reloadBar.fillStyle(0xffffff, 0.5); //white
-    // Draw the reload bar
+    this.reloadBar.fillStyle(0xffffff, reloadProgress === 1 ? 1 : 0.2); // Draw the reload bar
     this.reloadBar.fillRect(
-      this.player.x - 40,
-      this.player.y,
-      5,
-      100 * reloadProgress
+      this.player.x - 10,
+      this.player.y - 13,
+      (100 * reloadProgress) / 5,
+      3
     );
   }
   //if it gets too complicated factor it out into a separate class
@@ -184,21 +182,6 @@ export class MainScene extends Phaser.Scene {
 
   // ANIMATION METHODS
   createAnimations() {
-    // Create spell animations
-    // this.anims.create({
-    //   key: "fire1",
-    //   frames: this.anims.generateFrameNumbers("fire1", { start: 0, end: 10 }),
-    //   frameRate: 30,
-    //   repeat: -1,
-    // });
-
-    // this.anims.create({
-    //   key: "water1_anim", // The name of the animation
-    //   frames: this.anims.generateFrameNumbers("water1", { start: 0, end: -1 }), // Generate frames for all images in the spritesheet
-    //   frameRate: 10, // The speed of the animation
-    //   repeat: -1, // Repeat the animation indefinitely
-    // });
-
     // CREATE ENEMY ANIMATIONS
     this.anims.create({
       key: "goblin",

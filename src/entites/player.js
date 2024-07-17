@@ -101,7 +101,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     // Add the picked up ammo type to the inventory
     if (this.ammoInventory[ammoTypeKey]) {
       this.ammoInventory[ammoTypeKey]++;
-      console.log(this.ammoInventory[ammoTypeKey]);
     } else {
       this.ammoInventory[ammoTypeKey] = 1;
     }

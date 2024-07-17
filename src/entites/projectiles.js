@@ -5,7 +5,7 @@ import { AmmoTypes } from "../data/ammoTypes.js";
 
 export default class Projectile extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, player, ammoType) {
-    super(scene, player.x, player.y, "projectile");
+    super(scene, player.x, player.y, ammoType.particleTexture);
     this.hitEnemies = new Set();
     // Create a graphics object
     const graphics = scene.make.graphics();
@@ -41,6 +41,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     this.speed = ammoType.bulletSpeed;
     this.penetrates = ammoType.penetrates;
     this.lifespan = ammoType.lifespan;
+    this.creationTime = this.scene.time.now;
 
     scene.sys.updateList.add(this);
   }
@@ -107,7 +108,6 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
       return;
     }
     const actualDamage = enemy.takeDamage(this.damage);
-    console.log("actualDamage:", actualDamage); // Check the actual damage
     this.scene.cameras.main.shake(
       this.ammoType.screenShake.duration,
       this.ammoType.screenShake.intensity
@@ -145,9 +145,9 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
       this.emitter.setAngle(angle);
       //then pass that angle to the emitter
     }
-    this.lifespan -= this.scene.time.startTime / 500;
-
-    if (this.lifespan <= 0) {
+    const elapsed = this.scene.time.now - this.creationTime;
+    if (elapsed >= this.lifespan) {
+      console.log("Projectile destroyed", elapsed, this.lifespan);
       this.destroyProjectile();
     }
   }

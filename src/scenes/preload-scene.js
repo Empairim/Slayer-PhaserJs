@@ -31,9 +31,13 @@ export class PreloadScene extends Phaser.Scene {
 
     //PARTICLE ASSETS/////////////////////
     this.load.image("wSmoke", AssetKeys.PARTICLES.SMOKE.WSMOKE);
-    this.load.spritesheet("splatter", AssetKeys.PARTICLES.SMOKE.SPLATTER, {
+    this.load.spritesheet("splatter", AssetKeys.PARTICLES.BLOOD.SPLATTER, {
       frameWidth: 140,
       frameHeight: 60,
+    });
+    this.load.spritesheet("flamer", AssetKeys.PARTICLES.FLAME.FLAMER, {
+      frameWidth: 96,
+      frameHeight: 64,
     });
 
     //SPELL ASSETS/////////////////////
