@@ -61,6 +61,11 @@ export class PreloadScene extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
+    //ghoul
+    this.load.spritesheet("ghoul", AssetKeys.ENIMIES.GHOUL.PNG.WALK, {
+      frameWidth: 62,
+      frameHeight: 33,
+    });
   }
   create() {
     // this.scene.start("UIScene");

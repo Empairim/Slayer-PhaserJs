@@ -1,18 +1,19 @@
 // @ts-nocheck
-import Enemy from "../entites/enemy.js";
+import Enemy from "./enemy.js";
 
-export default class Goblin extends Enemy {
+export default class Ghoul extends Enemy {
   constructor(scene, x, y) {
-    super(scene, x, y, "goblin");
-    this.body.setSize(this.width * 0.3, this.height * 0.3);
-    this.body.setOffset(27, 30);
-    this.health = 20;
-    this.speed = 150;
-    this.damage = 0.6;
+    super(scene, x, y, "ghoul");
+    this.body.setSize(this.width / 3, this.height);
+    this.body.setOffset(20, 0);
+    this.health = 50;
+    this.speed = 75;
+    this.damage = 1;
+    this.hitStun = 200;
   }
 
   playChaseAnimation() {
-    this.play("goblin");
+    this.play("ghoul");
   }
 }
 

@@ -200,5 +200,11 @@ export class MainScene extends Phaser.Scene {
       repeat: 0,
       hideOnComplete: true,
     });
+    this.anims.create({
+      key: "ghoul",
+      frames: this.anims.generateFrameNumbers("ghoul", { start: 0, end: 8 }),
+      frameRate: 5,
+      repeat: -1,
+    });
   }
 }

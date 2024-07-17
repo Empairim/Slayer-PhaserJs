@@ -3,7 +3,7 @@ import Phaser from "../lib/phaser.js";
 import { AmmoTypes } from "../data/ammoTypes.js";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y) {
+  constructor(scene, x, y, behavior) {
     super(scene, x, y, "enemy");
     this.scene = scene;
 
@@ -23,13 +23,14 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.speed = 100;
     this.defense = 1;
     this.state = "normal";
-    this.hitStun = 200;
+    this.hitStun = 100;
     this.damage = 1;
     //Behavioral properties
+    this.behavior = behavior;
   }
 
   // Update the enemy
-  update(target) {
+  update(target, time) {
     if (this.isDying) {
       return;
     }
@@ -37,26 +38,28 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       return;
     }
 
-    // Move towards the target if alive and body is not null
-    if (this.isAlive && this.body) {
-      const angle = Phaser.Math.Angle.Between(
-        this.x,
-        this.y,
-        target.x,
-        target.y
-      );
+    this.behavior.update(target, time);
 
-      this.body.setVelocity(
-        Math.cos(angle) * this.speed,
-        Math.sin(angle) * this.speed
-      );
-      // Rotate the enemy towards the target
-      this.flipX = this.x > target.x;
-      //checks for body property before stopping movement so that the game does not crash when the enemy is destroyed
-    } else if (this.body) {
-      // Stop moving if the enemy is dead
-      this.body.setVelocity(0, 0);
-    }
+    // // Move towards the target if alive and body is not null
+    // if (this.isAlive && this.body) {
+    //   const angle = Phaser.Math.Angle.Between(
+    //     this.x,
+    //     this.y,
+    //     target.x,
+    //     target.y
+    //   );
+
+    //   this.body.setVelocity(
+    //     Math.cos(angle) * this.speed,
+    //     Math.sin(angle) * this.speed
+    //   );
+    //   // Rotate the enemy towards the target
+    //   this.flipX = this.x > target.x;
+    //   //checks for body property before stopping movement so that the game does not crash when the enemy is destroyed
+    // } else if (this.body) {
+    //   // Stop moving if the enemy is dead
+    //   this.body.setVelocity(0, 0);
+    // }
   }
   //ENEMY ANIMATIONS
   die() {

@@ -40,8 +40,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.invincibilityDuration = 1000;
 
     //Ammo System
-    this.currentAmmoType = "shotgun"; // Default ammo type
-    this.ammoInventory = { shotgun: Infinity }; // Default ammo inventory object will provide better speed and memory usage
+    this.currentAmmoType = "pistol"; // Default ammo type
+    this.ammoInventory = { pistol: Infinity }; // Default ammo inventory object will provide better speed and memory usage
     this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
   }
 

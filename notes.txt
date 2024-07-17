@@ -66,3 +66,6 @@ Phaser.Math.Random.RndWeightedElement(array) // selects a random element from an
  how widht and height works in top down game//Yes, in a top-down game where bullets move vertically (up or down), the height property of the bullet, which controls the "width" of the bullet in terms of its hit area, will have a more significant impact on the bullet's collision detection. This is because the bullet's hit area (or hitbox) is typically determined by these dimensions. The width property, on the other hand, will control the "length" of the bullet, which may not be as relevant in this case. The height property will be more important for detecting collisions with other objects in the game world.
 
 Tweens are a way to create animations in Phaser. A tween is an animation that changes a property of an object over time. For example, you can create a tween that moves a sprite from one position to another, or changes its scale or alpha value.
+
+//time events notes
+In Phaser 3, using the scene.time.now or scene.time.elapsed properties can help track the passage of time more accurately. The scene.time.now property returns the current timestamp in milliseconds, while the scene.time.elapsed property returns the time elapsed since the last frame in milliseconds. By using these properties, you can create more precise timing for your game events and animations.

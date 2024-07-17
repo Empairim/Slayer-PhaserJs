@@ -29,6 +29,7 @@ Create a new Phaser project
 *Enemy animations (*walking, *attack, *death)
 dynamic update for ammotypes and gat class, will show Different gun based on ammo type and the ammount of ammo and on ammo pick up the image will match the ammo type and the ammo count will increase
 Multiple enemy types or levels
+//Potential enemy types ghouls they just walk to you slowly but plently spawn and try to swarm you. Spitters they avoid getting close and fire projectiles.
 Different enemy behaviors or attack patterns
 Make enemies based around the ammo types fast low hp for machine gun slow high hp for shotgun and pistol is in between
 *Ammo types that effect damage or behavior of gun

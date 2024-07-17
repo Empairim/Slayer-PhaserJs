@@ -1,5 +1,6 @@
 // @ts-nocheck
-import Goblin from "./goblin.js";
+import { ChasingBehavior, ShootingBehavior } from "../data/enemyBehavior.js";
+import Ghoul from "./ghoul.js";
 
 export default class EnemySpawner {
   //scene is the main scene passed as an argument
@@ -9,9 +10,46 @@ export default class EnemySpawner {
   }
 
   spawn() {
-    const x = Math.floor(Math.random() * 1000); //spawn off screen
-    const y = Math.floor(Math.random() * 800);
-    const enemy = new Goblin(this.scene, x, y);
+    // List of enemy classes, their behaviors, and spawn points
+    const enemyClasses = [
+      {
+        enemyClass: Ghoul,
+        behaviorClass: ChasingBehavior,
+        spawnPoint: {
+          x: Math.floor(Math.random() * 1100),
+          y: Math.floor(Math.random() * 1000),
+        },
+      },
+      // {
+      //   enemyClass: Spitter,
+      //   behaviorClass: ShootingBehavior,
+      //   spawnPoint: {
+      //     x: Math.floor(Math.random() * 800),
+      //     y: Math.floor(Math.random() * 600),
+      //   },
+      // },
+      // {
+      //   enemyClass: Ghoul,
+      //   behaviorClass: ChasingBehavior,
+      //   spawnPoint: {
+      //     x: Math.floor(Math.random() * 1000),
+      //     y: Math.floor(Math.random() * 800),
+      //   },
+      // },
+    ];
+
+    // Randomly select an enemy class, behavior, and spawn point
+    const {
+      enemyClass: EnemyClass,
+      behaviorClass: BehaviorClass,
+      spawnPoint,
+    } = enemyClasses[Math.floor(Math.random() * enemyClasses.length)];
+
+    // Create an instance of the selected enemy class and behavior at the selected spawn point
+    const enemy = new EnemyClass(this.scene, spawnPoint.x, spawnPoint.y);
+    const behavior = new BehaviorClass(enemy);
+
+    enemy.behavior = behavior;
     enemy.setImmovable(true); //makes the enemy solid
     this.scene.enemies.add(enemy);
   }

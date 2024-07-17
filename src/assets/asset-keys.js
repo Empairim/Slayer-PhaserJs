@@ -66,6 +66,11 @@ export const AssetKeys = Object.freeze({
           DIE: "src/assets/enemies/goblin/goblinBlackdie.png",
         },
       },
+      GHOUL: {
+        PNG: {
+          WALK: "src/assets/enemies/ghoul/Walk.png",
+        },
+      },
 
       // Add more asset categories here
     },

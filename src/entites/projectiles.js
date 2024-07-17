@@ -147,7 +147,6 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     }
     const elapsed = this.scene.time.now - this.creationTime;
     if (elapsed >= this.lifespan) {
-      console.log("Projectile destroyed", elapsed, this.lifespan);
       this.destroyProjectile();
     }
   }

@@ -11,7 +11,7 @@ export const AmmoTypes = {
     lifespan: 2000, // / 500 = 4 seconds
     //Bullet combat properties
     emitterProperties: {
-      speed: 25,
+      speed: 30,
       angle: { min: -10, max: 10 },
       scale: { start: 0.3, end: 0 },
     },
@@ -48,13 +48,13 @@ export const AmmoTypes = {
     damage: { min: 1, max: 1.5 },
     fireDelay: 200,
     penetrates: false,
-    screenShake: { duration: 100, intensity: 0.005 },
+    screenShake: { duration: 100, intensity: 0.004 },
     lifespan: 2000, // / 500 = 4 seconds
 
     //Bullet combat properties
     emitterProperties: {
       speed: 100,
-      angle: { min: -5, max: 5 },
+      angle: { min: 0, max: 5 },
       scale: { start: 0.2, end: 0 },
     },
     particleProperties: {
