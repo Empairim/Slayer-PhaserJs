@@ -175,6 +175,7 @@ export class MainScene extends Phaser.Scene {
       100 * reloadProgress
     );
   }
+  //if it gets too complicated factor it out into a separate class
   hitPlayer(player, enemy) {
     player.takeDamage(enemy.damage);
     this.cameras.main.shake(200, 0.005);

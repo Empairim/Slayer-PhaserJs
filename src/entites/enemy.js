@@ -81,15 +81,18 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
           const randomAmmo =
             ammoKeys[Math.floor(Math.random() * ammoKeys.length)];
           // Create a pickup item for the ammo type
-          const ammoPickup = new AmmoPickup(
-            this.scene,
-            this.x,
-            this.y,
-            randomAmmo
-          );
-          this.scene.add.existing(ammoPickup);
-          this.scene.ammoPickups.add(ammoPickup); // add to main scene
-          this.destroy();
+          if (this.active && this.scene) {
+            //checks if the enemy is still active and the scene is still running
+            const ammoPickup = new AmmoPickup(
+              this.scene,
+              this.x,
+              this.y,
+              randomAmmo
+            );
+            this.scene.add.existing(ammoPickup);
+            this.scene.ammoPickups.add(ammoPickup); // add to main scene
+            this.destroy();
+          }
         }
       },
       this
