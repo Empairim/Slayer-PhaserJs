@@ -6,7 +6,7 @@ import { AmmoTypes } from "../data/ammoTypes.js";
 export default class Projectile extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, player, ammoType) {
     super(scene, player.x, player.y, "projectile");
-
+    this.hitEnemies = new Set();
     // Create a graphics object
     const graphics = scene.make.graphics();
     graphics.fillStyle(ammoType.particleProperties.color, 1); // Set the color of the bullet to the color of the ammo type
@@ -41,6 +41,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     this.speed = ammoType.bulletSpeed;
     this.penetrates = ammoType.penetrates;
     this.lifespan = ammoType.lifespan;
+
     scene.sys.updateList.add(this);
   }
 
@@ -91,6 +92,48 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     const angle = Phaser.Math.RadToDeg(Math.atan2(direction.y, direction.x));
     this.setAngle(angle);
   }
+
+  destroyProjectile() {
+    this.body.collideWorldBounds = false;
+    if (this.emitter) {
+      this.emitter.explode(); // Destroy the emitter when the projectile is destroyed
+    }
+    this.destroy();
+  }
+  projectileHitEnemy(enemy) {
+    // Check if the enemy has already been hit by this bullet
+    if (this.hitEnemies.has(enemy)) {
+      // The enemy has already been hit, so don't apply damage again
+      return;
+    }
+    const actualDamage = enemy.takeDamage(this.damage);
+    console.log("actualDamage:", actualDamage); // Check the actual damage
+    this.scene.cameras.main.shake(
+      this.ammoType.screenShake.duration,
+      this.ammoType.screenShake.intensity
+    );
+    let damageText = this.scene.add.text(enemy.x, enemy.y, actualDamage, {
+      color: "#ff0000",
+    });
+    damageText.setDepth(1); // Set a higher z-index for the text object
+    this.scene.tweens.add({
+      targets: damageText,
+      y: enemy.y - 50,
+      duration: 1000,
+      ease: "Power1",
+      onComplete: () => {
+        damageText.destroy(); // Destroy the text object when the animation completes
+      },
+    });
+    this.emitter.explode();
+    if (!this.penetrates) {
+      this.destroyProjectile();
+    }
+
+    // The enemy has not been hit yet, so apply damage and add the enemy to the list of hit enemies
+    enemy.takeDamage(this.damage);
+    this.hitEnemies.add(enemy);
+  }
   update() {
     this.emitter.setPosition(this.x, this.y);
     // Set the emitter to follow the projectile
@@ -107,12 +150,5 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     if (this.lifespan <= 0) {
       this.destroyProjectile();
     }
-  }
-  destroyProjectile() {
-    this.body.collideWorldBounds = false;
-    if (this.emitter) {
-      this.emitter.explode(1); // Destroy the emitter when the projectile is destroyed
-    }
-    this.destroy();
   }
 }

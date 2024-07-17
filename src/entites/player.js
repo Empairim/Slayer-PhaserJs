@@ -12,7 +12,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.world.enable(this); //enable physics on creation
     this.body.setCollideWorldBounds(true);
     this.setScale(2);
-    this.setBounce(0.2);
     this.body.setSize((this.width * 2) / 3, (this.height * 2) / 3);
     this.body.setOffset(13, 10);
 
@@ -41,13 +40,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.invincibilityDuration = 1000;
 
     //Ammo System
-    this.currentAmmoType = "machine"; // Default ammo type
-    this.ammoInventory = { machine: Infinity }; // Default ammo inventory object will provide better speed and memory usage
+    this.currentAmmoType = "shotgun"; // Default ammo type
+    this.ammoInventory = { shotgun: Infinity }; // Default ammo inventory object will provide better speed and memory usage
     this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
   }
 
   //PLAYER SKILLS ACTIONS TBD IF I WANT TO ADD MORE
-
+  //COMBAT SKILLS
   handleCombat() {
     const currentTime = this.scene.time.now;
     if (
@@ -78,10 +77,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   performRangedAttack() {
     if (this.ammoInventory[this.currentAmmoType] > 0) {
       const ammoType = AmmoTypes[this.currentAmmoType]; // Use the current ammo type
+      // Random damage within the range of the current ammo type
       const damageRange = ammoType.damage;
       this.damage =
         Math.floor(Math.random() * (damageRange.max - damageRange.min + 1)) +
         damageRange.min; // Random damage within the range of the current ammo type
+      // Create a new projectile and add it to the scene
       const projectile = new Projectile(this.scene, this, ammoType);
       if (this.currentAmmoType !== "pistol") {
         this.ammoInventory[this.currentAmmoType]--;
@@ -91,11 +92,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       projectile.update(this);
     }
   }
-
-  pickUpAmmo(ammoTypeKey) {
+  collectAmmo(player, ammoPickup) {
+    player.addAmmo(ammoPickup.ammoType);
+    // Destroy the ammo pickup after it's collected
+    ammoPickup.destroy();
+  }
+  addAmmo(ammoTypeKey) {
     // Add the picked up ammo type to the inventory
     if (this.ammoInventory[ammoTypeKey]) {
       this.ammoInventory[ammoTypeKey]++;
+      console.log(this.ammoInventory[ammoTypeKey]);
     } else {
       this.ammoInventory[ammoTypeKey] = 1;
     }

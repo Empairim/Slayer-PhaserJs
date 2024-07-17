@@ -47,12 +47,18 @@ export class MainScene extends Phaser.Scene {
     // CREATE GAT
     this.gat = new Gat(this, 0, 0);
     this.reloadBar = this.add.graphics({ fillStyle: { color: 0xffffff } });
-    // CREATE ENEMIES
+    // CREATE ENEMIES GROUP
     this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
     // CREATE ENEMY COLLISION GROUP
     this.enemySpawner = new EnemySpawner(this);
     this.enemySpawner.start();
+    // CREATE AMMO PICKUPS GROUP
+    this.ammoPickups = this.physics.add.group();
 
+    // When an enemy dies and you create an ammo pickup
+    const ammoPickup = new AmmoPickup(this, this.x, this.y);
+
+    this.ammoPickups.add(ammoPickup);
     // MOUSE INPUT
     this.input.setDefaultCursor("crosshair");
     this.input.on(
@@ -78,24 +84,18 @@ export class MainScene extends Phaser.Scene {
     this.physics.add.overlap(
       this.projectiles,
       this.enemies,
-      this.hitEnemy,
+      (projectile, enemy) => {
+        projectile.projectileHitEnemy(enemy);
+      },
       null,
       this
     );
-
-    //AMMO PICKUPS
-    this.ammoPickups = this.physics.add.group();
-
-    // When an enemy dies and you create an ammo pickup
-    const ammoPickup = new AmmoPickup(this, this.x, this.y);
-
-    this.ammoPickups.add(ammoPickup);
 
     // Add overlap between player and ammo pickups
     this.physics.add.collider(
       this.player,
       this.ammoPickups,
-      this.collectAmmo,
+      this.player.collectAmmo.bind(this.player),
       null,
       this
     );
@@ -120,15 +120,6 @@ export class MainScene extends Phaser.Scene {
         projectile.update();
       }
     });
-
-    // Check for collisions between projectiles and enemies
-    this.physics.world.collide(
-      this.projectiles,
-      this.enemies,
-      this.hitEnemy,
-      null,
-      this
-    );
   }
 
   // Custom methods
@@ -184,43 +175,11 @@ export class MainScene extends Phaser.Scene {
       100 * reloadProgress
     );
   }
-  hitEnemy(projectile, enemy) {
-    const actualDamage = enemy.takeDamage(projectile.damage);
-    this.cameras.main.shake(
-      projectile.ammoType.screenShake.duration,
-      projectile.ammoType.screenShake.intensity
-    );
-    let damageText = this.add.text(enemy.x, enemy.y, actualDamage, {
-      color: "#ff0000",
-    });
-    this.tweens.add({
-      targets: damageText,
-      y: enemy.y - 50,
-      duration: 1000,
-      ease: "Power1",
-      onComplete: () => {
-        damageText.destroy(); // Destroy the text object when the animation completes
-      },
-    });
-    projectile.emitter.explode();
-    if (!projectile.penetrates) {
-      projectile.destroyProjectile();
-    }
-  }
-
   hitPlayer(player, enemy) {
     player.takeDamage(enemy.damage);
     this.cameras.main.shake(200, 0.005);
   }
   //GAMEPLAY METHODS
-  collectAmmo(player, ammoPickup) {
-    player.pickUpAmmo(ammoPickup.ammoType);
-    console.log("collectAmmo called"); // Add this line
-    console.log(ammoPickup); // Add this line    player.pickUpAmmo(ammoPickup.ammoType);
-
-    // Destroy the ammo pickup after it's collected
-    ammoPickup.destroy();
-  }
 
   // ANIMATION METHODS
   createAnimations() {

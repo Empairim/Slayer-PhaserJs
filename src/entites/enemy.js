@@ -15,7 +15,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.scene.add.existing(this);
     this.isAlive = true;
     this.isDying = false;
-    this.setBounce(1, 1);
+    this.setBounce(0);
     this.playChaseAnimation();
 
     //Health and damage system
