@@ -62,13 +62,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.isAlive = false;
     this.isDying = true; // Add this line
     this.playDieAnimation();
-    const ammoKeys = Object.keys(AmmoTypes);
-    const randomAmmo = ammoKeys[Math.floor(Math.random() * ammoKeys.length)];
-    // Create a pickup item for the ammo type
-    const ammoPickup = new AmmoPickup(this.scene, this.x, this.y, randomAmmo);
-    this.scene.add.existing(ammoPickup);
-    this.scene.ammoPickups.add(ammoPickup); // add to main scene
-    this.destroy();
   }
 
   playChaseAnimation() {
@@ -84,6 +77,18 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       function (animation) {
         if (animation.key === "die") {
           this.isDying = false;
+          const ammoKeys = Object.keys(AmmoTypes);
+          const randomAmmo =
+            ammoKeys[Math.floor(Math.random() * ammoKeys.length)];
+          // Create a pickup item for the ammo type
+          const ammoPickup = new AmmoPickup(
+            this.scene,
+            this.x,
+            this.y,
+            randomAmmo
+          );
+          this.scene.add.existing(ammoPickup);
+          this.scene.ammoPickups.add(ammoPickup); // add to main scene
           this.destroy();
         }
       },

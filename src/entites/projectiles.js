@@ -10,10 +10,6 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     // Create a graphics object
     const graphics = scene.make.graphics();
     graphics.fillStyle(ammoType.particleProperties.color, 1); // Set the color of the bullet to the color of the ammo type
-    const radius = Math.max(
-      ammoType.bulletSize.width,
-      ammoType.bulletSize.height
-    );
     graphics.fillRect(ammoType.bulletSize.width, ammoType.bulletSize.height);
 
     // Generate a texture from the graphics object
@@ -44,6 +40,8 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     this.damage = ammoType.damage;
     this.speed = ammoType.bulletSpeed;
     this.penetrates = ammoType.penetrates;
+    this.lifespan = ammoType.lifespan;
+    scene.sys.updateList.add(this);
   }
 
   createEmitter(scene, ammoType) {
@@ -92,8 +90,6 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     // Calculate the angle in degrees and set the projectile's angle
     const angle = Phaser.Math.RadToDeg(Math.atan2(direction.y, direction.x));
     this.setAngle(angle);
-
-    this.setTexture(ammoType.particleTexture);
   }
   update() {
     this.emitter.setPosition(this.x, this.y);
@@ -106,19 +102,17 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
       this.emitter.setAngle(angle);
       //then pass that angle to the emitter
     }
-    // Destroy the projectile if it goes out of bounds for optimization
-    if (
-      this.x < 0 ||
-      this.y < 0 ||
-      this.x > this.scene.game.config.width ||
-      this.y > this.scene.game.config.height
-    ) {
-      // console.log("A projectile has been destroyed due to world bounds");
-      this.body.collideWorldBounds = false;
-      if (this.emitter) {
-        this.emitter.destroy(); // Destroy the emitter when the projectile is destroyed
-      }
-      this.destroy();
+    this.lifespan -= this.scene.time.startTime / 500;
+
+    if (this.lifespan <= 0) {
+      this.destroyProjectile();
     }
+  }
+  destroyProjectile() {
+    this.body.collideWorldBounds = false;
+    if (this.emitter) {
+      this.emitter.explode(1); // Destroy the emitter when the projectile is destroyed
+    }
+    this.destroy();
   }
 }

@@ -116,7 +116,9 @@ export class MainScene extends Phaser.Scene {
 
     // UPDATE PROJECTILES
     this.projectiles.children.iterate((projectile) => {
-      projectile.update();
+      if (projectile && projectile.active) {
+        projectile.update();
+      }
     });
 
     // Check for collisions between projectiles and enemies
@@ -202,11 +204,7 @@ export class MainScene extends Phaser.Scene {
     });
     projectile.emitter.explode();
     if (!projectile.penetrates) {
-      projectile.setActive(false); // Set the projectile as inactive
-      projectile.setVisible(false); // Set the projectile as invisible
-      this.time.delayedCall(100, () => {
-        projectile.destroy();
-      });
+      projectile.destroyProjectile();
     }
   }
 
