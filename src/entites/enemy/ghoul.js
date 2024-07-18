@@ -1,20 +1,20 @@
 // @ts-nocheck
-import Enemy from "./enemy.js";
+import Enemy from './enemy.js';
 
 export default class Ghoul extends Enemy {
-  constructor(scene, x, y) {
-    super(scene, x, y, "ghoul");
-    this.body.setSize(this.width / 3, this.height);
-    this.body.setOffset(20, 0);
-    this.health = 50;
-    this.speed = 75;
-    this.damage = 1;
-    this.hitStun = 200;
-  }
+	constructor(scene, x, y) {
+		super(scene, x, y, 'ghoul');
+		this.body.setSize(this.width / 3, this.height);
+		this.body.setOffset(20, 0);
+		this.health = 50;
+		this.speed = 75;
+		this.damage = 2;
+		this.hitStun = 1000;
+	}
 
-  playChaseAnimation() {
-    this.play("ghoul");
-  }
+	playChaseAnimation() {
+		this.play('ghoul');
+	}
 }
 
 //for future reference

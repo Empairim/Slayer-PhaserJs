@@ -69,3 +69,18 @@ Tweens are a way to create animations in Phaser. A tween is an animation that ch
 
 //time events notes
 In Phaser 3, using the scene.time.now or scene.time.elapsed properties can help track the passage of time more accurately. The scene.time.now property returns the current timestamp in milliseconds, while the scene.time.elapsed property returns the time elapsed since the last frame in milliseconds. By using these properties, you can create more precise timing for your game events and animations.
+
+//animations notes
+
+In Phaser 3, the true parameter in the play method is used to indicate that the animation should restart from the beginning each time it is played. This ensures that the animation will play correctly even if it was previously playing.
+
+Without the true parameter, the animation might not start from the first frame every time, especially if it's already playing. This can lead to issues where the animation appears stuck or doesn't seem to play at all, as it might be stuck at the end or middle of the animation cycle.
+
+if enemy hit box is off because of flipped sprite use setOffset() to adjust the hitbox for example 	// Flip the enemy to face the player
+if (this.enemy.x > player.x) {
+   this.enemy.flipX = true;
+   this.enemy.body.setOffset(10, 13); // Adjust these values based on your sprite dimensions
+} else {
+   this.enemy.flipX = false;
+   this.enemy.body.setOffset(30, 13); // Adjust these values based on your sprite dimensions
+}

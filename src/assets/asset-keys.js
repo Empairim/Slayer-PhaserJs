@@ -71,6 +71,13 @@ export const AssetKeys = Object.freeze({
           WALK: "src/assets/enemies/ghoul/Walk.png",
         },
       },
+      SPITTER: {
+        PNG: {
+          WALK: "src/assets/enemies/spitter/walk.png",
+          IDLE: "src/assets/enemies/spitter/idle.png",
+          ATTACK: "src/assets/enemies/spitter/attack.png",
+        },
+      },
 
       // Add more asset categories here
     },
