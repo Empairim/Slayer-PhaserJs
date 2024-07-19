@@ -46,6 +46,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		//direction check
 	}
 	//MISC METHODS
+	//check if player is facing a point can be used for combat or movement checks
 	isFacingPoint(pointX, pointY) {
 		const angleToPoint = Phaser.Math.Angle.Between(this.x, this.y, pointX, pointY);
 		const playerAngle = this.flipX ? Math.PI : 0; // 0 radians if facing right, PI radians if facing left
