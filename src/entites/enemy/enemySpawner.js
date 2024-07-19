@@ -13,14 +13,14 @@ export default class EnemySpawner {
 	spawn() {
 		// List of enemy classes, their behaviors, and spawn points
 		const enemyClasses = [
-			// {
-			//   enemyClass: Ghoul,
-			//   behaviorClass: ChasingBehavior,
-			//   spawnPoint: {
-			//     x: Math.floor(Math.random() * 1100),
-			//     y: Math.floor(Math.random() * 1000),
-			//   },
-			// },
+			{
+				enemyClass: Ghoul,
+				behaviorClass: ChasingBehavior,
+				spawnPoint: {
+					x: Math.floor(Math.random() * 1100),
+					y: Math.floor(Math.random() * 1000)
+				}
+			},
 			{
 				enemyClass: Spitter,
 				behaviorClass: SpitterShootingBehavior,

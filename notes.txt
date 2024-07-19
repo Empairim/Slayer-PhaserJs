@@ -1,5 +1,5 @@
 In Phaser, the following elements are global once created:
-
+//global general notes
 1. **Animations**: As we discussed earlier, animations are global and can be used in any scene once they are created.
 
 2. **Plugins**: Plugins are also global. Once a plugin is installed, it can be accessed from any scene.
@@ -13,6 +13,7 @@ In Phaser, the following elements are global once created:
 6. **Sound Manager**: The sound manager is global and manages all sounds and music.
 
 7. **Game Configuration**: The game configuration object is global and contains the configuration settings for the entire game.
+
 Can flip the sprite to make it face the other direction. This is done by setting the `flipX` or `flipY` property of the sprite to `true`.
 // to add collision and dmaage to game use collid() and overlap() methods then you pass the 2 objects you want to collide and a callback function that will be called when the collision happens and then null and the scene object or scope of the function
 //spritesheetnotes
@@ -51,7 +52,7 @@ Phaser.Math.Random.RndElement(array) // selects a random element from an array
 Phaser.Math.Random.RndWeightedElement(array) // selects a random element from an array with weighted probabilities
  this.input.on('pointerdown', this.onPointerDown, this) // listens for the pointerdown event and calls the onPointerDown method
 
-    //particle emitter notes
+//particle emitter notes
  emitter = scene.add.particles(x,y,texture, {projectile properties}) // creates a particle emitter at the specified position with the specified texture then pass an object with the properties of the particles
  particleEmitter.startFollow(player) // makes the particle emitter follow the player or the specified object passed as an argument
  { min: 0, max: 0 }: All particles are emitted to the right.
@@ -115,3 +116,115 @@ animationupdate: Emitted each time an animation frame updates.
 animationcomplete: Emitted when an animation finishes playing.
 animationrestart: Emitted when an animation restarts after completing.
 These event names are indeed key names that reference specific events in Phaser 3. They are not just variable names that you can call anything. When you use these event names with the .on method, Phaser 3 knows which event to listen for and when to trigger the associated callback function.
+
+
+//Phaser 3 PathFollower
+
+A PathFollower is a Phaser GameObject that can follow a path defined by a series of points.
+It can be used to create complex movement patterns for game objects.
+The path can be a straight line, a curve, a circle, or any other shape.
+The PathFollower can automatically rotate to face the direction of the path.
+The speed of the PathFollower can be controlled, and it can move back and forth along the path.
+examples:
+Create a path for the follower to follow:
+let path = new Phaser.Curves.Path(100, 100).splineTo([ 164, 46, 274, 142, 412, 57, 522, 141, 664, 64 ]);
+let follower = this.add.follower(path, 100, 100, 'enemy');
+follower.startFollow({
+    duration: 5000,
+    repeat: -1,
+    yoyo: true
+});
+pattern attacks:
+let path = new Phaser.Curves.Path(100, 100).circle(50);
+let bullets = this.physics.add.group({
+    classType: Phaser.GameObjects.PathFollower,
+    key: 'bullet',
+    repeat: 10,
+    setXY: { x: 100, y: 100 }
+});
+bullets.getChildren().forEach((bullet, i) => {
+    bullet.startFollow({
+        path: path,
+        duration: 2000,
+        startAt: i / 10
+    });
+});
+
+//rayCasting notes
+Raycasting is a technique where a line (or "ray") is cast from a starting point in a certain direction, and you check what that line intersects with. It's commonly used in games for things like line of sight, AI field of view, and shooting bullets.
+
+Here's a simple ASCII diagram to illustrate:
+
+P
+In this diagram:
+
+E is the enemy (the starting point of the ray).
+P is the player (the end point of the ray).
+W is a wall (an obstacle).
+------------------ is the ray.
+The ray is cast from E towards P. It intersects with W, so we know that E cannot see P because W is in the way.
+
+In code, you would create a line from E to P, then check if that line intersects with W. Here's a basic example in Phaser:
+
+}
+In this code, ray is the line from E to P. wallBounds is the bounding box of W. Phaser.Geom.Intersects.LineToRectangle(ray, wallBounds) checks if the ray intersects with the wall. If it does, isPlayerVisible will be false. If it doesn't, isPlayerVisible will be true.
+
+This is a simple example and real-world usage might be more complex. For example, you might have multiple walls and need to check if the ray intersects with any of them. Or you might want to cast multiple rays in different directions to create a field of view. But the basic principle is the same: create a line and check what it intersects with.
+
+check 360 degrees of vision:
+let enemyPosition = new Phaser.Math.Vector2(enemy.x, enemy.y);
+
+let obstacles = this.physics.add.group({
+    // Add your obstacles here
+});
+
+let isPlayerVisible = false;
+
+for (let angle = 0; angle < 360; angle += 10) { // Adjust the step size to change the resolution of the FOV
+    let rayEnd = new Phaser.Math.Vector2();
+    rayEnd.setToPolar(Phaser.Math.DegToRad(angle), 1000); // 1000 is the length of the ray
+    rayEnd.add(enemyPosition);
+
+    let ray = new Phaser.Geom.Line(enemyPosition.x, enemyPosition.y, rayEnd.x, rayEnd.y);
+
+    if (!obstacles.getChildren().some(obstacle => {
+        let obstacleBounds = obstacle.getBounds();
+        return Phaser.Geom.Intersects.LineToRectangle(ray, obstacleBounds);
+    })) {
+        // The ray did not intersect with any obstacles, so check if it intersects with the player
+        let playerBounds = player.getBounds();
+        if (Phaser.Geom.Intersects.LineToRectangle(ray, playerBounds)) {
+            isPlayerVisible = true;
+            break;
+        }
+    }
+}
+
+if (isPlayerVisible) {
+    // The player is visible to the enemy
+} else {
+    // The player is not visible to the enemy
+}
+
+
+Phaser.Physics.Arcade.GetRaysFromPointToPolygon(point, polygon) // returns an array of rays from a point to a polygon easier way to do a ray cast
+
+let enemyPosition = new Phaser.Math.Vector2(enemy.x, enemy.y);
+
+// Define the field of view as a triangle
+let fov = new Phaser.Geom.Triangle(enemy.x, enemy.y, point1.x, point1.y, point2.x, point2.y);
+
+// Convert the triangle to a polygon
+let fovPolygon = new Phaser.Geom.Polygon([fov.x1, fov.y1, fov.x2, fov.y2, fov.x3, fov.y3]);
+
+// Cast rays from the enemy to the vertices of the field of view
+let intersections = Phaser.Physics.Arcade.GetRaysFromPointToPolygon(enemyPosition.x, enemyPosition.y, [fovPolygon]);
+
+if (intersections.length > 0) {
+    // There are intersections
+    intersections.forEach(intersection => {
+        console.log(`Intersection at (${intersection.x}, ${intersection.y}) with angle ${intersection.z}`);
+    });
+} else {
+    // There are no intersections
+}

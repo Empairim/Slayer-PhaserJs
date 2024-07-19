@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import Phaser from '../../lib/phaser.js';
-import { AmmoTypes } from '../../data/ammoTypes.js';
 
 export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 	constructor(scene, player, ammoType) {
@@ -40,11 +39,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	createEmitter(scene, ammoType) {
-		// Create a particle emitter and attach it to the projectile
-		// Create a graphics object for the particles
 		const particleGraphics = scene.make.graphics();
-		// particleGraphics.fillStyle(ammoType.particleProperties.color, 1);
-		// particleGraphics.fillCircle(0, 0, ammoType.particleProperties.size);
 		particleGraphics.generateTexture(
 			ammoType.particleTexture,
 			ammoType.particleProperties.size,

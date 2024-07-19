@@ -7,8 +7,8 @@ export default class Ghoul extends Enemy {
 		this.body.setSize(this.width / 3, this.height);
 		this.body.setOffset(20, 0);
 		this.health = 50;
-		this.speed = 75;
-		this.damage = 2;
+		this.speed = 50;
+		this.damage = 3;
 		this.hitStun = 1000;
 	}
 

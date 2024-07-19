@@ -184,7 +184,7 @@ export class MainScene extends Phaser.Scene {
 		this.anims.create({
 			key: 'ghoul',
 			frames: this.anims.generateFrameNumbers('ghoul', { start: 0, end: 8 }),
-			frameRate: 5,
+			frameRate: 3,
 			repeat: -1
 		});
 		//spitter
@@ -211,6 +211,15 @@ export class MainScene extends Phaser.Scene {
 		this.anims.create({
 			key: 'spitterAttack',
 			frames: this.anims.generateFrameNumbers('spitterAttack', {
+				start: 0,
+				end: 7
+			}),
+			frameRate: 10,
+			repeat: -1
+		});
+		this.anims.create({
+			key: 'enemyProjectile',
+			frames: this.anims.generateFrameNumbers('enemyProjectile', {
 				start: 0,
 				end: 7
 			}),
