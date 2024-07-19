@@ -46,7 +46,7 @@ export class PreloadScene extends Phaser.Scene {
 			frameWidth: 100,
 			frameHeight: 100
 		});
-		this.load.spritesheet('water1', AssetKeys.SPELLS.WATER.WATER1, {
+		this.load.spritesheet('enemyProjectile', AssetKeys.SPELLS.WATER.WATER1, {
 			frameWidth: 100,
 			frameHeight: 100
 		});

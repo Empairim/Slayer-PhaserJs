@@ -6,6 +6,7 @@ import Gat from '../entites/player/gat.js';
 import Projectile from '../entites/player/projectiles.js';
 import EnemySpawner from '../entites/enemy/enemySpawner.js';
 import { AmmoPickup } from '../entites/enemy/enemy.js';
+import EnemyProjectile from '../entites/enemy/enemyProjectiles.js';
 
 export class MainScene extends Phaser.Scene {
 	constructor() {
@@ -50,14 +51,19 @@ export class MainScene extends Phaser.Scene {
 		// CREATE ENEMIES GROUP
 		this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
 		// CREATE ENEMY COLLISION GROUP
-		this.enemySpawner = new EnemySpawner(this);
+		this.enemySpawner = new EnemySpawner(this, this.enemyProjectiles);
 		this.enemySpawner.start();
+		// CREATE ENEMY PROJECTILES GROUP
+		// CREATE ENEMY PROJECTILE GROUP
+		// this.enemyProjectiles = new EnemyProjectile(this, 0, 0);
+		this.enemyProjectiles = this.physics.add.group({
+			classType: EnemyProjectile,
+			runChildUpdate: true
+		});
 		// CREATE AMMO PICKUPS GROUP
 		this.ammoPickups = this.physics.add.group();
-
 		// When an enemy dies and you create an ammo pickup
 		const ammoPickup = new AmmoPickup(this, this.x, this.y);
-
 		this.ammoPickups.add(ammoPickup);
 		// MOUSE INPUT
 		this.input.setDefaultCursor('crosshair');
@@ -108,6 +114,11 @@ export class MainScene extends Phaser.Scene {
 
 		// UPDATE PROJECTILES
 		this.projectiles.children.iterate((projectile) => {
+			if (projectile && projectile.active) {
+				projectile.update();
+			}
+		});
+		this.enemyProjectiles.children.iterate((projectile) => {
 			if (projectile && projectile.active) {
 				projectile.update();
 			}
@@ -193,7 +204,7 @@ export class MainScene extends Phaser.Scene {
 				start: 0,
 				end: 5
 			}),
-			frameRate: 2,
+			frameRate: 10,
 			repeat: -1
 		});
 

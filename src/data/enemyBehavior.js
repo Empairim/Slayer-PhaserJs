@@ -1,4 +1,7 @@
 // @ts-nocheck
+import Phaser from '../lib/phaser.js';
+import EnemyProjectile from '../entites/enemy/enemyProjectiles.js';
+
 class Behavior {
 	constructor(enemy) {
 		this.enemy = enemy;
@@ -8,7 +11,7 @@ class Behavior {
 		// Override this method in subclasses
 	}
 }
-//default chasing behavior
+
 export class ChasingBehavior extends Behavior {
 	update(target) {
 		const angle = Phaser.Math.Angle.Between(this.enemy.x, this.enemy.y, target.x, target.y);
@@ -16,50 +19,96 @@ export class ChasingBehavior extends Behavior {
 		this.enemy.flipX = this.enemy.x > target.x;
 	}
 }
-//spitter shooting behavior
 
-// Spitter shooting behavior
 export class SpitterShootingBehavior extends Behavior {
-	constructor(enemy, projectileClass, shootInterval) {
+	constructor(enemy, shootInterval) {
 		super(enemy);
-		this.projectileClass = projectileClass;
-		this.shootInterval = shootInterval;
-		this.lastShotTime = 0;
+		this.canShoot = true;
+
+		// Create a group of projectiles
+		this.projectiles = this.enemy.scene.physics.add.group({
+			classType: EnemyProjectile,
+			runChildUpdate: true
+		});
+
+		// Listen for animation updates to trigger shooting
+		//these are coupled
+		//listens for the animation update event then calls the function attached to it "animationUpdate" on this. this is the enemy using this class
+		this.enemy.on('animationupdate', this.animationUpdate, this);
+		//listens for when the anaimtion is complete and when it does call this function next.
+		this.enemy.on('animationcomplete', this.animationComplete, this);
+		//this .on is a phaser event listener and its very good for creating custom events like a psuedo state machine
+		///
 	}
 
-	update(time) {
+	//THESE METHODS ARE COUPLED
+	animationUpdate(animation, frame) {
+		if (animation.key === 'spitterAttack' && frame.index === 5) {
+			this.shootProjectile(this.enemy.x, this.enemy.y, this.enemy.player);
+		}
+	}
+	animationComplete(animation) {
+		if (animation.key === 'spitterAttack') {
+			this.enemy.play('spitterIdle', true);
+		}
+	}
+	////////
+	update() {
 		const player = this.enemy.player;
 		const distance = Phaser.Math.Distance.Between(this.enemy.x, this.enemy.y, player.x, player.y);
 
-		if (distance > 400) {
-			// Enemy moves towards player
-			const angle = Phaser.Math.Angle.Between(this.enemy.x, this.enemy.y, player.x, player.y);
-			this.enemy.body.setVelocity(Math.cos(angle) * this.enemy.speed, Math.sin(angle) * this.enemy.speed);
+		// If the player is close, run away
+		if (distance < 400) {
+			this.runAwayFromPlayer(player);
 			this.enemy.play('spitterWalk', true);
-		} else if (distance < 200) {
-			// Enemy moves away from player
-			const angle = Phaser.Math.Angle.Between(this.enemy.x, this.enemy.y, player.x, player.y);
-			this.enemy.body.setVelocity(Math.cos(angle) * -this.enemy.speed, Math.sin(angle) * -this.enemy.speed);
-			this.enemy.play('spitterWalk', true);
-		} else if (time > this.lastShotTime + this.shootInterval) {
-			// Enemy shoots at player
-			this.enemy.body.setVelocity(0); // Stop moving when attacking
-			this.enemy.play('spitterAttack', true);
-			new this.projectileClass(this.enemy.scene, this.enemy.x, this.enemy.y);
-			this.lastShotTime = time;
+			// If the player is far away, shoot
+		} else if (distance > 300) {
+			if (this.canShoot) {
+				// this is a hidden conditonal that if spiterattack is played handleAnimationUpdate will be called and that will call shootProjectile
+				this.enemy.play('spitterAttack', true);
+			} else {
+				this.enemy.body.setVelocity(0, 0);
+				this.enemy.play('spitterIdle', true);
+			}
 		} else {
-			// Enemy idles
-			this.enemy.body.setVelocity(0);
+			this.enemy.body.setVelocity(0, 0);
 			this.enemy.play('spitterIdle', true);
 		}
 
-		// Flip the enemy to face the player
+		this.updateFlip(player);
+	}
+
+	runAwayFromPlayer(player) {
+		const angle = Phaser.Math.Angle.Between(this.enemy.x, this.enemy.y, player.x, player.y);
+		this.enemy.body.setVelocity(Math.cos(angle) * -this.enemy.speed, Math.sin(angle) * -this.enemy.speed);
+	}
+
+	updateFlip(player) {
 		if (this.enemy.x > player.x) {
 			this.enemy.flipX = true;
-			this.enemy.body.setOffset(10, 13); // Adjust these values based on your sprite dimensions
+			this.enemy.body.setOffset(10, 13);
 		} else {
 			this.enemy.flipX = false;
-			this.enemy.body.setOffset(30, 13); // Adjust these values based on your sprite dimensions
+			this.enemy.body.setOffset(30, 13);
+		}
+	}
+
+	shootProjectile(x, y, player) {
+		if (this.canShoot) {
+			const projectile = this.projectiles.get(x, y, 'enemyProjectile');
+			if (projectile) {
+				projectile.fire(x, y, player);
+			}
+
+			this.canShoot = false;
+
+			// Add a delay before the enemy can shoot again
+			this.enemy.scene.time.addEvent({
+				delay: 3000, // Delay in ms
+				callback: () => {
+					this.canShoot = true;
+				}
+			});
 		}
 	}
 }

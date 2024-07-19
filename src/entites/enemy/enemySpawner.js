@@ -24,6 +24,7 @@ export default class EnemySpawner {
 			{
 				enemyClass: Spitter,
 				behaviorClass: SpitterShootingBehavior,
+				shootInterval: 2000, // Shoot every 2000ms
 
 				spawnPoint: {
 					x: Math.floor(Math.random() * 800),
@@ -33,13 +34,13 @@ export default class EnemySpawner {
 		];
 
 		// Randomly select an enemy class, behavior, and spawn point
-		const { enemyClass: EnemyClass, behaviorClass: BehaviorClass, spawnPoint } = enemyClasses[
+		const { enemyClass: EnemyClass, behaviorClass: BehaviorClass, spawnPoint, shootInterval } = enemyClasses[
 			Math.floor(Math.random() * enemyClasses.length)
 		];
 
 		// Create an instance of the selected enemy class and behavior at the selected spawn point
 		const enemy = new EnemyClass(this.scene, spawnPoint.x, spawnPoint.y);
-		const behavior = new BehaviorClass(enemy);
+		const behavior = new BehaviorClass(enemy, shootInterval);
 
 		enemy.behavior = behavior;
 		enemy.setImmovable(true); //makes the enemy solid
