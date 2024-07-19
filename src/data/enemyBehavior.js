@@ -57,11 +57,17 @@ export class SpitterShootingBehavior extends Behavior {
 		const player = this.enemy.player;
 		const distance = Phaser.Math.Distance.Between(this.enemy.x, this.enemy.y, player.x, player.y);
 
+		//check if player is facing the enemy
+		const playerFacingEnemy = player.isFacingPoint(this.enemy.x, this.enemy.y);
+
 		// If the player is close, run away
-		if (distance < 400) {
+		if (distance < 400 && playerFacingEnemy) {
 			this.runAwayFromPlayer(player);
 			this.enemy.play('spitterWalk', true);
 			// If the player is far away, shoot
+		} else if (!playerFacingEnemy) {
+			this.followPlayer(player);
+			this.enemy.play('spitterWalk', true);
 		} else if (distance > 300) {
 			if (this.canShoot) {
 				// this is a hidden conditonal that if spiterattack is played handleAnimationUpdate will be called and that will call shootProjectile
@@ -81,6 +87,11 @@ export class SpitterShootingBehavior extends Behavior {
 	runAwayFromPlayer(player) {
 		const angle = Phaser.Math.Angle.Between(this.enemy.x, this.enemy.y, player.x, player.y);
 		this.enemy.body.setVelocity(Math.cos(angle) * -this.enemy.speed, Math.sin(angle) * -this.enemy.speed);
+	}
+	followPlayer(player) {
+		const angle = Phaser.Math.Angle.Between(this.enemy.x, this.enemy.y, player.x, player.y);
+		this.enemy.body.setVelocity(Math.cos(angle) * this.enemy.speed, Math.sin(angle) * this.enemy.speed);
+		this.enemy.flipX = this.enemy.x > player.x;
 	}
 
 	updateFlip(player) {

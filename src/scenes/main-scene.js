@@ -194,7 +194,7 @@ export class MainScene extends Phaser.Scene {
 				start: 0,
 				end: 4
 			}),
-			frameRate: 45,
+			frameRate: 50,
 			repeat: -1
 		});
 
@@ -204,7 +204,7 @@ export class MainScene extends Phaser.Scene {
 				start: 0,
 				end: 5
 			}),
-			frameRate: 10,
+			frameRate: 3,
 			repeat: -1
 		});
 

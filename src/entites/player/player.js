@@ -32,7 +32,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		//Combat properties
 		this.pointer = this.scene.input.activePointer;
 		this.lastFired = 0;
-
 		this.damage = 10;
 		this.maxHealth = 5;
 		this.health = 5;
@@ -40,9 +39,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.invincibilityDuration = 1000;
 
 		//Ammo System
-		this.currentAmmoType = 'pistol'; // Default ammo type
-		this.ammoInventory = { pistol: Infinity }; // Default ammo inventory object will provide better speed and memory usage
+		this.currentAmmoType = 'shotgun'; // Default ammo type
+		this.ammoInventory = { shotgun: Infinity }; // Default ammo inventory object will provide better speed and memory usage
 		this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
+
+		//direction check
+	}
+	//MISC METHODS
+	isFacingPoint(pointX, pointY) {
+		const angleToPoint = Phaser.Math.Angle.Between(this.x, this.y, pointX, pointY);
+		const playerAngle = this.flipX ? Math.PI : 0; // 0 radians if facing right, PI radians if facing left
+
+		// Calculate the angle difference
+		const angleDiff = Phaser.Math.Angle.Wrap(angleToPoint - playerAngle);
+
+		// Check if the angle difference is within a certain range (e.g., 90 degrees in radians)
+		return Math.abs(angleDiff) < Phaser.Math.DegToRad(90);
 	}
 
 	//PLAYER SKILLS ACTIONS TBD IF I WANT TO ADD MORE

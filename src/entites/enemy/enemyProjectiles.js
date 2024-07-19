@@ -14,7 +14,7 @@ export default class EnemyProjectile extends Phaser.Physics.Arcade.Sprite {
 		this.setPosition(x, y);
 		this.setActive(true);
 		this.setVisible(true);
-		this.scene.physics.moveToObject(this, player, 300);
+		this.scene.physics.moveToObject(this, player, 500);
 	}
 
 	preUpdate(time, delta) {
