@@ -7,6 +7,7 @@ import Projectile from '../entites/player/projectiles.js';
 import EnemySpawner from '../entites/enemy/enemySpawner.js';
 import { AmmoPickup } from '../entites/enemy/enemy.js';
 import EnemyProjectile from '../entites/enemy/enemyProjectiles.js';
+import Fire from '../entites/misc/fire.js';
 
 export class MainScene extends Phaser.Scene {
 	constructor() {
@@ -18,19 +19,25 @@ export class MainScene extends Phaser.Scene {
 	// Create things for the scene
 	create() {
 		// Get the game configuration
-		const config = this.sys.game.config;
 
+		const config = this.sys.game.config;
 		// Set the world bounds
 		this.physics.world.setBounds(0, 0, config.width, config.height);
+		//testing
+		this.lights.enable().setAmbientColor(0x000090); // Very dark blue for the night sky
 
-		// Create background
-		// let bg = this.add.image(400, 300, "background");
-		// bg.setScale(2);
+		this.fire = new Fire(this, 400, 300, 0xff0000, 10);
+		console.log(this.fire.setItenstity);
+		this.debugCircle = this.add.circle(this.fire.x, this.fire.y, this.fire.radius);
+		this.debugCircle.setStrokeStyle(1, 0xffffff);
 
 		// CREATE ANIMATIONS
 		this.createAnimations();
 		// CREATE PLAYER
 		this.player = new Player(this, 100, 100);
+
+		console.log(this.player.setPipeline);
+		// CREATE PLAYER HEALTH BAR
 		this.playerHealthBar = this.add.graphics({
 			fillStyle: { color: 0x00ff00 }
 		});
@@ -40,6 +47,7 @@ export class MainScene extends Phaser.Scene {
 			collideWorldBounds: true
 		});
 		this.playerCollisionGroup.add(this.player);
+
 		// CREATE PROJECTILE GROUP
 		this.projectiles = this.physics.add.group({
 			classType: Projectile, //class to create new instances of the group
@@ -97,6 +105,9 @@ export class MainScene extends Phaser.Scene {
 
 		// Add overlap between player and ammo pickups
 		this.physics.add.collider(this.player, this.ammoPickups, this.player.collectAmmo.bind(this.player), null, this);
+
+		//collider for fire
+		this.physics.add.collider(this.player, this.fire);
 	}
 
 	// Update things for the scene
@@ -123,9 +134,11 @@ export class MainScene extends Phaser.Scene {
 				projectile.update();
 			}
 		});
+		this.debugCircle.x = this.fire.x;
+		this.debugCircle.y = this.fire.y;
 	}
 
-	// Custom methods
+	// Custom methods usally for testing new features
 
 	//DAMAGE AND HEALTH METHODS
 	updatePlayerHealthBar() {

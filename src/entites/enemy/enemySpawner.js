@@ -20,16 +20,16 @@ export default class EnemySpawner {
 					x: Math.floor(Math.random() * 1100),
 					y: Math.floor(Math.random() * 1000)
 				}
-			},
-			{
-				enemyClass: Spitter,
-				behaviorClass: SpitterShootingBehavior,
-
-				spawnPoint: {
-					x: Math.floor(Math.random() * 800),
-					y: Math.floor(Math.random() * 600)
-				}
 			}
+			// {
+			// 	enemyClass: Spitter,
+			// 	behaviorClass: SpitterShootingBehavior,
+
+			// 	spawnPoint: {
+			// 		x: Math.floor(Math.random() * 800),
+			// 		y: Math.floor(Math.random() * 600)
+			// 	}
+			// }
 		];
 
 		// Randomly select an enemy class, behavior, and spawn point
@@ -48,10 +48,10 @@ export default class EnemySpawner {
 
 	start() {
 		this.scene.time.addEvent({
-			delay: 2000, // spawn an enemy every 2000ms
+			delay: 5000, // spawn an enemy every 2000ms
 			callback: this.spawn, // calls to the function spawn
 			callbackScope: this, // scope of the callback is the scene Im passing in so the instance of the spawner is tied to the scene
-			loop: false
+			loop: true
 		});
 	}
 }

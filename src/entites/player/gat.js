@@ -6,8 +6,8 @@ export default class Gat extends Phaser.Physics.Arcade.Sprite {
 		super(scene, x, y, 'gat');
 		this.scene = scene;
 		this.scene.add.existing(this);
-		// this.scene.physics.world.enable(this); // may not need this
-		// this.setOrigin(0.5, 0.9);
+		this.setPipeline('Light2D');
+		this.postFX.addShadow(0, 0, 0.13, 10, 0x000000, 6, 0.5);
 		this.createAnimations();
 		//Damage System
 	}

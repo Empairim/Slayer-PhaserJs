@@ -224,7 +224,43 @@ if (intersections.length > 0) {
     // There are intersections
     intersections.forEach(intersection => {
         console.log(`Intersection at (${intersection.x}, ${intersection.y}) with angle ${intersection.z}`);
-    });
+ });
 } else {
-    // There are no intersections
+     There are no intersections
 }
+
+//HOW RAY CASTING WORKS
+can also use Phaser.Geom.Intersects.LineToTriangle(ray, triangle) to check if a ray intersects with a triangle or any of the other phaser geom methods to check if a ray intersects with a shape
+
+let dx = P.x - E.x; // Difference in x-coordinates
+let dy = P.y - E.y; // Difference in y-coordinates
+
+let distance = Math.sqrt(dx * dx + dy * dy); // Distance between E and P
+dx is the difference in x dy is difference in y axis and and sqrt of the sum is the distance between the 2 points
+
+and the angle is Math.atan2(dy,dx) * 180 / Math.PI to get the angle in degrees
+
+distance gives the distance between E and P and angle gives the angle between E and P in degrees which helps know which direction the point is in relation to the other point
+//RAY CASTING NOTES END
+
+//Phaser 3 lighting notes
+In Phaser 3, you can create lighting effects using shaders. Shaders are small programs that run on the GPU and can be used to create complex visual effects. In the context of lighting, shaders can be used to simulate light sources, shadows, and other lighting effects.
+
+this.lights.addLight(100, 100, 200);//directional light
+this.lights.addLight(100, 100, 200).setColor(0xffffff).setIntensity(2);
+this.player.setPipeline('Light2D');
+this.lights.setAmbientColor(0x808080);
+this.lights.pointLight(100, 100, 0xff0000, 2, 0.1);
+this.lights.enable();
+
+//Phaser 3 Shadows notes
+this.player.preFX.addShadow(5, 5, 0.1, 2, 0x000000, 8, 0.5);
+Shadow Parameters: The addShadow method takes several parameters:
+
+x and y: These parameters control the horizontal and vertical offset of the shadow. This can be used to control the direction and length of the shadow.
+decay: This parameter controls the amount of decay for the shadow effect. A higher decay value will make the shadow fade out more quickly.
+power: This parameter controls the power of the shadow effect. A higher power value will make the shadow darker.
+color: This parameter controls the color of the shadow. It's specified as a hexadecimal number.
+samples: This parameter controls the number of samples to use for the shadow effect. A higher number of samples will result in a smoother shadow, but may also be more performance-intensive.
+intensity: This parameter controls the intensity of the shadow. A higher intensity value will make the shadow more visible.
+Shadow Effect Purpose: The shadow effect is a visual technique used to create the illusion of depth and realism by adding darker, offset silhouettes or shapes beneath game objects, characters, or environments. These simulated shadow effects can help enhance the visual appeal of a game by adding depth, dimension, and realism to the scene.

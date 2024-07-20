@@ -17,6 +17,8 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 		scene.physics.add.existing(this);
 		this.visible = true; //hide the projectile but keep its body
 		this.setOrigin(0.5, 0.5); //set the origin to the center of the projectile
+
+		// Set the projectile to collide with the world bounds
 		this.body.checkCollision = true;
 		this.body.onWorldBounds = true;
 		this.body.collideWorldBounds = true;
@@ -27,6 +29,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 		this.body.setSize(ammoType.bulletSize.width, ammoType.bulletSize.height);
 
 		this.createEmitter(scene, ammoType); //will be used for "bullet" visual effects
+
 		//Bullet combat properties
 		this.ammoType = ammoType;
 		this.damage = ammoType.damage;
@@ -35,6 +38,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 		this.lifespan = ammoType.lifespan;
 		this.creationTime = this.scene.time.now;
 
+		this.setPipeline('Light2D');
 		scene.sys.updateList.add(this);
 	}
 
@@ -48,9 +52,11 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 
 		this.emitter = scene.add.particles(this.x, this.y, ammoType.particleTexture, {
 			...ammoType.emitterProperties,
-			ease: 'Sine.easeOut', // Easing of the particles
-			blendMode: 'ADD' // Blend mode of the particles
+			// ease: 'Sine.easeOut', // Easing of the particles
+			blendMode: 'ADD', // Blend mode of the particles
+			alpha: { start: 1, end: 0, ease: 'Expo.easeIn' } // Alpha value decreases over time
 		});
+		this.emitter.setDepth(0); // Set a higher z-index for the emitter
 
 		// Set the emitter to follow the projectile
 	}
@@ -72,6 +78,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 		// Calculate the angle in degrees and set the projectile's angle
 		const angle = Phaser.Math.RadToDeg(Math.atan2(direction.y, direction.x));
 		this.setAngle(angle);
+		this.light = this.scene.lights.addLight(this.x, this.y, 200, 0xffff00, 1.5);
 	}
 
 	destroyProjectile() {
@@ -119,6 +126,10 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 			//math.atan2 returns the angle in radians, so we convert it to degrees, we pass y first because it's the vertical axis to the x horizontal axis to get the angle.
 			this.emitter.setAngle(angle);
 			//then pass that angle to the emitter
+		}
+		if (this.light) {
+			this.light.x = this.x;
+			this.light.y = this.y;
 		}
 		const elapsed = this.scene.time.now - this.creationTime;
 		if (elapsed >= this.lifespan) {

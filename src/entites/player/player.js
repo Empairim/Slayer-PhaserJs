@@ -6,7 +6,7 @@ import { AmmoTypes } from '../../data/ammoTypes.js';
 export default class Player extends Phaser.Physics.Arcade.Sprite {
 	constructor(scene, x, y) {
 		super(scene, x, y, 'idle');
-		//phaser game properties
+		//phaser Player game properties
 		this.scene = scene;
 		this.scene.add.existing(this); //add to the scene display list
 		this.scene.physics.world.enable(this); //enable physics on creation
@@ -14,9 +14,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.setScale(2);
 		this.body.setSize(this.width * 2 / 3, this.height * 2 / 3);
 		this.body.setOffset(13, 10);
-
-		this.isRolling = false;
-		this.speed = 260;
+		this.setPipeline('Light2D');
+		this.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 12, 0.5);
 
 		//create animations and key bindings on creation
 		this.createAnimations();
@@ -37,6 +36,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.health = 5;
 		this.isInvincible = false;
 		this.invincibilityDuration = 1000;
+		this.isRolling = false;
+		this.speed = 260;
 
 		//Ammo System
 		this.currentAmmoType = 'shotgun'; // Default ammo type

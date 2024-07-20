@@ -9,13 +9,30 @@ export default class EnemyProjectile extends Phaser.Physics.Arcade.Sprite {
 		this.setActive(false);
 		this.setVisible(false);
 	}
+	createEmitter(scene, enemytype) {
+		const particleGraphics = scene.make.graphics();
+		particleGraphics.generateTexture(
+			enemyType.particleTexture,
+			enemyType.particleProperties.size,
+			enemyType.particleProperties.size
+		);
+
+		this.emitter = scene.add.particles(enemyType.particleTexture).createEmitter({
+			...enemyType.emitterProperties,
+			ease: 'Sine.easeOut', // Easing of the particles
+			blendMode: 'ADD' // Blend mode of the particles
+		});
+
+		// Set the emitter to follow the projectile
+		this.emitter.startFollow(this);
+	}
 
 	fire(x, y, player) {
 		this.setPosition(x, y);
 		this.setActive(true);
 		this.setVisible(true);
 		this.scene.physics.moveToObject(this, player, 500);
-		this.play('enemyProjectile', true);
+		this.createEmitter(this.scene, enemyType);
 	}
 
 	preUpdate(time, delta) {
@@ -24,6 +41,11 @@ export default class EnemyProjectile extends Phaser.Physics.Arcade.Sprite {
 		if (this.y < 0 || this.y > this.scene.scale.height || this.x < 0 || this.x > this.scene.scale.width) {
 			this.setActive(false);
 			this.setVisible(false);
+			if (this.emitter) {
+				this.emitter.stop();
+				this.emitter.remove();
+				this.emitter = null;
+			}
 		}
 	}
 }
