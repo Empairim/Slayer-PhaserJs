@@ -9,6 +9,7 @@ import { AmmoPickup } from '../entites/enemy/enemy.js';
 import EnemyProjectile from '../entites/enemy/enemyProjectiles.js';
 import Fire from '../entites/misc/fire.js';
 import Tree from '../entites/misc/tree.js';
+import UI from '../entites/misc/ui.js';
 
 export class MainScene extends Phaser.Scene {
 	constructor() {
@@ -45,6 +46,7 @@ export class MainScene extends Phaser.Scene {
 
 		// Set the world bounds
 		this.physics.world.setBounds(0, 0, config.width, config.height);
+
 		//SCENE LIGHTING/AESTHETICS
 		this.lights.enable();
 		this.lights.setAmbientColor(0x333377); // Very dark blue for the night sky
@@ -55,6 +57,8 @@ export class MainScene extends Phaser.Scene {
 
 		// CREATE ANIMATIONS
 		this.createAnimations();
+		// CREATE UI
+		this.ui = new UI(this);
 		// CREATE PLAYER
 		this.player = new Player(this, 100, 100);
 

@@ -10,9 +10,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		//FX
 		this.setPipeline('Light2D');
 		this.postFX.addGlow(0x80ff80, 2, 0, false, 0.00001, 10);
-		this.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 8, 0.5);
-		this.light = this.scene.lights.addLight(this.x, this.y, 50, 0xffffff, 1.5);
-		this.postFX.addGradient(0xff0000, 0x000000, 1, 0, 0, 1, 1, 10);
+		this.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 8, 0.7);
 
 		// Enable physics and scale
 		this.scene.physics.world.enable(this);
@@ -47,8 +45,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		}
 
 		this.behavior.update(time, player);
-		this.light.x = this.x;
-		this.light.y = this.y;
 	}
 	//ENEMY ANIMATIONS
 	die() {

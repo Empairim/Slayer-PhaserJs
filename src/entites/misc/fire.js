@@ -14,7 +14,7 @@ export default class Fire extends Phaser.GameObjects.Sprite {
 		this.anims.create({
 			key: 'fire2',
 			frames: this.anims.generateFrameNumbers('fire2', { start: 0, end: 10 }),
-			frameRate: 10,
+			frameRate: 5,
 			repeat: -1
 		});
 		this.play('fire2');
@@ -31,21 +31,17 @@ export default class Fire extends Phaser.GameObjects.Sprite {
 			callbackScope: this,
 			loop: true
 		});
-		this.toggleFlicker();
-		// const graphics = scene.add.graphics();
+		let delay = Phaser.Math.Between(500, 2000);
 
-		// // Set the fill color to brown
-		// graphics.fillStyle(0x8b4513);
-
-		// // Draw a rectangle under the fire
-		// graphics.fillRect(x - 20, y + 20, 20, 10);
-		const log = scene.add.image(x - 10, y + 25, 'log');
+		// Add a delayed call to toggleFlicker
+		this.scene.time.delayedCall(delay, this.toggleFlicker, [], this);
+		const log = scene.add.image(x - 10, y + 29, 'log');
 		log.setScale(1);
 		log.setPipeline('Light2D');
 	}
 
 	createEmitter(scene) {
-		this.emitter = scene.add.particles(this.x, this.y, 'fire1', {
+		this.emitter = scene.add.particles(this.x - 13, this.y - 13, 'fire1', {
 			speed: { min: -5, max: 100 },
 			angle: { min: -90, max: -45 },
 			scale: { start: 0, end: 0.1 },

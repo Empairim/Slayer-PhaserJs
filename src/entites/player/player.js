@@ -2,6 +2,8 @@
 import Phaser from '../../lib/phaser.js';
 import Projectile from './projectiles.js';
 import { AmmoTypes } from '../../data/ammoTypes.js';
+import UI from '../misc/ui.js';
+import Emitter from '../misc/emitter.js';
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
 	constructor(scene, x, y) {
@@ -41,11 +43,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.invincibilityDuration = 1000;
 		this.isRolling = false;
 		this.speed = 260;
+		this.defense = 1;
 
 		//Ammo System
 		this.currentAmmoType = 'pistol'; // Default ammo type
 		this.ammoInventory = { pistol: Infinity }; // Default ammo inventory object will provide better speed and memory usage
 		this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
+
+		//player ui
+		this.ui = new UI(this.scene);
+		this.emitter = new Emitter(this.scene, this.x, this.y);
 	}
 	//MISC METHODS
 	//check if player is facing a point can be used for combat or movement checks
@@ -67,7 +74,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		if (this.scene.input.activePointer.isDown && currentTime - this.lastFired > this.fireDelay) {
 			// Enough time has passed, the player can fire a projectile
 			const distance = Phaser.Math.Distance.Between(this.x, this.y, this.pointer.worldX, this.pointer.worldY);
-			if (distance < 50) {
+			if (distance < 20) {
 				this.performMeleeAttack();
 			} else {
 				this.performRangedAttack();
@@ -97,6 +104,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			projectile.update(this);
 		}
 
+		// Check if the player has run out of ammo for the current ammo type and switch to the default ammo type if necessary
 		if (this.ammoInventory[this.currentAmmoType] === 0 && this.currentAmmoType !== 'pistol') {
 			this.currentAmmoType = 'pistol'; // Switch back to the default ammo type
 			this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
@@ -146,14 +154,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		//Text above player to show current weapon
 		this.weaponText = this.scene.add.text(this.x, this.y - 50, this.currentAmmoType, {
 			fontSize: '16px',
-			fill: '#fff'
+
+			fill: '#ff0000'
 		});
+		this.weaponText.setAlpha(0.8);
+		this.ui.floatingText(this.weaponText);
 	}
 
 	//PLAYER HEALTH AND DAMAGE SYSTEM////////
 	takeDamage(damage) {
 		if (!this.isInvincible) {
-			this.health -= damage;
+			this.health -= damage - this.defense;
 			this.setTint(0xff0000); // Red
 			this.isInvincible = true;
 
