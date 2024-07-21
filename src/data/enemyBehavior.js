@@ -115,7 +115,7 @@ export class SpitterShootingBehavior extends Behavior {
 
 			// Add a delay before the enemy can shoot again
 			this.enemy.scene.time.addEvent({
-				delay: 3000, // Delay in ms
+				delay: 5000, // Delay in ms
 				callback: () => {
 					this.canShoot = true;
 				}

@@ -9,7 +9,6 @@ export default class Ghoul extends Enemy {
 		this.health = 50;
 		this.speed = 50;
 		this.damage = 3;
-		this.hitStun = 1000;
 	}
 
 	playChaseAnimation() {

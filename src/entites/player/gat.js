@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { AmmoTypes } from '../../data/ammoTypes.js';
 import Phaser from '../../lib/phaser.js';
 
 export default class Gat extends Phaser.Physics.Arcade.Sprite {
@@ -6,10 +7,21 @@ export default class Gat extends Phaser.Physics.Arcade.Sprite {
 		super(scene, x, y, 'gat');
 		this.scene = scene;
 		this.scene.add.existing(this);
+		this.fireDelay = AmmoTypes[this.scene.player.currentAmmoType].fireDelay;
+		//FX
 		this.setPipeline('Light2D');
-		this.postFX.addShadow(0, 0, 0.13, 10, 0x000000, 6, 0.5);
+		this.light = this.scene.lights.addLight(this.x, this.y, 5, 0xffffff, 1.3); //add a light to the player
+		this.postFX.addShadow(0, 0, 0.14, 10, 0x000000, 12, 0.2);
+
 		this.createAnimations();
+		this.recoil = this.recoil.bind(this); //forces the recoil method to be bound to the instance of the gun
+
 		//Damage System
+	}
+	recoil() {
+		this.x += Phaser.Math.Between(-10, 10);
+		this.y += Phaser.Math.Between(-10, 10);
+		this.recoilEvent = null; // Clear the recoil event
 	}
 
 	update(player) {
@@ -26,11 +38,15 @@ export default class Gat extends Phaser.Physics.Arcade.Sprite {
 
 		// Scale and set the texture of the gun
 		this.setScale(2);
-		this.setTexture('pistol');
+		this.setTexture(AmmoTypes[this.scene.player.currentAmmoType].gatTexture);
+		this.fireDelay = AmmoTypes[this.scene.player.currentAmmoType].fireDelay;
 
 		// Get the active pointer (mouse position)
 		const pointer = this.scene.input.activePointer;
-
+		if (pointer.isDown) {
+			this.x += Phaser.Math.Between(-0.5, 0.5);
+			this.y += Phaser.Math.Between(-5, 5);
+		}
 		// Calculate the angle between the player and the pointer
 		const angle = Phaser.Math.Angle.Between(player.x, player.y, pointer.x, pointer.y);
 

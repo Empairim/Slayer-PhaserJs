@@ -9,9 +9,9 @@ export default class Spitter extends Enemy {
 		this.body.setOffset(10, 13);
 		this.setScale(4);
 		this.health = 50;
-		this.speed = 300;
+		this.speed = 230;
 		this.damage = 1;
-		this.hitStun = 200;
+		this.hitStun = 50;
 
 		this.body.setCollideWorldBounds(true);
 	}

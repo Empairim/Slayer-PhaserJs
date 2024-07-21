@@ -1,6 +1,17 @@
 export const AssetKeys = Object.freeze({
 	ENVIORNMENT: {
-		BACKGROUND: { MAIN: 'src/assets/background/grass.png' }
+		BACKGROUND: {
+			GRASS: 'src/assets/world/Grass.png',
+			WALL: 'src/assets/world/Wall.png',
+			MAP: 'src/assets/world/map.tmj',
+			TREE: 'src/assets/world/mainTree.png',
+			LOG: 'src/assets/world/log.png'
+		},
+
+		OBJECTS: {
+			//Object Pngs
+			CAMPFIRE: 'src/assets/world/campfire.jpg'
+		}
 	},
 	CHARACTER: {
 		GUNNER: {
@@ -10,7 +21,9 @@ export const AssetKeys = Object.freeze({
 		},
 		GUN: {
 			//Gun Pngs
-			PISTOL: 'src/assets/guns/pistol.png'
+			PISTOL: 'src/assets/guns/pistol.png',
+			SHOTGUN: 'src/assets/guns/shotgun.png',
+			MACHINE: 'src/assets/guns/machine.png'
 		},
 
 		MOVEMENT: {

@@ -14,8 +14,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.setScale(2);
 		this.body.setSize(this.width * 2 / 3, this.height * 2 / 3);
 		this.body.setOffset(13, 10);
+
+		//FX
 		this.setPipeline('Light2D');
 		this.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 12, 0.5);
+		this.light = this.scene.lights.addLight(this.x, this.y, 5, 0xffffff, 1.3); //add a light to the player
 
 		//create animations and key bindings on creation
 		this.createAnimations();
@@ -40,11 +43,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.speed = 260;
 
 		//Ammo System
-		this.currentAmmoType = 'shotgun'; // Default ammo type
-		this.ammoInventory = { shotgun: Infinity }; // Default ammo inventory object will provide better speed and memory usage
+		this.currentAmmoType = 'pistol'; // Default ammo type
+		this.ammoInventory = { pistol: Infinity }; // Default ammo inventory object will provide better speed and memory usage
 		this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
-
-		//direction check
 	}
 	//MISC METHODS
 	//check if player is facing a point can be used for combat or movement checks
@@ -95,9 +96,20 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			projectile.fire(this, this.pointer, ammoType);
 			projectile.update(this);
 		}
+
+		if (this.ammoInventory[this.currentAmmoType] === 0 && this.currentAmmoType !== 'pistol') {
+			this.currentAmmoType = 'pistol'; // Switch back to the default ammo type
+			this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
+			this.bulletSpeed = AmmoTypes[this.currentAmmoType].bulletSpeed;
+			this.damage = AmmoTypes[this.currentAmmoType].damage;
+			this.bulletSize = AmmoTypes[this.currentAmmoType].bulletSize;
+		}
 	}
 	collectAmmo(player, ammoPickup) {
 		player.addAmmo(ammoPickup.ammoType);
+		//add text to show what ammo was picked up then destroy it
+		// gonna add graphics to show what ammo is on floor
+
 		// Destroy the ammo pickup after it's collected
 		ammoPickup.destroy();
 	}
@@ -115,6 +127,27 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		if (this.ammoInventory[ammoTypeKey]) {
 			this.currentAmmoType = ammoTypeKey;
 		}
+	}
+	swapWeapon() {
+		// Get the keys of the ammo types
+		const ammoKeys = Object.keys(AmmoTypes);
+
+		// Find the index of the current ammo type
+		const currentIndex = ammoKeys.indexOf(this.currentAmmoType);
+
+		// Get the index of the next ammo type, wrapping around to the start of the array if necessary
+		const nextIndex = (currentIndex + 1) % ammoKeys.length;
+
+		// Set the current ammo type to the next ammo type
+		this.currentAmmoType = ammoKeys[nextIndex];
+
+		// Update the fire delay to match the new ammo type
+		this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
+		//Text above player to show current weapon
+		this.weaponText = this.scene.add.text(this.x, this.y - 50, this.currentAmmoType, {
+			fontSize: '16px',
+			fill: '#fff'
+		});
 	}
 
 	//PLAYER HEALTH AND DAMAGE SYSTEM////////
@@ -288,5 +321,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			this.roll();
 		}
 		this.handleCombat(); // Call the combat handler
+		this.light.x = this.x;
+		this.light.y = this.y;
 	}
 }

@@ -1,18 +1,19 @@
 export const AmmoTypes = {
 	//WIDTH CONTROLS HOW LONG HEIGHT CONTROLS HOW WIDE
 	pistol: {
+		gatTexture: 'pistol',
 		particleTexture: 'wSmoke',
-		bulletSpeed: 650,
-		bulletSize: { width: 1, height: 5 },
+		bulletSpeed: 500, // how much range bullet has
+		bulletSize: { width: 12, height: 5 }, // how much spread bullet has depends on height
 		damage: { min: 5, max: 8 },
-		fireDelay: 800,
-		penetrates: false,
+		fireDelay: 800, // fire rate of gun/reload speed
+		penetrates: false, // if bullet goes through enemies hits multiple enemies
 		screenShake: { duration: 200, intensity: 0.005 },
-		lifespan: 2000, // / 500 = 4 seconds
+		lifespan: 1000, // / 500 = 4 seconds // how long bullet stays on screen also effects range
 		//Bullet combat properties
 		emitterProperties: {
-			speed: 30,
-			angle: { min: -10, max: 10 },
+			speed: 5,
+			angle: { min: 0, max: 0 },
 			scale: { start: 0.3, end: 0 }
 		},
 		particleProperties: {
@@ -21,9 +22,10 @@ export const AmmoTypes = {
 		}
 	},
 	shotgun: {
+		gatTexture: 'shotgun',
 		particleTexture: 'fire1',
-		bulletSpeed: 800,
-		bulletSize: { width: 1, height: 100 },
+		bulletSpeed: 600,
+		bulletSize: { width: 100, height: 100 },
 		damage: { min: 30, max: 45 },
 		fireDelay: 2000,
 		penetrates: true,
@@ -42,9 +44,10 @@ export const AmmoTypes = {
 		}
 	},
 	machine: {
+		gatTexture: 'machine',
 		particleTexture: 'flamer',
 		bulletSpeed: 1000,
-		bulletSize: { width: 1, height: 5 },
+		bulletSize: { width: 5, height: 5 },
 		damage: { min: 1, max: 1.5 },
 		fireDelay: 200,
 		penetrates: false,

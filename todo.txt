@@ -49,6 +49,9 @@ Create title screen and game over screen
 Create a game loop that transitions between screens
 Create save/load system for high scores
 Add mobile controls or touch screen support
+!!!!Easy reward system lvel up and automatically get to pick something to boost player stats or increase gun fire rate or damage or bullet speed or spread
+!!!! Upgrade enemy soawner to have weight based on wave number and difficulty so you can have a wave of easy enemies or a wave of hard enemies and also modify the amount of enemies that spawn on waves and how much damage they do hp they have and how fast they move
+//a you gun that shoots players sprite loool
 
 
 Remember, this is just a suggestion and you should feel free to add, remove, or change items based on your vision for your game. Game development is a creative process, and the most important thing is that you're creating a game that you're excited about.

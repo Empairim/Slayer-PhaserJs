@@ -12,7 +12,12 @@ export class PreloadScene extends Phaser.Scene {
 	// Load assets for the scene
 	preload() {
 		//BACKGROUND ASSETS/////////////////////
-		this.load.image('background', AssetKeys.ENVIORNMENT.BACKGROUND.MAIN);
+		this.load.image('TX_Tileset_Grass', AssetKeys.ENVIORNMENT.BACKGROUND.GRASS);
+		this.load.image('TX_Tileset_Wall', AssetKeys.ENVIORNMENT.BACKGROUND.WALL);
+		this.load.tilemapTiledJSON('map', AssetKeys.ENVIORNMENT.BACKGROUND.MAP);
+		this.load.image('tree', AssetKeys.ENVIORNMENT.BACKGROUND.TREE);
+		this.load.image('log', AssetKeys.ENVIORNMENT.BACKGROUND.LOG);
+
 		//MOVEMENT ASSETS///////////
 
 		//CHARACTER ASSETS/////////////////////
@@ -23,6 +28,8 @@ export class PreloadScene extends Phaser.Scene {
 
 		//WEAPON ASSETS/////////////////////
 		this.load.image('pistol', AssetKeys.CHARACTER.GUN.PISTOL);
+		this.load.image('shotgun', AssetKeys.CHARACTER.GUN.SHOTGUN);
+		this.load.image('machine', AssetKeys.CHARACTER.GUN.MACHINE);
 
 		//BULLET ASSETS/////////////////////
 		// this.load.image("wBullet", AssetKeys.BULLETS.WBULLET);
@@ -43,6 +50,10 @@ export class PreloadScene extends Phaser.Scene {
 
 		//SPELL ASSETS/////////////////////
 		this.load.spritesheet('fire1', AssetKeys.SPELLS.FIRE.FIRE1, {
+			frameWidth: 100,
+			frameHeight: 100
+		});
+		this.load.spritesheet('fire2', AssetKeys.SPELLS.FIRE.FIRE1, {
 			frameWidth: 100,
 			frameHeight: 100
 		});

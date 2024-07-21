@@ -15,7 +15,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 		graphics.generateTexture(ammoType.particleTexture, ammoType.bulletSize.width, ammoType.bulletSize.height);
 		scene.add.existing(this);
 		scene.physics.add.existing(this);
-		this.visible = true; //hide the projectile but keep its body
+		this.visible = false; //hide the projectile but keep its body
 		this.setOrigin(0.5, 0.5); //set the origin to the center of the projectile
 
 		// Set the projectile to collide with the world bounds
@@ -29,7 +29,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 		this.body.setSize(ammoType.bulletSize.width, ammoType.bulletSize.height);
 
 		this.createEmitter(scene, ammoType); //will be used for "bullet" visual effects
-
+		this.emitter.setVisible(true);
 		//Bullet combat properties
 		this.ammoType = ammoType;
 		this.damage = ammoType.damage;
@@ -38,7 +38,10 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 		this.lifespan = ammoType.lifespan;
 		this.creationTime = this.scene.time.now;
 
+		//FX
 		this.setPipeline('Light2D');
+		this.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 12, 0.5);
+
 		scene.sys.updateList.add(this);
 	}
 
@@ -54,7 +57,8 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 			...ammoType.emitterProperties,
 			// ease: 'Sine.easeOut', // Easing of the particles
 			blendMode: 'ADD', // Blend mode of the particles
-			alpha: { start: 1, end: 0, ease: 'Expo.easeIn' } // Alpha value decreases over time
+			alpha: { start: 1, end: 0, ease: 'Expo.easeIn' }, // Alpha value decreases over time
+			emitZone: { source: new Phaser.Geom.Circle(0, 0, 25) }
 		});
 		this.emitter.setDepth(0); // Set a higher z-index for the emitter
 
@@ -78,7 +82,9 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 		// Calculate the angle in degrees and set the projectile's angle
 		const angle = Phaser.Math.RadToDeg(Math.atan2(direction.y, direction.x));
 		this.setAngle(angle);
-		this.light = this.scene.lights.addLight(this.x, this.y, 200, 0xffff00, 1.5);
+		this.light = this.scene.lights.addLight(this.x, this.y, 200, 0xffff00, 0.5);
+		this.setTexture(ammoType.particleTexture);
+		this.setDepth(1);
 	}
 
 	destroyProjectile() {

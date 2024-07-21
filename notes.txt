@@ -37,6 +37,13 @@ scene.physics.add.existing(this) // adds physics to the sprite
 this.on('animationcomplete', this.onAnimationComplete.bind(this), this ) // listens for the animationcomplete event and calls the onAnimationComplete method
 .input.keyboard.addKeys('W,A,S,D,SPACE') // creates keyboard input for the specified keys
 setBounce(1) // sets the bounce factor of the sprite
+scene.add.existing(this);
+
+// Add a physics body to the sprite
+scene.physics.add.existing(this);
+
+must add both to the scene and add physics to the sprite to make it work
+
 //physics notes
 Phaser.Math.Angle.BetweenPoints(point1, point2) // calculates the angle between two points
 Phaser.Math.RadToDeg(angle) // converts an angle from radians to degrees

@@ -8,6 +8,7 @@ import EnemySpawner from '../entites/enemy/enemySpawner.js';
 import { AmmoPickup } from '../entites/enemy/enemy.js';
 import EnemyProjectile from '../entites/enemy/enemyProjectiles.js';
 import Fire from '../entites/misc/fire.js';
+import Tree from '../entites/misc/tree.js';
 
 export class MainScene extends Phaser.Scene {
 	constructor() {
@@ -18,25 +19,45 @@ export class MainScene extends Phaser.Scene {
 	//PHASER SCENE LIFECYCLE METHODS
 	// Create things for the scene
 	create() {
+		///ENVIORMEMNT
+		// // Create the map
+		// const map = this.make.tilemap({ key: 'map' });
+
+		// // Add the tileset images to the map
+		// const tileset1 = map.addTilesetImage('TX Tileset Grass', 'TX_Tileset_Grass');
+		// const tileset2 = map.addTilesetImage('TX Tileset Wall', 'TX_Tileset_Wall');
+
+		// // Create the layers
+		// const grassLayer = map.createLayer('grass', [ tileset1, tileset2 ]);
+		// const borderLayer = map.createLayer('border', [ tileset1, tileset2 ]);
+		// const wallsLayer = map.createLayer('walls', [ tileset1, tileset2 ]);
+
+		// // Set collision for walls layer
+		// wallsLayer.setCollisionByProperty({ collides: true });
+
 		// Get the game configuration
 
 		const config = this.sys.game.config;
+		// let backGroundImage = this.add
+		// 	.image(config.width / 2, config.height / 2, 'background')
+		// 	.setDisplaySize(config.width, config.height);
+		// backGroundImage.setAlpha(0.5); // 50% transparent
+
 		// Set the world bounds
 		this.physics.world.setBounds(0, 0, config.width, config.height);
-		//testing
-		this.lights.enable().setAmbientColor(0x000090); // Very dark blue for the night sky
+		//SCENE LIGHTING/AESTHETICS
+		this.lights.enable();
+		this.lights.setAmbientColor(0x333377); // Very dark blue for the night sky
 
-		this.fire = new Fire(this, 400, 300, 0xff0000, 10);
-		console.log(this.fire.setItenstity);
-		this.debugCircle = this.add.circle(this.fire.x, this.fire.y, this.fire.radius);
-		this.debugCircle.setStrokeStyle(1, 0xffffff);
+		this.fire = new Fire(this, 645, 360, 1000, 0x990000); //red
+		this.fire2 = new Fire(this, 645, 360, 800, 0xffcc00); //yellow
+		this.tree = new Tree(this, 450, 255);
 
 		// CREATE ANIMATIONS
 		this.createAnimations();
 		// CREATE PLAYER
 		this.player = new Player(this, 100, 100);
 
-		console.log(this.player.setPipeline);
 		// CREATE PLAYER HEALTH BAR
 		this.playerHealthBar = this.add.graphics({
 			fillStyle: { color: 0x00ff00 }
@@ -107,7 +128,12 @@ export class MainScene extends Phaser.Scene {
 		this.physics.add.collider(this.player, this.ammoPickups, this.player.collectAmmo.bind(this.player), null, this);
 
 		//collider for fire
-		this.physics.add.collider(this.player, this.fire);
+		// this.physics.add.collider(this.player, this.fire);
+		// this.physics.add.collider(this.fire, this.enemies);
+		//collider for tree
+		this.physics.add.collider(this.player, this.tree);
+		// this.physics.add.collider(this.tree, this.enemies);
+		this.swapWeaponKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 	}
 
 	// Update things for the scene
@@ -134,8 +160,9 @@ export class MainScene extends Phaser.Scene {
 				projectile.update();
 			}
 		});
-		this.debugCircle.x = this.fire.x;
-		this.debugCircle.y = this.fire.y;
+		if (Phaser.Input.Keyboard.JustDown(this.swapWeaponKey)) {
+			this.player.swapWeapon();
+		}
 	}
 
 	// Custom methods usally for testing new features
@@ -182,7 +209,7 @@ export class MainScene extends Phaser.Scene {
 	// ANIMATION METHODS
 	createAnimations() {
 		// CREATE ENEMY ANIMATIONS
-		//death animations
+
 		this.anims.create({
 			key: 'die',
 			frames: this.anims.generateFrameNumbers('splatter', {
