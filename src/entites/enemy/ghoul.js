@@ -6,7 +6,7 @@ export default class Ghoul extends Enemy {
 		super(scene, x, y, 'ghoul');
 		this.body.setSize(this.width / 3, this.height);
 		this.body.setOffset(20, 0);
-		this.health = 50;
+		this.health = 1;
 		this.speed = 50;
 		this.damage = 3;
 		this.postFX.addGlow(0x80ff80, 2, 0, false, 0.00001, 2);

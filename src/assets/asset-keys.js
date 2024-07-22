@@ -26,6 +26,9 @@ export const AssetKeys = Object.freeze({
 			SHOTGUN: 'src/assets/guns/shotgun.png',
 			MACHINE: 'src/assets/guns/machine.png'
 		},
+		AMMOTYPES: {
+			AMMO: 'src/assets/items/itemsheet.png'
+		},
 
 		MOVEMENT: {
 			//Movement Pngs

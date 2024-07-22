@@ -11,6 +11,7 @@ import Fire from '../entites/misc/fire.js';
 import Tree from '../entites/misc/tree.js';
 import UI from '../entites/misc/ui.js';
 import Emitter, { Effects } from '../entites/misc/emitter.js';
+import { AmmoTypes } from '../data/ammoTypes.js';
 
 export class MainScene extends Phaser.Scene {
 	constructor() {
@@ -88,7 +89,8 @@ export class MainScene extends Phaser.Scene {
 		// CREATE AMMO PICKUPS GROUP
 		this.ammoPickups = this.physics.add.group();
 		// When an enemy dies and you create an ammo pickup
-		const ammoPickup = new AmmoPickup(this, this.x, this.y);
+		//use player to check current ammo type
+		const ammoPickup = new AmmoPickup(this, this.x, this.y, this.player.currentAmmoType);
 		this.ammoPickups.add(ammoPickup);
 		// MOUSE INPUT
 		this.input.setDefaultCursor('crosshair');
@@ -205,6 +207,19 @@ export class MainScene extends Phaser.Scene {
 
 	// ANIMATION METHODS
 	createAnimations() {
+		//ITEMS ANIMATIONS
+		this.anims.create({
+			key: 'shotgunAmmo',
+			frames: this.anims.generateFrameNumbers('items', { start: 322, end: 331 }),
+			frameRate: 10,
+			repeat: -1
+		});
+		this.anims.create({
+			key: 'machineAmmo',
+			frames: this.anims.generateFrameNumbers('items', { start: 252, end: 261 }),
+			frameRate: 10,
+			repeat: -1
+		});
 		// CREATE ENEMY ANIMATIONS
 
 		this.anims.create({

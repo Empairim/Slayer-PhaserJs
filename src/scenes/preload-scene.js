@@ -31,6 +31,10 @@ export class PreloadScene extends Phaser.Scene {
 		this.load.image('pistol', AssetKeys.CHARACTER.GUN.PISTOL);
 		this.load.image('shotgun', AssetKeys.CHARACTER.GUN.SHOTGUN);
 		this.load.image('machine', AssetKeys.CHARACTER.GUN.MACHINE);
+		this.load.spritesheet('items', AssetKeys.CHARACTER.AMMOTYPES.AMMO, {
+			frameWidth: 16,
+			frameHeight: 16
+		});
 
 		//BULLET ASSETS/////////////////////
 		// this.load.image("wBullet", AssetKeys.BULLETS.WBULLET);
