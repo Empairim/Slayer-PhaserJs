@@ -9,8 +9,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		this.player = scene.player;
 		//FX
 		this.setPipeline('Light2D');
-		this.postFX.addGlow(0x80ff80, 2, 0, false, 0.00001, 10);
-		this.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 8, 0.7);
 
 		// Enable physics and scale
 		this.scene.physics.world.enable(this);
@@ -52,7 +50,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		this.isAlive = false;
 		this.isDying = true; // Add this line
 		this.playDieAnimation();
-		this.enemySpawner.enemyDied(); // Call enemyDied() when the enemy dies
+		this.enemySpawner.enemyDied(this);
 	}
 
 	playChaseAnimation() {

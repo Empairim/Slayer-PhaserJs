@@ -17,9 +17,9 @@ export default class Emitter {
 
 export const Effects = {
 	rainConfig: {
-		lifespan: 20000,
+		lifespan: 100,
 		speedY: { min: 20, max: 20 },
-		speedX: { min: -300, max: 300 }, // Add this line
+		speedX: { min: -30, max: 30 }, // Add this line
 
 		scale: { start: 0.1, end: 0 },
 		quantity: 1,
@@ -27,8 +27,8 @@ export const Effects = {
 
 		emitZone: {
 			type: 'random',
-			source: new Phaser.Geom.Circle(0, 0, 300), // Use a circle as the emit zone
-			quantity: 100,
+			source: new Phaser.Geom.Circle(0, 0, 600), // Use a circle as the emit zone
+			quantity: 10,
 			yoyo: false,
 			stepRate: 1,
 			seamless: true

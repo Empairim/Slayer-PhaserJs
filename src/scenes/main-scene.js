@@ -21,15 +21,17 @@ export class MainScene extends Phaser.Scene {
 	//PHASER SCENE LIFECYCLE METHODS
 	// Create things for the scene
 	create() {
+		this.fpsText = this.add.text(10, 10, '');
+
 		///ENVIORMEMNT
 
 		// Get the game configuration
-		this.cameras.main.setBackgroundColor('#000000');
+		// this.cameras.main.setBackgroundColor('#000000');
 		const config = this.sys.game.config;
 
 		// Set the world bounds
 		this.physics.world.setBounds(0, 0, config.width, config.height);
-		this.rainEmitter = new Emitter(this, 645, 360, 'fire1', Effects.rainConfig);
+		// this.rainEmitter = new Emitter(this, 645, 360, 'fire1', Effects.rainConfig);
 
 		//SCENE LIGHTING/AESTHETICS
 		this.lights.enable();
@@ -157,6 +159,7 @@ export class MainScene extends Phaser.Scene {
 		if (Phaser.Input.Keyboard.JustDown(this.swapWeaponKey)) {
 			this.player.swapWeapon();
 		}
+		this.fpsText.setText('FPS: ' + Math.round(this.game.loop.actualFps));
 	}
 
 	// Custom methods usally for testing new features

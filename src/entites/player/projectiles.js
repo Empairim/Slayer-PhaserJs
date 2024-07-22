@@ -22,6 +22,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 		this.body.checkCollision = true;
 		this.body.onWorldBounds = true;
 		this.body.collideWorldBounds = true;
+
 		// Set the size of the projectile's image
 		this.setScale(ammoType.bulletSize.width / this.width, ammoType.bulletSize.height / this.height);
 

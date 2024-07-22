@@ -24,7 +24,7 @@ export const AmmoTypes = {
 	shotgun: {
 		gatTexture: 'shotgun',
 		particleTexture: 'fire1',
-		bulletSpeed: 600,
+		bulletSpeed: 500,
 		bulletSize: { width: 100, height: 100 },
 		damage: { min: 30, max: 45 },
 		fireDelay: 2000,
