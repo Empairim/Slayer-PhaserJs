@@ -5,7 +5,8 @@ export const AssetKeys = Object.freeze({
 			WALL: 'src/assets/world/Wall.png',
 			MAP: 'src/assets/world/map.tmj',
 			TREE: 'src/assets/world/mainTree.png',
-			LOG: 'src/assets/world/log.png'
+			LOG: 'src/assets/world/log.png',
+			CAMPFIRE: 'src/assets/world/camp.png'
 		},
 
 		OBJECTS: {
@@ -53,7 +54,8 @@ export const AssetKeys = Object.freeze({
 		FLAME: {
 			FLAMER: 'src/assets/particles/Flamer.png'
 		},
-		BLOOD: { SPLATTER: 'src/assets/particles/blood.png' }
+		BLOOD: { SPLATTER: 'src/assets/particles/blood.png' },
+		FIRE2: { FIRE2: 'src/assets/particles/fire2.png' }
 	},
 	SPELLS: {
 		//Spell Pngs

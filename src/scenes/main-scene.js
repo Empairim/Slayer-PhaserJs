@@ -10,6 +10,7 @@ import EnemyProjectile from '../entites/enemy/enemyProjectiles.js';
 import Fire from '../entites/misc/fire.js';
 import Tree from '../entites/misc/tree.js';
 import UI from '../entites/misc/ui.js';
+import Emitter, { Effects } from '../entites/misc/emitter.js';
 
 export class MainScene extends Phaser.Scene {
 	constructor() {
@@ -21,46 +22,34 @@ export class MainScene extends Phaser.Scene {
 	// Create things for the scene
 	create() {
 		///ENVIORMEMNT
-		// // Create the map
-		// const map = this.make.tilemap({ key: 'map' });
-
-		// // Add the tileset images to the map
-		// const tileset1 = map.addTilesetImage('TX Tileset Grass', 'TX_Tileset_Grass');
-		// const tileset2 = map.addTilesetImage('TX Tileset Wall', 'TX_Tileset_Wall');
-
-		// // Create the layers
-		// const grassLayer = map.createLayer('grass', [ tileset1, tileset2 ]);
-		// const borderLayer = map.createLayer('border', [ tileset1, tileset2 ]);
-		// const wallsLayer = map.createLayer('walls', [ tileset1, tileset2 ]);
-
-		// // Set collision for walls layer
-		// wallsLayer.setCollisionByProperty({ collides: true });
 
 		// Get the game configuration
-
+		this.cameras.main.setBackgroundColor('#000000');
 		const config = this.sys.game.config;
-		// let backGroundImage = this.add
-		// 	.image(config.width / 2, config.height / 2, 'background')
-		// 	.setDisplaySize(config.width, config.height);
-		// backGroundImage.setAlpha(0.5); // 50% transparent
 
 		// Set the world bounds
 		this.physics.world.setBounds(0, 0, config.width, config.height);
+		this.rainEmitter = new Emitter(this, 645, 360, 'fire1', Effects.rainConfig);
 
 		//SCENE LIGHTING/AESTHETICS
 		this.lights.enable();
 		this.lights.setAmbientColor(0x333377); // Very dark blue for the night sky
 
-		this.fire = new Fire(this, 645, 360, 1000, 0x990000); //red
-		this.fire2 = new Fire(this, 645, 360, 800, 0xffcc00); //yellow
-		this.tree = new Tree(this, 450, 255);
+		this.fire = new Fire(this, 645, 360, 1500, 0x990000); //red
+		this.fire2 = new Fire(this, 645, 360, 1000, 0xffcc00); //yellow
+		this.tree = new Tree(this, 0, 255);
+		this.tree2 = new Tree(this, 0, 455);
+		this.tree3 = new Tree(this, 0, 655);
+		this.tree4 = new Tree(this, 1280, 255).flipX = true;
+		this.tree5 = new Tree(this, 1280, 455).flipX = true;
+		this.tree6 = new Tree(this, 1280, 655).flipX = true;
 
 		// CREATE ANIMATIONS
 		this.createAnimations();
 		// CREATE UI
 		this.ui = new UI(this);
 		// CREATE PLAYER
-		this.player = new Player(this, 100, 100);
+		this.player = new Player(this, 300, 300);
 
 		// CREATE PLAYER HEALTH BAR
 		this.playerHealthBar = this.add.graphics({
@@ -81,11 +70,12 @@ export class MainScene extends Phaser.Scene {
 		// CREATE GAT
 		this.gat = new Gat(this, 0, 0);
 		this.reloadBar = this.add.graphics({ fillStyle: { color: 0xffffff } });
-		// CREATE ENEMIES GROUP
-		this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
+
 		// CREATE ENEMY COLLISION GROUP
 		this.enemySpawner = new EnemySpawner(this, this.enemyProjectiles);
 		this.enemySpawner.start();
+		// CREATE ENEMIES GROUP
+		this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
 		// CREATE ENEMY PROJECTILES GROUP
 		// CREATE ENEMY PROJECTILE GROUP
 		// this.enemyProjectiles = new EnemyProjectile(this, 0, 0);

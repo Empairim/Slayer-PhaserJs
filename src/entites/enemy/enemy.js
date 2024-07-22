@@ -33,6 +33,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		this.damage = 1;
 		//Behavioral properties
 		this.behavior = behavior;
+		this.enemySpawner = scene.enemySpawner; // Pass the EnemySpawner instance to the enemy
 	}
 
 	// Update the enemy
@@ -51,6 +52,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		this.isAlive = false;
 		this.isDying = true; // Add this line
 		this.playDieAnimation();
+		this.enemySpawner.enemyDied(); // Call enemyDied() when the enemy dies
 	}
 
 	playChaseAnimation() {

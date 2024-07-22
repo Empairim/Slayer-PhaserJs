@@ -17,6 +17,7 @@ export class PreloadScene extends Phaser.Scene {
 		this.load.tilemapTiledJSON('map', AssetKeys.ENVIORNMENT.BACKGROUND.MAP);
 		this.load.image('tree', AssetKeys.ENVIORNMENT.BACKGROUND.TREE);
 		this.load.image('log', AssetKeys.ENVIORNMENT.BACKGROUND.LOG);
+		this.load.image('campfire', AssetKeys.ENVIORNMENT.BACKGROUND.CAMPFIRE);
 
 		//MOVEMENT ASSETS///////////
 

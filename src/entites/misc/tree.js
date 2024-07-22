@@ -16,9 +16,7 @@ export default class Tree extends Phaser.Physics.Arcade.Sprite {
 		this.setDepth(10);
 
 		this.setPipeline('Light2D');
-		this.light = this.scene.lights.addLight(this.x, this.y, 50, 0xffffff, 1.5);
+		// this.light = this.scene.lights.addLight(this.x, this.y, 50, 0xffffff, 1.5);
 		this.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 12, 0.5);
-
-		console.log(this.visible);
 	}
 }
