@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { ChasingBehavior } from '../../data/enemyBehavior.js';
 import Enemy from './enemy.js';
 
 export default class Ghoul extends Enemy {
@@ -11,6 +12,7 @@ export default class Ghoul extends Enemy {
 		this.damage = 3;
 		this.postFX.addGlow(0x80ff80, 2, 0, false, 0.00001, 2);
 		this.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 3, 0.7);
+		this.behavior = new ChasingBehavior(this);
 	}
 
 	playChaseAnimation() {

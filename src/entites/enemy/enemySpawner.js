@@ -59,10 +59,7 @@ export default class EnemySpawner {
 			}
 
 			const enemy = new Ghoul(this.scene, x, y);
-			const behavior = new ChasingBehavior(enemy);
 
-			enemy.behavior = behavior;
-			enemy.setImmovable(true);
 			this.scene.enemies.add(enemy);
 			this.activeEnemies.push(enemy); // Add this line // Increase the number of enemies alive
 		}
@@ -96,6 +93,5 @@ export default class EnemySpawner {
 			// If all enemies are dead, start a new timer event to spawn the next wave after a delay
 			this.scene.time.delayedCall(2000, this.spawnWave, [], this);
 		}
-		console.log(this.activeEnemies.length);
 	}
 }

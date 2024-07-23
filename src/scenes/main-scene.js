@@ -38,14 +38,14 @@ export class MainScene extends Phaser.Scene {
 		this.lights.enable();
 		this.lights.setAmbientColor(0x333377); // Very dark blue for the night sky
 
-		this.fire = new Fire(this, 645, 360, 1500, 0x990000); //red
-		this.fire2 = new Fire(this, 645, 360, 1000, 0xffcc00); //yellow
-		this.tree = new Tree(this, 0, 255);
-		this.tree2 = new Tree(this, 0, 455);
-		this.tree3 = new Tree(this, 0, 655);
-		this.tree4 = new Tree(this, 1280, 255).flipX = true;
-		this.tree5 = new Tree(this, 1280, 455).flipX = true;
-		this.tree6 = new Tree(this, 1280, 655).flipX = true;
+		this.fire = new Fire(this, 400, 300, 1500, 0x990000); //red
+		this.fire2 = new Fire(this, 400, 300, 1000, 0xffcc00); //yellow
+		// this.tree = new Tree(this, 0, 255);
+		// this.tree2 = new Tree(this, 0, 455);
+		// this.tree3 = new Tree(this, 0, 655);
+		// this.tree4 = new Tree(this, 1280, 255).flipX = true;
+		// this.tree5 = new Tree(this, 1280, 455).flipX = true;
+		// this.tree6 = new Tree(this, 1280, 655).flipX = true;
 
 		// CREATE ANIMATIONS
 		this.createAnimations();

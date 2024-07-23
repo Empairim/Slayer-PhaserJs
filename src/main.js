@@ -10,8 +10,8 @@ const game = new Phaser.Game({
 	pixelArt: true, //disable anti-aliasing
 	scale: {
 		parent: 'game-container',
-		width: 1280,
-		height: 720,
+		width: 800,
+		height: 600,
 		mode: Phaser.Scale.FIT, //resize the game to fit the screen
 		autoCenter: Phaser.Scale.CENTER_BOTH //center the game on the screen
 	},
