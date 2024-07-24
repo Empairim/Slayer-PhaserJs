@@ -79,7 +79,7 @@ export class MainScene extends Phaser.Scene {
 		this.enemySpawner.start();
 		// CREATE ENEMIES GROUP
 		this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
-		// CREATE ENEMY PROJECTILES GROUP
+
 		// CREATE ENEMY PROJECTILE GROUP
 		// this.enemyProjectiles = new EnemyProjectile(this, 0, 0);
 		this.enemyProjectiles = this.physics.add.group({
@@ -208,6 +208,12 @@ export class MainScene extends Phaser.Scene {
 	// ANIMATION METHODS
 	createAnimations() {
 		//ITEMS ANIMATIONS
+		this.anims.create({
+			key: 'pisolAmmo',
+			frames: this.anims.generateFrameNumbers('items', { start: 140, end: 145 }),
+			frameRate: 10,
+			repeat: -1
+		});
 		this.anims.create({
 			key: 'shotgunAmmo',
 			frames: this.anims.generateFrameNumbers('items', { start: 322, end: 331 }),

@@ -2,7 +2,7 @@ export const AmmoTypes = {
 	//WIDTH CONTROLS HOW LONG HEIGHT CONTROLS HOW WIDE
 	pistol: {
 		frame: 0,
-		animation: 'shotgunAmmo',
+		animation: 'pisolAmmo',
 		gatTexture: 'pistol',
 		particleTexture: 'wSmoke',
 		bulletSpeed: 500, // how much range bullet has

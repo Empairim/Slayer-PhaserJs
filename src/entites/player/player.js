@@ -47,7 +47,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 		//Ammo System
 		this.currentAmmoType = 'pistol'; // Default ammo type
-		this.ammoInventory = { pistol: Infinity }; // Default ammo inventory object will provide better speed and memory usage
+		this.ammoInventory = { pistol: 10 }; // Default ammo inventory object will provide better speed and memory usage
+		console.log(this.ammoInventory);
 		this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
 
 		//player ui
@@ -96,9 +97,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			this.damage = Math.floor(Math.random() * (damageRange.max - damageRange.min + 1)) + damageRange.min; // Random damage within the range of the current ammo type
 			// Create a new projectile and add it to the scene
 			const projectile = new Projectile(this.scene, this, ammoType);
-			if (this.currentAmmoType !== 'pistol') {
-				this.ammoInventory[this.currentAmmoType]--;
-			}
+			this.fireBullet();
 			this.scene.projectiles.add(projectile);
 			projectile.fire(this, this.pointer, ammoType);
 			projectile.update(this);
@@ -111,6 +110,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			this.bulletSpeed = AmmoTypes[this.currentAmmoType].bulletSpeed;
 			this.damage = AmmoTypes[this.currentAmmoType].damage;
 			this.bulletSize = AmmoTypes[this.currentAmmoType].bulletSize;
+		}
+	}
+	fireBullet() {
+		// Check if the player has ammo
+		if (this.ammoInventory[this.currentAmmoType] > 0) {
+			// Fire a bullet...
+
+			// Decrement the ammo count
+			this.ammoInventory[this.currentAmmoType]--;
 		}
 	}
 	collectAmmo(player, ammoPickup) {
@@ -128,6 +136,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		} else {
 			this.ammoInventory[ammoTypeKey] = 1;
 		}
+		console.log(this.ammoInventory);
 	}
 
 	changeAmmoType(ammoTypeKey) {
