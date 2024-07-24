@@ -22,6 +22,7 @@ export class MainScene extends Phaser.Scene {
 	//PHASER SCENE LIFECYCLE METHODS
 	// Create things for the scene
 	create() {
+		this.scene.launch('UIScene');
 		this.fpsText = this.add.text(10, 10, '');
 
 		///ENVIORMEMNT

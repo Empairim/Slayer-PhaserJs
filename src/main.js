@@ -3,7 +3,7 @@
 import Phaser from './lib/phaser.js';
 import { MainScene } from './scenes/main-scene.js';
 import { PreloadScene } from './scenes/preload-scene.js';
-import { UIScene } from './tools/ui.js';
+import { UIScene } from './scenes/ui-scene.js';
 
 const game = new Phaser.Game({
 	type: Phaser.WEBGL,
@@ -23,5 +23,5 @@ const game = new Phaser.Game({
 		}
 	},
 	backgroundColor: '#333333',
-	scene: [ PreloadScene, MainScene ] //preload scene is the first scene to load
+	scene: [ PreloadScene, MainScene, UIScene ] //preload scene is the first scene to load
 });

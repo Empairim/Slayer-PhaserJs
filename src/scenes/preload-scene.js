@@ -86,6 +86,30 @@ export class PreloadScene extends Phaser.Scene {
 			frameWidth: 57,
 			frameHeight: 39
 		});
+		//fill rect method tomake loading screen
+
+		const progressBox = this.add.graphics();
+		progressBox.fillStyle(0x222222, 0.8);
+		progressBox.fillRect(240, 270, 320, 50);
+		const progressBar = this.add.graphics();
+
+		// When the loader emits a 'progress' event, Phaser is telling us that it has updated the loading progress
+		this.load.on('progress', (value) => {
+			// Clear the previous progress bar
+			progressBar.clear();
+
+			// Set a new fill color
+			progressBar.fillStyle(0xffffff, 1);
+
+			// Draw the progress bar
+			progressBar.fillRect(240, 270, 320 * value, 50);
+		});
+
+		// When the loader emits a 'complete' event, Phaser is telling us that all files have finished loading
+		this.load.on('complete', () => {
+			// Clear the progress bar once loading is complete
+			progressBar.clear();
+		});
 	}
 	create() {
 		// this.scene.start("UIScene");
