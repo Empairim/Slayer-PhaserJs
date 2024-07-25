@@ -61,29 +61,40 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		// To be overridden by subclasses if needed
 		this.play('die');
 		this.body.enable = false;
-		this.on(
-			'animationcomplete',
-			function(animation) {
-				if (animation.key === 'die') {
-					this.isDying = false;
-					const ammoKeys = Object.keys(AmmoTypes);
-					const randomAmmo = ammoKeys[Math.floor(Math.random() * ammoKeys.length)];
-					// Create a pickup item for the ammo type
-					if (this.active && this.scene) {
-						//checks if the enemy is still active and the scene is still running
-						const ammoPickup = new AmmoPickup(this.scene, this.x, this.y, randomAmmo);
-						ammoPickup.quantity = Phaser.Math.Between(
-							AmmoTypes[randomAmmo].quantity.min,
-							AmmoTypes[randomAmmo].quantity.max
-						); // Set the quantity here
-						this.scene.add.existing(ammoPickup);
-						this.scene.ammoPickups.add(ammoPickup); // add to main scene
-						this.destroy();
-					}
+		this.on('animationcomplete', function(animation) {
+			if (animation.key === 'die') {
+				this.isDying = false;
+				const ammoKeys = Object.keys(AmmoTypes);
+				const randomAmmo = ammoKeys[Math.floor(Math.random() * ammoKeys.length)];
+				// Create a pickup item for the ammo type
+				if (this.active && this.scene) {
+					//checks if the enemy is still active and the scene is still running
+					const ammoPickup = new AmmoPickup(this.scene, this.x, this.y, randomAmmo);
+					ammoPickup.quantity = Phaser.Math.Between(
+						AmmoTypes[randomAmmo].quantity.min,
+						AmmoTypes[randomAmmo].quantity.max
+					); // Set the quantity here
+					this.scene.add.existing(ammoPickup);
+					this.scene.ammoPickups.add(ammoPickup); // add to main scene
 				}
-			},
-			this
-		);
+				//Get credit for killing the enemy along with a random amount of ammo
+				if (this.active && this.scene) {
+					let x = Math.random() * 50;
+					let y = Math.random() * 50;
+					const creditPickup = new AmmoPickup(this.scene, this.x + x, this.y + y, 'credit');
+					creditPickup.quantity = Phaser.Math.Between(
+						AmmoTypes['credit'].quantity.min,
+						AmmoTypes['credit'].quantity.max
+					);
+					this.scene.add.existing(creditPickup);
+					this.scene.ammoPickups.add(creditPickup);
+				}
+
+				this.destroy();
+			}
+
+			this;
+		});
 	}
 
 	//  ENEMY GAMEPLAY LOGIC

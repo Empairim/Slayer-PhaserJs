@@ -47,7 +47,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 		//Ammo System
 		this.currentAmmoType = 'pistol'; // Default ammo type
-		this.ammoInventory = { pistol: 15, shotgun: 5, machine: 10 }; // Default ammo inventory object will provide better speed and memory usage
+		this.ammoInventory = { pistol: 10, shotgun: 10, machine: 10, credit: 0 }; // Default ammo inventory object will provide better speed and memory usage
 		this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
 		console.log(this.fireDelay);
 

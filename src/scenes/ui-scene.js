@@ -20,6 +20,7 @@ export class UIScene extends Phaser.Scene {
 		this.pistolAmmoText = this.add.text(10, 50, '', textStyle);
 		this.shotgunAmmoText = this.add.text(10, 70, '', textStyle);
 		this.machineAmmoText = this.add.text(10, 90, '', textStyle);
+		this.creditAmmoText = this.add.text(10, 130, '', textStyle);
 		this.waveText = this.add.text(10, 110, '', textStyle);
 	}
 
@@ -33,6 +34,7 @@ export class UIScene extends Phaser.Scene {
 		this.pistolAmmoText.setText('Pistol Ammo: ' + player.ammoInventory['pistol']);
 		this.shotgunAmmoText.setText('Shotgun Ammo: ' + player.ammoInventory['shotgun']);
 		this.machineAmmoText.setText('Machine Gun Ammo: ' + player.ammoInventory['machine']);
+		this.creditAmmoText.setText('Credits: ' + player.ammoInventory['credit']);
 		this.waveText.setText('Wave: ' + wave);
 	}
 }

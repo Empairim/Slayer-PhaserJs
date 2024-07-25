@@ -35,9 +35,9 @@ export const AmmoTypes = {
 		//combat
 		bulletSpeed: 500,
 		bulletSize: { width: 100, height: 100 },
-		damage: { min: 30, max: 45 },
+		damage: { min: 13, max: 20 },
 		fireDelay: 2000,
-		penetrates: true,
+		penetrates: false,
 		quantity: { min: 1, max: 2 },
 		//effects
 		screenShake: { duration: 200, intensity: 0.007 },
@@ -63,10 +63,10 @@ export const AmmoTypes = {
 		//combat
 		bulletSpeed: 1000,
 		bulletSize: { width: 5, height: 5 },
-		damage: { min: 1, max: 1.5 },
+		damage: { min: 1, max: 3 },
 		fireDelay: 200,
 		penetrates: false,
-		quantity: { min: 5, max: 10 },
+		quantity: { min: 10, max: 15 },
 		//effects
 		screenShake: { duration: 100, intensity: 0.004 },
 		lifespan: 2000, // / 500 = 4 seconds
