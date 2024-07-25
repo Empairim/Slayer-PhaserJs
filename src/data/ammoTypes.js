@@ -11,7 +11,7 @@ export const AmmoTypes = {
 		fireDelay: 800, // fire rate of gun/reload speed
 		penetrates: false, // if bullet goes through enemies hits multiple enemies
 		screenShake: { duration: 200, intensity: 0.005 },
-		lifespan: 1000, // / 500 = 4 seconds // how long bullet stays on screen also effects range
+		lifespan: 600, // / 500 = 4 seconds // how long bullet stays on screen also effects range
 		//Bullet combat properties
 		emitterProperties: {
 			speed: 5,

@@ -23,13 +23,14 @@ export class MainScene extends Phaser.Scene {
 	// Create things for the scene
 	create() {
 		this.scene.launch('UIScene');
-		this.fpsText = this.add.text(10, 10, '');
+		this.fpsText = this.add.text(10, 10, '').setDepth(10);
 
 		///ENVIORMEMNT
 
 		// Get the game configuration
-		// this.cameras.main.setBackgroundColor('#000000');
+		this.cameras.main.setBackgroundColor('#000000');
 		const config = this.sys.game.config;
+		const background = this.add.image(0, 0, 'ground').setOrigin(0, 0);
 
 		// Set the world bounds
 		this.physics.world.setBounds(0, 0, config.width, config.height);
@@ -39,14 +40,9 @@ export class MainScene extends Phaser.Scene {
 		this.lights.enable();
 		this.lights.setAmbientColor(0x333377); // Very dark blue for the night sky
 
-		this.fire = new Fire(this, 400, 300, 1500, 0x990000); //red
-		this.fire2 = new Fire(this, 400, 300, 1000, 0xffcc00); //yellow
-		// this.tree = new Tree(this, 0, 255);
-		// this.tree2 = new Tree(this, 0, 455);
-		// this.tree3 = new Tree(this, 0, 655);
-		// this.tree4 = new Tree(this, 1280, 255).flipX = true;
-		// this.tree5 = new Tree(this, 1280, 455).flipX = true;
-		// this.tree6 = new Tree(this, 1280, 655).flipX = true;
+		this.fire = new Fire(this, 400, 250, 450, 0x990000); //red
+		this.fire2 = new Fire(this, 400, 250, 450, 0xffcc00); //yellow
+		this.tree = new Tree(this, 0, 0);
 
 		// CREATE ANIMATIONS
 		this.createAnimations();

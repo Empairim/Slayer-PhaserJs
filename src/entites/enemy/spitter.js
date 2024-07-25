@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { SpitterShootingBehavior } from '../../data/enemyBehavior.js';
 import Enemy from './enemy.js';
 
 export default class Spitter extends Enemy {
@@ -8,10 +9,11 @@ export default class Spitter extends Enemy {
 
 		this.body.setOffset(10, 13);
 		this.setScale(4);
-		this.health = 50;
-		this.speed = 230;
+		this.health = 10;
+		this.speed = 200;
 		this.damage = 1;
 		this.hitStun = 50;
+		this.behavior = new SpitterShootingBehavior(this);
 
 		this.body.setCollideWorldBounds(true);
 	}

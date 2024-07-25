@@ -107,14 +107,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 //Helper class to create a pickup that will change the player's ammo type
 export class AmmoPickup extends Phaser.Physics.Arcade.Sprite {
 	constructor(scene, x, y, ammoType) {
-		console.log(ammoType);
 		if (!AmmoTypes.hasOwnProperty(ammoType)) {
 			throw new Error(`Invalid ammo type: ${ammoType}`);
 		}
 		super(scene, x, y, 'items', AmmoTypes[ammoType].frame);
 
 		this.ammoType = ammoType;
-		console.log(this.ammoType);
 		scene.physics.world.enable(this);
 		this.play(AmmoTypes[ammoType].animation);
 		this.setScale(2);

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { ChasingBehavior, SpitterShootingBehavior } from '../../data/enemyBehavior.js';
+
 import Ghoul from './ghoul.js';
 import Spitter from './spitter.js';
 
@@ -12,7 +12,7 @@ export default class EnemySpawner {
 		this.isSpawning = false; // Flag to check if spawn function is running
 
 		// Base properties for the first wave
-		this.baseEnemyCount = 5; // Set the base number of enemies
+		this.baseEnemyCount = 1; // Set the base number of enemies
 
 		// Amount to increase each property per wave
 		this.incrementEnemyCount = Math.random() * 2 + 1; // Increase the number of enemies by 1 to 3 each wave
@@ -58,10 +58,17 @@ export default class EnemySpawner {
 						: Math.floor(Math.random() * buffer) + screenHeight;
 			}
 
-			const enemy = new Ghoul(this.scene, x, y);
+			let enemy;
+			if (Math.random() < 0.5) {
+				enemy = new Spitter(this.scene, x, y);
+				// enemy = new Ghoul(this.scene, x, y);
+			} else {
+				enemy = new Spitter(this.scene, x, y);
+			}
 
 			this.scene.enemies.add(enemy);
-			this.activeEnemies.push(enemy); // Add this line // Increase the number of enemies alive
+			this.activeEnemies.push(enemy);
+			// Add this line // Increase the number of enemies alive
 		}
 
 		this.waveNumber++; // Move to the next wave

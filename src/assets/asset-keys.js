@@ -1,12 +1,14 @@
 export const AssetKeys = Object.freeze({
 	ENVIORNMENT: {
 		BACKGROUND: {
-			GRASS: 'src/assets/world/Grass.png',
+			DECO: 'src/assets/world/Grass.png',
 			WALL: 'src/assets/world/Wall.png',
 			MAP: 'src/assets/world/map.tmj',
 			TREE: 'src/assets/world/mainTree.png',
+			WOODS: 'src/assets/world/forest.png',
 			LOG: 'src/assets/world/log.png',
-			CAMPFIRE: 'src/assets/world/camp.png'
+			CAMPFIRE: 'src/assets/world/camp.png',
+			GROUND: 'src/assets/world/ground.png'
 		},
 
 		OBJECTS: {

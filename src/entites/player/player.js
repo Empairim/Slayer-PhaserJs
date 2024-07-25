@@ -47,8 +47,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 		//Ammo System
 		this.currentAmmoType = 'pistol'; // Default ammo type
-		this.ammoInventory = { pistol: 10 }; // Default ammo inventory object will provide better speed and memory usage
-		console.log(this.ammoInventory);
+		this.ammoInventory = { pistol: 15, shotgun: 5, machine: 10 }; // Default ammo inventory object will provide better speed and memory usage
 		this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
 
 		//player ui
@@ -115,8 +114,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 	fireBullet() {
 		// Check if the player has ammo
 		if (this.ammoInventory[this.currentAmmoType] > 0) {
-			// Fire a bullet...
-
 			// Decrement the ammo count
 			this.ammoInventory[this.currentAmmoType]--;
 		}
@@ -136,7 +133,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		} else {
 			this.ammoInventory[ammoTypeKey] = 1;
 		}
-		console.log(this.ammoInventory);
 	}
 
 	changeAmmoType(ammoTypeKey) {

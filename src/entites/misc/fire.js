@@ -39,7 +39,7 @@ export default class Fire extends Phaser.GameObjects.Sprite {
 		const campfire = scene.add.image(x - 10, y, 'campfire');
 		campfire.setScale(2);
 		campfire.setPipeline('Light2D');
-		campfire.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 12, 0.4);
+		campfire.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 8, 0.4);
 
 		campfire.setDepth(0);
 	}

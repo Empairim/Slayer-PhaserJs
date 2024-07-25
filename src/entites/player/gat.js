@@ -17,6 +17,7 @@ export default class Gat extends Phaser.Physics.Arcade.Sprite {
 		this.recoil = this.recoil.bind(this); //forces the recoil method to be bound to the instance of the gun
 
 		//Damage System
+		this.setScale(5);
 	}
 	recoil() {
 		this.x += Phaser.Math.Between(-10, 10);
