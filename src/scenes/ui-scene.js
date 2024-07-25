@@ -1,19 +1,24 @@
 //@ts-nocheck
 export class UIScene extends Phaser.Scene {
 	constructor() {
-		super({ key: 'UIScene', active: true });
+		super({ key: 'UIScene' });
 	}
 
-	preload() {
-		// Load the bitmap font
-		this.load.bitmapFont('goldenFont', 'images/GoldFont.png', 'images/GoldFont.xml');
+	init(data) {
+		this.player = data.player;
 	}
-
+	preload() {}
 	create() {
-		// Create a bitmap text object for each ammo type
-		this.pistolAmmoText = this.add.bitmapText(10, 10, 'goldenFont', '');
-		this.shotgunAmmoText = this.add.bitmapText(10, 30, 'goldenFont', '');
-		this.machineAmmoText = this.add.bitmapText(10, 50, 'goldenFont', '');
+		// Create a text object for each ammo type
+		const textStyle = {
+			font: '16px customFont',
+			fill: '#ffffff',
+			shadow: { offsetX: 2, offsetY: 2, color: '#000', blur: 2, stroke: true, fill: true }
+		};
+		this.currentAmmoText = this.add.text(10, 10, '', textStyle);
+		this.pistolAmmoText = this.add.text(10, 50, '', textStyle);
+		this.shotgunAmmoText = this.add.text(10, 70, '', textStyle);
+		this.machineAmmoText = this.add.text(10, 90, '', textStyle);
 	}
 
 	update() {
@@ -21,6 +26,7 @@ export class UIScene extends Phaser.Scene {
 		const player = this.scene.get('MainScene').player;
 
 		// Update the text objects with the current ammo counts
+		this.currentAmmoText.setText('Current Weapon: ' + player.currentAmmoType);
 		this.pistolAmmoText.setText('Pistol Ammo: ' + player.ammoInventory['pistol']);
 		this.shotgunAmmoText.setText('Shotgun Ammo: ' + player.ammoInventory['shotgun']);
 		this.machineAmmoText.setText('Machine Gun Ammo: ' + player.ammoInventory['machine']);

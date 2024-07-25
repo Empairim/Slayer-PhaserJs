@@ -22,27 +22,25 @@ export class MainScene extends Phaser.Scene {
 	//PHASER SCENE LIFECYCLE METHODS
 	// Create things for the scene
 	create() {
-		this.scene.launch('UIScene');
-		this.fpsText = this.add.text(10, 10, '').setDepth(10);
-
-		///ENVIORMEMNT
+		//Start the UI scene and pass the player to it or any other data
+		this.scene.launch('UIScene', { player: this.player });
+		this.fpsText = this.add.text(700, 10, '').setDepth(10);
 
 		// Get the game configuration
 		this.cameras.main.setBackgroundColor('#000000');
 		const config = this.sys.game.config;
-		const background = this.add.image(0, 0, 'ground').setOrigin(0, 0);
 
 		// Set the world bounds
 		this.physics.world.setBounds(0, 0, config.width, config.height);
 		// this.rainEmitter = new Emitter(this, 645, 360, 'fire1', Effects.rainConfig);
 
 		//SCENE LIGHTING/AESTHETICS
+		const background = this.add.image(0, 0, 'ground').setOrigin(0, 0);
 		this.lights.enable();
 		this.lights.setAmbientColor(0x333377); // Very dark blue for the night sky
-
 		this.fire = new Fire(this, 400, 250, 450, 0x990000); //red
 		this.fire2 = new Fire(this, 400, 250, 450, 0xffcc00); //yellow
-		this.tree = new Tree(this, 0, 0);
+		this.tree = new Tree(this, 0, 0).setPipeline('Light2D'); // the outer wood area
 
 		// CREATE ANIMATIONS
 		this.createAnimations();

@@ -40,7 +40,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.maxHealth = 5;
 		this.health = 5;
 		this.isInvincible = false;
-		this.invincibilityDuration = 1000;
+		this.invincibilityDuration = 1500;
 		this.isRolling = false;
 		this.speed = 260;
 		this.defense = 1;

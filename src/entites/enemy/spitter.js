@@ -11,7 +11,7 @@ export default class Spitter extends Enemy {
 		this.setScale(4);
 		this.health = 10;
 		this.speed = 200;
-		this.damage = 1;
+		this.damage = 5;
 		this.hitStun = 50;
 		this.behavior = new SpitterShootingBehavior(this);
 

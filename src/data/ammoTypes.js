@@ -70,6 +70,32 @@ export const AmmoTypes = {
 			color: 0x00ff00, // Green
 			size: 1
 		}
+	},
+	//ammo to buy
+	credit: {
+		frame: 3,
+		animation: 'creditAmmo',
+		gatTexture: 'credit',
+		particleTexture: 'wSmoke',
+		bulletSpeed: 500,
+		bulletSize: { width: 12, height: 5 },
+		damage: { min: 5, max: 8 },
+		fireDelay: 800,
+		penetrates: false,
+		screenShake: { duration: 200, intensity: 0.005 },
+		lifespan: 600,
+
+		//Bullet combat properties
+		emitterProperties: {
+			speed: 5,
+			angle: { min: 0, max: 0 },
+			scale: { start: 0.3, end: 0 }
+		},
+		particleProperties: {
+			color: 0x00ff00, // Green
+			size: 1
+		}
 	}
+
 	// Add more ammo types as needed
 };

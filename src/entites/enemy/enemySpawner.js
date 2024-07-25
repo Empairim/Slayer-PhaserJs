@@ -12,7 +12,7 @@ export default class EnemySpawner {
 		this.isSpawning = false; // Flag to check if spawn function is running
 
 		// Base properties for the first wave
-		this.baseEnemyCount = 1; // Set the base number of enemies
+		this.baseEnemyCount = 3; // Set the base number of enemies
 
 		// Amount to increase each property per wave
 		this.incrementEnemyCount = Math.random() * 2 + 1; // Increase the number of enemies by 1 to 3 each wave
@@ -35,9 +35,9 @@ export default class EnemySpawner {
 
 		// Calculate the number of enemies to spawn based on the wave number
 		const enemyCount = this.baseEnemyCount + this.incrementEnemyCount * (this.waveNumber - 1);
-		let screenWidth = 1200; // replace with your actual screen width
-		let screenHeight = 720; // replace with your actual screen height
-		let buffer = 100;
+		let screenWidth = 800;
+		let screenHeight = 600;
+		let buffer = 100; // Set the buffer distance from the edge of the screen
 		let x, y;
 
 		// Spawn enemies randomly around the screen
@@ -58,13 +58,19 @@ export default class EnemySpawner {
 						: Math.floor(Math.random() * buffer) + screenHeight;
 			}
 
-			let enemy;
-			if (Math.random() < 0.5) {
-				enemy = new Spitter(this.scene, x, y);
-				// enemy = new Ghoul(this.scene, x, y);
-			} else {
-				enemy = new Spitter(this.scene, x, y);
-			}
+			// let enemy;
+			// if (Math.random() < 0.5) {
+			// 	enemy = new Ghoul(this.scene, x, y);
+			// } else {
+			// 	enemy = new Spitter(this.scene, x, y);
+			// }
+			const enemyClasses = [ Ghoul, Ghoul, Ghoul, Spitter ]; // Adjust the array to make Spitter less likely
+
+			// When spawning an enemy, pick a random class from the array
+			const EnemyClass = Phaser.Utils.Array.GetRandom(enemyClasses);
+
+			// Instantiate a new enemy of the chosen class
+			let enemy = new EnemyClass(this.scene, x, y);
 
 			this.scene.enemies.add(enemy);
 			this.activeEnemies.push(enemy);
