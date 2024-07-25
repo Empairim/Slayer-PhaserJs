@@ -1,18 +1,21 @@
 export const AmmoTypes = {
 	//WIDTH CONTROLS HOW LONG HEIGHT CONTROLS HOW WIDE
 	pistol: {
+		//graphics
 		frame: 0,
 		animation: 'pisolAmmo',
 		gatTexture: 'pistol',
 		particleTexture: 'wSmoke',
+		//combat
 		bulletSpeed: 500, // how much range bullet has
-		bulletSize: { width: 12, height: 5 }, // how much spread bullet has depends on height
+		bulletSize: { width: 15, height: 5 }, // how much spread bullet has depends on height
 		damage: { min: 5, max: 8 },
 		fireDelay: 800, // fire rate of gun/reload speed
 		penetrates: false, // if bullet goes through enemies hits multiple enemies
 		screenShake: { duration: 200, intensity: 0.005 },
 		lifespan: 600, // / 500 = 4 seconds // how long bullet stays on screen also effects range
-		//Bullet combat properties
+		quantity: { min: 1, max: 2 }, // how many bullets are picked up
+		//effects
 		emitterProperties: {
 			speed: 5,
 			angle: { min: 0, max: 0 },
@@ -24,15 +27,19 @@ export const AmmoTypes = {
 		}
 	},
 	shotgun: {
+		//graphics
 		frame: 1,
 		animation: 'shotgunAmmo',
 		gatTexture: 'shotgun',
 		particleTexture: 'fire1',
+		//combat
 		bulletSpeed: 500,
 		bulletSize: { width: 100, height: 100 },
 		damage: { min: 30, max: 45 },
 		fireDelay: 2000,
 		penetrates: true,
+		quantity: { min: 1, max: 2 },
+		//effects
 		screenShake: { duration: 200, intensity: 0.007 },
 		lifespan: 300, // / 500 = 1.2 seconds
 
@@ -48,15 +55,19 @@ export const AmmoTypes = {
 		}
 	},
 	machine: {
+		//graphics
 		frame: 2,
 		animation: 'machineAmmo',
 		gatTexture: 'machine',
 		particleTexture: 'flamer',
+		//combat
 		bulletSpeed: 1000,
 		bulletSize: { width: 5, height: 5 },
 		damage: { min: 1, max: 1.5 },
 		fireDelay: 200,
 		penetrates: false,
+		quantity: { min: 5, max: 10 },
+		//effects
 		screenShake: { duration: 100, intensity: 0.004 },
 		lifespan: 2000, // / 500 = 4 seconds
 
@@ -74,7 +85,7 @@ export const AmmoTypes = {
 	//ammo to buy
 	credit: {
 		frame: 3,
-		animation: 'creditAmmo',
+		animation: 'gunner',
 		gatTexture: 'credit',
 		particleTexture: 'wSmoke',
 		bulletSpeed: 500,
@@ -84,7 +95,7 @@ export const AmmoTypes = {
 		penetrates: false,
 		screenShake: { duration: 200, intensity: 0.005 },
 		lifespan: 600,
-
+		quantity: { min: 5, max: 15 },
 		//Bullet combat properties
 		emitterProperties: {
 			speed: 5,

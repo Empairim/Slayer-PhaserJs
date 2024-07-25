@@ -39,7 +39,7 @@ Power-ups or special abilities for the player
 and lower ammo drop percentage based on how good it is so you need to buy ammo and also think about if you want to waste it
 Procedurally generated levels or enemy placement
 *Must kill all enemies to progress to next room 
-Will start in a base hub room where you can by upgrades and health and ammo types
+?Will start in a base hub room where you can by upgrades and health and ammo types
 Add a shop system where you can buy upgrades and ammo types
 Add a health system where you can buy health
 Add a ammo system where you can buy ammo

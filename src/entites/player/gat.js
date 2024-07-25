@@ -11,7 +11,7 @@ export default class Gat extends Phaser.Physics.Arcade.Sprite {
 		//FX
 		this.setPipeline('Light2D');
 		this.light = this.scene.lights.addLight(this.x, this.y, 5, 0xffffff, 1.3); //add a light to the player
-		this.postFX.addShadow(0, 0, 0.14, 10, 0x000000, 8, 0.2);
+		this.postFX.addShadow(0, 0, 0.14, 10, 0x000000, 12, 0.3);
 
 		this.createAnimations();
 		this.recoil = this.recoil.bind(this); //forces the recoil method to be bound to the instance of the gun
@@ -20,8 +20,11 @@ export default class Gat extends Phaser.Physics.Arcade.Sprite {
 		this.setScale(5);
 	}
 	recoil() {
-		this.x += Phaser.Math.Between(-10, 10);
-		this.y += Phaser.Math.Between(-10, 10);
+		// Check if the player exists and is not currently "reloading"
+		if (this.scene.player && this.scene.time.now - this.scene.player.lastFired > this.scene.player.fireDelay) {
+			this.x += Phaser.Math.Between(-10, 10);
+			this.y += Phaser.Math.Between(-10, 10);
+		}
 		this.recoilEvent = null; // Clear the recoil event
 	}
 

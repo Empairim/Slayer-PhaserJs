@@ -23,8 +23,10 @@ export class MainScene extends Phaser.Scene {
 	// Create things for the scene
 	create() {
 		//Start the UI scene and pass the player to it or any other data
-		this.scene.launch('UIScene', { player: this.player });
+		this.scene.launch('UIScene', { player: this.player, wave: this.enemySpawner });
 		this.fpsText = this.add.text(700, 10, '').setDepth(10);
+
+		this.cameras.main.setZoom(0.9); // This will make the game screen appear twice as large
 
 		// Get the game configuration
 		this.cameras.main.setBackgroundColor('#000000');

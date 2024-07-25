@@ -7,7 +7,7 @@ export default class EnemySpawner {
 	constructor(scene) {
 		this.scene = scene;
 		this.spawn = this.spawn.bind(this);
-		this.waveNumber = 1; // Start at wave 1
+		this.waveNumber = 0; // Start at wave 1
 		this.activeEnemies = []; // Number of enemies currently alive
 		this.isSpawning = false; // Flag to check if spawn function is running
 
@@ -104,6 +104,15 @@ export default class EnemySpawner {
 
 		if (this.activeEnemies.length === 0) {
 			// If all enemies are dead, start a new timer event to spawn the next wave after a delay
+			// this.isSpawning = true;
+			// this.scene.scene.launch('UpgradeScene');
+			// // After a delay, resume spawning and close the upgrade scene
+			// this.scene.time.delayedCall(2000, () => {
+			// 	this.isSpawning = false;
+			// 	this.scene.scene.stop('UpgradeScene');
+			// 	this.spawnWave();
+			// }, [], this);
+			//will add the above at later date
 			this.scene.time.delayedCall(2000, this.spawnWave, [], this);
 		}
 	}

@@ -72,6 +72,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 					if (this.active && this.scene) {
 						//checks if the enemy is still active and the scene is still running
 						const ammoPickup = new AmmoPickup(this.scene, this.x, this.y, randomAmmo);
+						ammoPickup.quantity = Phaser.Math.Between(
+							AmmoTypes[randomAmmo].quantity.min,
+							AmmoTypes[randomAmmo].quantity.max
+						); // Set the quantity here
 						this.scene.add.existing(ammoPickup);
 						this.scene.ammoPickups.add(ammoPickup); // add to main scene
 						this.destroy();
@@ -85,7 +89,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 	//  ENEMY GAMEPLAY LOGIC
 	takeDamage(damage) {
 		const actualDamage = Math.floor(Math.random() * (damage.max - damage.min + 1)) + damage.min;
-		this.health -= actualDamage;
+		this.health -= actualDamage / 2; //quick fix since overlapping hitboxes cause double damage
+		console.log(`Enemy took ${actualDamage} damage!`);
 		if (this.health <= 0) {
 			this.die();
 		} else {
@@ -113,6 +118,8 @@ export class AmmoPickup extends Phaser.Physics.Arcade.Sprite {
 		super(scene, x, y, 'items', AmmoTypes[ammoType].frame);
 
 		this.ammoType = ammoType;
+		this.quantity = Phaser.Math.Between(AmmoTypes[ammoType].quantity.min, AmmoTypes[ammoType].quantity.max);
+
 		scene.physics.world.enable(this);
 		this.play(AmmoTypes[ammoType].animation);
 		this.setScale(2);

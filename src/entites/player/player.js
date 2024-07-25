@@ -19,7 +19,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 		//FX
 		this.setPipeline('Light2D');
-		this.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 12, 0.5);
+		this.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 8, 0.5);
 		this.light = this.scene.lights.addLight(this.x, this.y, 5, 0xffffff, 1.3); //add a light to the player
 
 		//create animations and key bindings on creation
@@ -36,7 +36,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		//Combat properties
 		this.pointer = this.scene.input.activePointer;
 		this.lastFired = 0;
-		this.damage = 10;
+		this.damage = 0;
 		this.maxHealth = 5;
 		this.health = 5;
 		this.isInvincible = false;
@@ -49,6 +49,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.currentAmmoType = 'pistol'; // Default ammo type
 		this.ammoInventory = { pistol: 15, shotgun: 5, machine: 10 }; // Default ammo inventory object will provide better speed and memory usage
 		this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
+		console.log(this.fireDelay);
 
 		//player ui
 		this.ui = new UI(this.scene);
@@ -119,19 +120,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		}
 	}
 	collectAmmo(player, ammoPickup) {
-		player.addAmmo(ammoPickup.ammoType);
+		player.addAmmo(ammoPickup.ammoType, ammoPickup.quantity);
 		//add text to show what ammo was picked up then destroy it
 		// gonna add graphics to show what ammo is on floor
 
 		// Destroy the ammo pickup after it's collected
 		ammoPickup.destroy();
 	}
-	addAmmo(ammoTypeKey) {
+	addAmmo(ammoTypeKey, quantity) {
 		// Add the picked up ammo type to the inventory
 		if (this.ammoInventory[ammoTypeKey]) {
-			this.ammoInventory[ammoTypeKey]++;
+			this.ammoInventory[ammoTypeKey] += quantity;
 		} else {
-			this.ammoInventory[ammoTypeKey] = 1;
+			this.ammoInventory[ammoTypeKey] = quantity;
 		}
 	}
 
@@ -146,20 +147,23 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		const ammoKeys = Object.keys(AmmoTypes);
 
 		// Find the index of the current ammo type
-		const currentIndex = ammoKeys.indexOf(this.currentAmmoType);
+		let currentIndex = ammoKeys.indexOf(this.currentAmmoType);
 
 		// Get the index of the next ammo type, wrapping around to the start of the array if necessary
-		const nextIndex = (currentIndex + 1) % ammoKeys.length;
+		let nextIndex;
+		do {
+			currentIndex = (currentIndex + 1) % ammoKeys.length;
+			nextIndex = ammoKeys[currentIndex];
+		} while (nextIndex === 'credit');
 
 		// Set the current ammo type to the next ammo type
-		this.currentAmmoType = ammoKeys[nextIndex];
+		this.currentAmmoType = nextIndex;
 
 		// Update the fire delay to match the new ammo type
 		this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
 		//Text above player to show current weapon
 		this.weaponText = this.scene.add.text(this.x, this.y - 50, this.currentAmmoType, {
 			fontSize: '16px',
-
 			fill: '#ff0000'
 		});
 		this.weaponText.setAlpha(0.8);
