@@ -21,13 +21,15 @@ export const Effects = {
 		speedY: { min: 20, max: 20 },
 		speedX: { min: -30, max: 30 }, // Add this line
 
-		scale: { start: 0.1, end: 0 },
+		speed: { min: -5, max: 50 },
+		angle: { min: -90, max: -45 },
+		scale: { start: 0, end: 0.1 },
 		quantity: 1,
 		blendMode: 'ADD',
 
 		emitZone: {
 			type: 'random',
-			source: new Phaser.Geom.Circle(0, 0, 600), // Use a circle as the emit zone
+			source: new Phaser.Geom.Circle(0, 0, 50), // Use a circle as the emit zone
 			quantity: 10,
 			yoyo: false,
 			stepRate: 1,

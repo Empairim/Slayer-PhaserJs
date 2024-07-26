@@ -11,13 +11,13 @@ export default class Gat extends Phaser.Physics.Arcade.Sprite {
 		//FX
 		this.setPipeline('Light2D');
 		this.light = this.scene.lights.addLight(this.x, this.y, 5, 0xffffff, 1.3); //add a light to the player
-		this.postFX.addShadow(0, 0, 0.14, 10, 0x000000, 12, 0.3);
+		this.postFX.addShadow(0, 0, 0.14, 10, 0x000000, 10, 0.3);
 
 		this.createAnimations();
 		this.recoil = this.recoil.bind(this); //forces the recoil method to be bound to the instance of the gun
 
 		//Damage System
-		this.setScale(5);
+		this.setScale(10);
 	}
 	recoil() {
 		// Check if the player exists and is not currently "reloading"
@@ -31,7 +31,8 @@ export default class Gat extends Phaser.Physics.Arcade.Sprite {
 	update(player) {
 		// Center the gun on the player
 		// Flip the gun based on the camera's position relative to the player
-		if (this.scene.cameras.main.scrollX + this.scene.cameras.main.width / 2 < player.x) {
+		if (player.x < this.scene.cameras.main.width / 2) {
+			console.log(this.scene.cameras.main.scrollX, this.scene.cameras.main.width / 2);
 			this.x = player.x - 15;
 			this.setFlipY(true);
 		} else {
@@ -47,12 +48,15 @@ export default class Gat extends Phaser.Physics.Arcade.Sprite {
 
 		// Get the active pointer (mouse position)
 		const pointer = this.scene.input.activePointer;
+		let worldPoint = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y);
+
 		if (pointer.isDown) {
 			this.x += Phaser.Math.Between(-0.5, 0.5);
 			this.y += Phaser.Math.Between(-5, 5);
 		}
-		// Calculate the angle between the player and the pointer
-		const angle = Phaser.Math.Angle.Between(player.x, player.y, pointer.x, pointer.y);
+
+		// Calculate the angle between the player and the worldPoint
+		const angle = Phaser.Math.Angle.Between(player.x, player.y, worldPoint.x, worldPoint.y);
 
 		// Set the rotation of the gun to this angle
 		this.setRotation(angle);

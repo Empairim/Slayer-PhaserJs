@@ -49,7 +49,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.currentAmmoType = 'pistol'; // Default ammo type
 		this.ammoInventory = { pistol: 10, shotgun: 10, machine: 10, credit: 0 }; // Default ammo inventory object will provide better speed and memory usage
 		this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
-		console.log(this.fireDelay);
 
 		//player ui
 		this.ui = new UI(this.scene);
@@ -95,22 +94,27 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			// Random damage within the range of the current ammo type
 			const damageRange = ammoType.damage;
 			this.damage = Math.floor(Math.random() * (damageRange.max - damageRange.min + 1)) + damageRange.min; // Random damage within the range of the current ammo type
+
+			// Convert pointer screen coordinates to world coordinates
+			let worldPoint = this.scene.cameras.main.getWorldPoint(this.pointer.x, this.pointer.y);
+
 			// Create a new projectile and add it to the scene
 			const projectile = new Projectile(this.scene, this, ammoType);
 			this.fireBullet();
 			this.scene.projectiles.add(projectile);
-			projectile.fire(this, this.pointer, ammoType);
+			projectile.fire(this, worldPoint, ammoType);
 			projectile.update(this);
 		}
 
-		// Check if the player has run out of ammo for the current ammo type and switch to the default ammo type if necessary
-		if (this.ammoInventory[this.currentAmmoType] === 0 && this.currentAmmoType !== 'pistol') {
-			this.currentAmmoType = 'pistol'; // Switch back to the default ammo type
-			this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
-			this.bulletSpeed = AmmoTypes[this.currentAmmoType].bulletSpeed;
-			this.damage = AmmoTypes[this.currentAmmoType].damage;
-			this.bulletSize = AmmoTypes[this.currentAmmoType].bulletSize;
-		}
+		// // Check if the player has run out of ammo for the current ammo type and switch to the default ammo type if necessary
+		// if (this.ammoInventory[this.currentAmmoType] === 0 && this.currentAmmoType !== 'pistol') {
+		// 	this.currentAmmoType = 'pistol'; // Switch back to the default ammo type
+		// 	this.fireDelay = AmmoTypes[this.currentAmmoType].fireDelay;
+		// 	this.bulletSpeed = AmmoTypes[this.currentAmmoType].bulletSpeed;
+		// 	this.damage = AmmoTypes[this.currentAmmoType].damage;
+		// 	this.bulletSize = AmmoTypes[this.currentAmmoType].bulletSize;
+		// }
+		//for now I prefer it not swapping out the ammo type
 	}
 	fireBullet() {
 		// Check if the player has ammo

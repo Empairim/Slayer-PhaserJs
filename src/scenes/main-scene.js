@@ -26,10 +26,9 @@ export class MainScene extends Phaser.Scene {
 		this.scene.launch('UIScene', { player: this.player, wave: this.enemySpawner });
 		this.fpsText = this.add.text(700, 10, '').setDepth(10);
 
-		this.cameras.main.setZoom(0.9); // This will make the game screen appear twice as large
-
 		// Get the game configuration
-		this.cameras.main.setBackgroundColor('#000000');
+		// this.cameras.main.setBackgroundColor('#000000');
+
 		const config = this.sys.game.config;
 
 		// Set the world bounds
@@ -40,9 +39,13 @@ export class MainScene extends Phaser.Scene {
 		const background = this.add.image(0, 0, 'ground').setOrigin(0, 0);
 		this.lights.enable();
 		this.lights.setAmbientColor(0x333377); // Very dark blue for the night sky
-		this.fire = new Fire(this, 400, 250, 450, 0x990000); //red
-		this.fire2 = new Fire(this, 400, 250, 450, 0xffcc00); //yellow
-		this.tree = new Tree(this, 0, 0).setPipeline('Light2D'); // the outer wood area
+		this.fire = new Fire(this, 400, 250, 400, 0x990000);
+		this.fire2 = new Fire(this, 400, 250, 300, 0xffcc00);
+		this.fire2.setVisible(false); //yellow so its not visible but lighting is still there
+		// this.tree = new Tree(this, 0, 0).setPipeline('Light2D'); // the outer wood area
+		let graphics = this.add.graphics();
+		graphics.lineStyle(4, 0xffd900, 1);
+		graphics.strokeRect(0, 0, this.physics.world.bounds.width, this.physics.world.bounds.height);
 
 		// CREATE ANIMATIONS
 		this.createAnimations();
@@ -50,6 +53,8 @@ export class MainScene extends Phaser.Scene {
 		this.ui = new UI(this);
 		// CREATE PLAYER
 		this.player = new Player(this, 300, 300);
+		this.cameras.main.startFollow(this.player);
+		this.cameras.main.setZoom(0.8); // This will make the game screen appear twice as large or zoomed out
 
 		// CREATE PLAYER HEALTH BAR
 		this.playerHealthBar = this.add.graphics({

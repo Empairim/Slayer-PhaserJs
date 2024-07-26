@@ -58,12 +58,6 @@ export default class EnemySpawner {
 						: Math.floor(Math.random() * buffer) + screenHeight;
 			}
 
-			// let enemy;
-			// if (Math.random() < 0.5) {
-			// 	enemy = new Ghoul(this.scene, x, y);
-			// } else {
-			// 	enemy = new Spitter(this.scene, x, y);
-			// }
 			const enemyClasses = [ Ghoul, Ghoul, Ghoul, Spitter ]; // Adjust the array to make Spitter less likely
 
 			// When spawning an enemy, pick a random class from the array

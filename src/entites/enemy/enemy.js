@@ -1,6 +1,7 @@
 // @ts-nocheck
 import Phaser from '../../lib/phaser.js';
 import { AmmoTypes } from '../../data/ammoTypes.js';
+import Emitter, { Effects } from '../misc/emitter.js';
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 	constructor(scene, x, y, behavior) {
@@ -56,52 +57,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 	playChaseAnimation() {
 		// To be overridden by subclasses for unique animations
 	}
-
-	playDieAnimation() {
-		// To be overridden by subclasses if needed
-		this.play('die');
-		this.body.enable = false;
-		this.on('animationcomplete', function(animation) {
-			if (animation.key === 'die') {
-				this.isDying = false;
-				const ammoKeys = Object.keys(AmmoTypes);
-				const randomAmmo = ammoKeys[Math.floor(Math.random() * ammoKeys.length)];
-				// Create a pickup item for the ammo type
-				if (this.active && this.scene) {
-					//checks if the enemy is still active and the scene is still running
-					const ammoPickup = new AmmoPickup(this.scene, this.x, this.y, randomAmmo);
-					ammoPickup.quantity = Phaser.Math.Between(
-						AmmoTypes[randomAmmo].quantity.min,
-						AmmoTypes[randomAmmo].quantity.max
-					); // Set the quantity here
-					this.scene.add.existing(ammoPickup);
-					this.scene.ammoPickups.add(ammoPickup); // add to main scene
-				}
-				//Get credit for killing the enemy along with a random amount of ammo
-				if (this.active && this.scene) {
-					let x = Math.random() * 50;
-					let y = Math.random() * 50;
-					const creditPickup = new AmmoPickup(this.scene, this.x + x, this.y + y, 'credit');
-					creditPickup.quantity = Phaser.Math.Between(
-						AmmoTypes['credit'].quantity.min,
-						AmmoTypes['credit'].quantity.max
-					);
-					this.scene.add.existing(creditPickup);
-					this.scene.ammoPickups.add(creditPickup);
-				}
-
-				this.destroy();
-			}
-
-			this;
-		});
-	}
-
 	//  ENEMY GAMEPLAY LOGIC
 	takeDamage(damage) {
 		const actualDamage = Math.floor(Math.random() * (damage.max - damage.min + 1)) + damage.min;
 		this.health -= actualDamage / 2; //quick fix since overlapping hitboxes cause double damage
-		console.log(`Enemy took ${actualDamage} damage!`);
 		if (this.health <= 0) {
 			this.die();
 		} else {
@@ -118,6 +77,47 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 	hitPlayer(player) {
 		player.takeDamage(this.damage);
 		this.scene.cameras.main.shake(200, 0.005);
+	}
+	createAmmoPickup() {
+		const ammoKeys = Object.keys(AmmoTypes);
+		const randomAmmo = ammoKeys[Math.floor(Math.random() * ammoKeys.length)];
+		// Create a pickup item for the ammo type
+		if (this.active && this.scene) {
+			//checks if the enemy is still active and the scene is still running
+			const ammoPickup = new AmmoPickup(this.scene, this.x, this.y, randomAmmo);
+			ammoPickup.quantity = Phaser.Math.Between(
+				AmmoTypes[randomAmmo].quantity.min,
+				AmmoTypes[randomAmmo].quantity.max
+			); // Set the quantity here
+			this.scene.add.existing(ammoPickup);
+			this.scene.ammoPickups.add(ammoPickup); // add to main scene
+		}
+		//Get credit for killing the enemy along with a random amount of ammo
+		if (this.active && this.scene) {
+			let x = Math.random() * 50;
+			let y = Math.random() * 50;
+			const creditPickup = new AmmoPickup(this.scene, this.x + x, this.y + y, 'credit');
+			creditPickup.quantity = Phaser.Math.Between(
+				AmmoTypes['credit'].quantity.min,
+				AmmoTypes['credit'].quantity.max
+			);
+			this.scene.add.existing(creditPickup);
+			this.scene.ammoPickups.add(creditPickup);
+		}
+
+		this.destroy();
+	}
+
+	playDieAnimation() {
+		// To be overridden by subclasses if needed
+		this.play('die');
+		this.body.enable = false;
+		this.on('animationcomplete', function(animation) {
+			if (animation.key === 'die') {
+				this.isDying = false;
+				this.createAmmoPickup();
+			}
+		});
 	}
 }
 //Helper class to create a pickup that will change the player's ammo type
@@ -137,5 +137,6 @@ export class AmmoPickup extends Phaser.Physics.Arcade.Sprite {
 		//FX
 		this.setPipeline('Light2D');
 		this.postFX.addShadow(0, 0, 0.1, 5, 0x000000, 3, 0.9);
+		// this.emitter = new Emitter(scene, this.x, this.y, 'wSmoke', Effects.rainConfig);
 	}
 }

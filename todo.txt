@@ -36,6 +36,7 @@ Make enemies based around the ammo types fast low hp for machine gun slow high h
 Power-ups or special abilities for the player
 *Level progression or increasing difficulty maybe a toggle before starting mission to multiple difficulty meaning more rooms and enemies before you can head back to base and maybe boss
 *input to change ammo type
+increase game world size and have a snow systems and player has to get to the next checkpoint which is a campfire to stay alive each wave it changes at random
 and lower ammo drop percentage based on how good it is so you need to buy ammo and also think about if you want to waste it
 Procedurally generated levels or enemy placement
 *Must kill all enemies to progress to next room 
