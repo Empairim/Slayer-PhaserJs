@@ -58,7 +58,7 @@ export default class EnemySpawner {
 						: Math.floor(Math.random() * buffer) + screenHeight;
 			}
 
-			const enemyClasses = [ Ghoul, Ghoul, Ghoul, Spitter ]; // Adjust the array to make Spitter less likely
+			const enemyClasses = [ Spitter, Spitter, Spitter, Spitter ]; // Adjust the array to make Spitter less likely
 
 			// When spawning an enemy, pick a random class from the array
 			const EnemyClass = Phaser.Utils.Array.GetRandom(enemyClasses);

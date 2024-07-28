@@ -1,7 +1,8 @@
 //@ts-nocheck
 export default class ObjectPool {
-	constructor(createObject, maxPoolSize = 50) {
+	constructor(createObject, scene, maxPoolSize = 50) {
 		this.createObject = createObject;
+		this.scene = scene;
 		this.maxPoolSize = maxPoolSize;
 		this.active = [];
 		this.inactive = [];
@@ -13,17 +14,17 @@ export default class ObjectPool {
 		if (this.inactive.length > 0) {
 			object = this.inactive.pop();
 			this.scene.add.existing(object); // Add the object back to the scene
+			console.log('Reusing inactive object. Inactive count:', this.inactive.length);
 
 			// If there are no inactive objects in the pool, create a new object
-		} else if (this.active.length < this.maxPoolSize) {
-			object = this.createObject();
 		} else {
-			throw new Error('Pool is at max capacity');
+			object = this.createObject();
+			this.scene.add.existing(object);
+			console.log('Creating new object. Active count:', this.active.length);
 		}
 		// Add the object to the active array weahter it was created or pulled from the inactive array
 		this.active.push(object);
 		object.reset(x, y);
-		console.log(object);
 
 		return object;
 	}
@@ -37,7 +38,7 @@ export default class ObjectPool {
 			this.active.splice(index, 1);
 			// Add the object to the inactive array to be reused
 			this.inactive.push(object);
-			console.log(this.inactive.length);
+			console.log('Releasing object. Active count:', this.active.length, 'Inactive count:', this.inactive.length);
 		}
 	}
 }

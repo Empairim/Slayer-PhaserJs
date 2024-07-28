@@ -22,6 +22,8 @@ export class MainScene extends Phaser.Scene {
 	//PHASER SCENE LIFECYCLE METHODS
 	// Create things for the scene
 	create() {
+		this.emitter = new Emitter(this, 0, 0, 'fire1', Effects.rainConfig);
+		this.emitter.runEmitter();
 		//Start the UI scene and pass the player to it or any other data
 		this.scene.launch('UIScene', { player: this.player, wave: this.enemySpawner });
 		this.fpsText = this.add.text(700, 10, '').setDepth(10);
@@ -36,13 +38,13 @@ export class MainScene extends Phaser.Scene {
 		// this.rainEmitter = new Emitter(this, 645, 360, 'fire1', Effects.rainConfig);
 
 		//SCENE LIGHTING/AESTHETICS
-		const background = this.add.image(0, 0, 'ground').setOrigin(0, 0);
+		const background = this.add.image(0, 0, 'ground').setOrigin(0, 0).setDisplaySize(1000, 800);
 		this.lights.enable();
 		this.lights.setAmbientColor(0x333377); // Very dark blue for the night sky
-		this.fire = new Fire(this, 400, 250, 400, 0x990000);
-		this.fire2 = new Fire(this, 400, 250, 300, 0xffcc00);
+		this.fire = new Fire(this, 500, 350, 600, 0x990000);
+		this.fire2 = new Fire(this, 500, 350, 300, 0xffcc00);
 		this.fire2.setVisible(false); //yellow so its not visible but lighting is still there
-		// this.tree = new Tree(this, 0, 0).setPipeline('Light2D'); // the outer wood area
+		this.tree = new Tree(this, 0, 0).setPipeline('Light2D'); // the outer wood area
 		let graphics = this.add.graphics();
 		graphics.lineStyle(4, 0xffd900, 1);
 		graphics.strokeRect(0, 0, this.physics.world.bounds.width, this.physics.world.bounds.height);
@@ -53,8 +55,8 @@ export class MainScene extends Phaser.Scene {
 		this.ui = new UI(this);
 		// CREATE PLAYER
 		this.player = new Player(this, 300, 300);
-		this.cameras.main.startFollow(this.player);
-		this.cameras.main.setZoom(0.8); // This will make the game screen appear twice as large or zoomed out
+		// this.cameras.main.startFollow(this.player);
+		// this.cameras.main.setZoom(1.2); // This will make the game screen appear twice as large or zoomed out
 
 		// CREATE PLAYER HEALTH BAR
 		this.playerHealthBar = this.add.graphics({
@@ -77,17 +79,16 @@ export class MainScene extends Phaser.Scene {
 		this.reloadBar = this.add.graphics({ fillStyle: { color: 0xffffff } });
 
 		// CREATE ENEMY COLLISION GROUP
-		this.enemySpawner = new EnemySpawner(this, this.enemyProjectiles);
+		this.enemySpawner = new EnemySpawner(this);
 		this.enemySpawner.start();
 		// CREATE ENEMIES GROUP
 		this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
 
 		// CREATE ENEMY PROJECTILE GROUP
-		// this.enemyProjectiles = new EnemyProjectile(this, 0, 0);
-		this.enemyProjectiles = this.physics.add.group({
-			classType: EnemyProjectile,
-			runChildUpdate: true
-		});
+		// this.this.enemyProjectiles = this.physics.add.group({
+		// 	classType: EnemyProjectile,
+		// 	runChildUpdate: true
+		// });
 		// CREATE AMMO PICKUPS GROUP
 		this.ammoPickups = this.physics.add.group();
 		// When an enemy dies and you create an ammo pickup
@@ -127,12 +128,16 @@ export class MainScene extends Phaser.Scene {
 		// Add overlap between player and ammo pickups
 		this.physics.add.collider(this.player, this.ammoPickups, this.player.collectAmmo.bind(this.player), null, this);
 
-		//collider for fire
-		// this.physics.add.collider(this.player, this.fire);
-		// this.physics.add.collider(this.fire, this.enemies);
+		//collider for enemy fire
+		// this.physics.add.collider(
+		// 	this.player,
+		// 	this.spitterShootingBehavior.enemyProjectiles,
+		// 	this.hitPlayer,
+		// 	null,
+		// 	this
+		// );
 		//collider for tree
 		this.physics.add.collider(this.player, this.tree);
-		// this.physics.add.collider(this.tree, this.enemies);
 		this.swapWeaponKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 	}
 
@@ -155,11 +160,11 @@ export class MainScene extends Phaser.Scene {
 				projectile.update();
 			}
 		});
-		this.enemyProjectiles.children.iterate((projectile) => {
-			if (projectile && projectile.active) {
-				projectile.update();
-			}
-		});
+		// this.enemyProjectiles.children.iterate((projectile) => {
+		// 	if (projectile && projectile.active) {
+		// 		projectile.update();
+		// 	}
+		// });
 		if (Phaser.Input.Keyboard.JustDown(this.swapWeaponKey)) {
 			this.player.swapWeapon();
 		}

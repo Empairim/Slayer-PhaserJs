@@ -2,8 +2,7 @@
 export default class Emitter {
 	constructor(scene, x, y, texture, config) {
 		this.scene = scene;
-		this.x = x;
-		this.y = y;
+		(this.x = { min: 0, max: this.scene.cameras.main.width }), (this.y = y);
 		this.texture = texture;
 		this.config = config;
 		this.emitter = null;

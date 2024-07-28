@@ -8,7 +8,8 @@ export const AssetKeys = Object.freeze({
 			WOODS: 'src/assets/world/forest.png',
 			LOG: 'src/assets/world/log.png',
 			CAMPFIRE: 'src/assets/world/camp.png',
-			GROUND: 'src/assets/world/ground.png'
+			GROUND: 'src/assets/world/ground.png',
+			SNOW: 'src/assets/world/snow.png'
 		},
 
 		OBJECTS: {

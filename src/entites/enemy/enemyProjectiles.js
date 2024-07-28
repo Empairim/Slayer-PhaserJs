@@ -2,45 +2,48 @@
 import Phaser from '../../lib/phaser.js';
 
 export default class EnemyProjectile extends Phaser.Physics.Arcade.Sprite {
-	constructor(scene, x, y) {
+	constructor(scene, x, y, player) {
 		super(scene, x, y);
 
 		this.graphics = scene.add.graphics({ fillStyle: { color: 0xff0000 } });
-		this.circle = new Phaser.Geom.Circle(x, y, 10); // Change the radius as needed
+		this.graphics.x = x;
+		this.graphics.y = y;
+		this.circle = new Phaser.Geom.Circle(0, 0, 10); //x and y is relative to the graphics object position like a texture
 		this.graphics.fillCircleShape(this.circle);
-
 		scene.physics.world.enable(this.graphics);
-		this.body = this.graphics.body;
+		this.body = this.graphics.body; // have to enable body first
+		this.body.setCircle(this.circle.radius, -5, -7);
+		this.player = player;
+		this.player = this.scene.player;
 
-		this.setCollideWorldBounds(true);
-		this.body.setOffset(300, 400);
-
-		this.emitter = null;
+		this.damage = 5;
 	}
+	update() {
+		// Create a circle for the projectile
+		const projectileCircle = new Phaser.Geom.Circle(this.graphics.x, this.graphics.y, this.circle.radius);
 
-	// createEmitter(scene, enemytype) {
-	// 	const particleGraphics = scene.make.graphics();
-	// 	particleGraphics.generateTexture(
-	// 		enemyType.particleTexture,
-	// 		enemyType.particleProperties.size,
-	// 		enemyType.particleProperties.size
-	// 	);
+		// Create a rectangle for the player
+		const playerRectangle = this.scene.player.getBounds();
 
-	// 	this.emitter = scene.add.particles(enemyType.particleTexture).createEmitter({
-	// 		...enemyType.emitterProperties,
-	// 		ease: 'Sine.easeOut', // Easing of the particles
-	// 		blendMode: 'ADD' // Blend mode of the particles
-	// 	});
-
-	// 	// Set the emitter to follow the projectile
-	// 	this.emitter.startFollow(this);
-	// }
+		// Check if the projectile circle is intersecting with the player rectangle
+		if (Phaser.Geom.Intersects.CircleToRectangle(projectileCircle, playerRectangle)) {
+			console.log('hit');
+			// If they're intersecting, apply damage and destroy this projectile
+			this.hitPlayer(this.player);
+		}
+	}
+	hitPlayer(player) {
+		player.takeDamage(this.damage);
+		console.log(this.damage);
+		this.graphics.destroy();
+	}
 
 	fire(x, y, player) {
 		this.setPosition(x, y);
 		this.setActive(true);
 		this.setVisible(true);
-		this.scene.physics.moveToObject(this, player, 100);
+		this.scene.physics.moveToObject(this, this.scene.player, 300);
+
 		// this.createEmitter(this.scene);
 	}
 
@@ -58,3 +61,19 @@ export default class EnemyProjectile extends Phaser.Physics.Arcade.Sprite {
 		}
 	}
 }
+
+export const EnemyTypes = {
+	spitter: {
+		//graphics
+		texture: 'spit',
+		particleTexture: 'spit',
+		//combat
+		damage: { min: 5, max: 8 },
+		//effects
+		particleProperties: {
+			color: 0x00ff00, // Green
+			size: 1
+		}
+	}
+	// Add more enemy types as needed
+};

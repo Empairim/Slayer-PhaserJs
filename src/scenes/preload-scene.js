@@ -20,6 +20,7 @@ export class PreloadScene extends Phaser.Scene {
 		this.load.image('campfire', AssetKeys.ENVIORNMENT.BACKGROUND.CAMPFIRE);
 		this.load.image('woods', AssetKeys.ENVIORNMENT.BACKGROUND.WOODS);
 		this.load.image('ground', AssetKeys.ENVIORNMENT.BACKGROUND.GROUND);
+		this.load.image('snow', AssetKeys.ENVIORNMENT.BACKGROUND.SNOW);
 
 		//MOVEMENT ASSETS///////////
 

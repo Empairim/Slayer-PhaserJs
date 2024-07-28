@@ -32,7 +32,6 @@ export default class Gat extends Phaser.Physics.Arcade.Sprite {
 		// Center the gun on the player
 		// Flip the gun based on the camera's position relative to the player
 		if (player.x < this.scene.cameras.main.width / 2) {
-			console.log(this.scene.cameras.main.scrollX, this.scene.cameras.main.width / 2);
 			this.x = player.x - 15;
 			this.setFlipY(true);
 		} else {

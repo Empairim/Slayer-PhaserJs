@@ -14,7 +14,7 @@ export const AmmoTypes = {
 		penetrates: false, // if bullet goes through enemies hits multiple enemies
 		screenShake: { duration: 200, intensity: 0.005 },
 		lifespan: 600, // / 500 = 4 seconds // how long bullet stays on screen also effects range
-		quantity: { min: 1, max: 2 }, // how many bullets are picked up
+		quantity: { min: 5, max: 7 }, // how many bullets are picked up
 		//effects
 		emitterProperties: {
 			speed: 5,
