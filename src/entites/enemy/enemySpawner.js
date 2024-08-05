@@ -81,7 +81,7 @@ export default class EnemySpawner {
 			return;
 		}
 		this.spawnTimer = this.scene.time.addEvent({
-			delay: 2000,
+			delay: 60000, // 60 seconds
 			callback: this.spawn,
 			callbackScope: this,
 			loop: true

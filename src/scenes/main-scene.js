@@ -39,6 +39,7 @@ export class MainScene extends Phaser.Scene {
 
 		//SCENE LIGHTING/AESTHETICS
 		const background = this.add.image(0, 0, 'ground').setOrigin(0, 0).setDisplaySize(1000, 800);
+		this.cameras.main.setZoom(2);
 		this.lights.enable();
 		this.lights.setAmbientColor(0x333377); // Very dark blue for the night sky
 		this.fire = new Fire(this, 500, 350, 600, 0x990000);
@@ -85,10 +86,7 @@ export class MainScene extends Phaser.Scene {
 		this.enemies = this.physics.add.group(); //special phaser array that has physics enabled
 
 		// CREATE ENEMY PROJECTILE GROUP
-		// this.this.enemyProjectiles = this.physics.add.group({
-		// 	classType: EnemyProjectile,
-		// 	runChildUpdate: true
-		// });
+
 		// CREATE AMMO PICKUPS GROUP
 		this.ammoPickups = this.physics.add.group();
 		// When an enemy dies and you create an ammo pickup
@@ -128,14 +126,6 @@ export class MainScene extends Phaser.Scene {
 		// Add overlap between player and ammo pickups
 		this.physics.add.collider(this.player, this.ammoPickups, this.player.collectAmmo.bind(this.player), null, this);
 
-		//collider for enemy fire
-		// this.physics.add.collider(
-		// 	this.player,
-		// 	this.spitterShootingBehavior.enemyProjectiles,
-		// 	this.hitPlayer,
-		// 	null,
-		// 	this
-		// );
 		//collider for tree
 		this.physics.add.collider(this.player, this.tree);
 		this.swapWeaponKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -148,7 +138,7 @@ export class MainScene extends Phaser.Scene {
 		this.updatePlayerHealthBar();
 		// UPDATE GAT
 		this.gat.update(this.player); // Pass player as target to follow
-		this.updatePlayerReloadBar();
+
 		// UPDATE ENEMIES
 		this.enemies.children.iterate((enemy) => {
 			enemy.update(this.player); // Pass player as target to follow
@@ -198,17 +188,17 @@ export class MainScene extends Phaser.Scene {
 		// Draw the health bar
 		this.playerHealthBar.fillRect(this.player.x - 25, this.player.y + this.player.height, healthBarWidth, 5);
 	}
-	updatePlayerReloadBar() {
-		// Clear the previous reload bar
-		this.reloadBar.clear();
+	// updatePlayerReloadBar() {
+	// 	// Clear the previous reload bar
+	// 	this.reloadBar.clear();
 
-		// Calculate the reload progress
-		const reloadProgress = Math.min((this.time.now - this.player.lastFired) / this.player.fireDelay, 1);
+	// 	// Calculate the reload progress
+	// 	const reloadProgress = Math.min((this.time.now - this.player.lastFired) / this.player.fireDelay, 1);
 
-		// Set the color of the reload bar
-		this.reloadBar.fillStyle(0xffffff, reloadProgress === 1 ? 1 : 0.2); // Draw the reload bar
-		this.reloadBar.fillRect(this.player.x - 10, this.player.y - 13, 100 * reloadProgress / 5, 3);
-	}
+	// 	// Set the color of the reload bar
+	// 	this.reloadBar.fillStyle(0xffffff, reloadProgress === 1 ? 1 : 0.2); // Draw the reload bar
+	// 	this.reloadBar.fillRect(this.player.x - 10, this.player.y - 13, 100 * reloadProgress / 5, 3);
+	// }
 
 	//GAMEPLAY METHODS
 

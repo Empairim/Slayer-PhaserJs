@@ -2,6 +2,8 @@
 import Phaser from '../../lib/phaser.js';
 import { AmmoTypes } from '../../data/ammoTypes.js';
 import Emitter, { Effects } from '../misc/emitter.js';
+import { Behavior } from '../../data/enemyBehavior.js';
+import EnemyProjectile, { BurstProjectile, SpiralProjectile, SpreadProjectile } from './enemyProjectiles.js';
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 	constructor(scene, x, y, behavior) {
@@ -31,7 +33,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		this.hitStun = 0;
 		this.damage = 1;
 		//Behavioral properties
-		this.behavior = behavior;
+		this.behavior = new Behavior(this);
 		this.enemySpawner = scene.enemySpawner; // Pass the EnemySpawner instance to the enemy
 	}
 
@@ -58,6 +60,25 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		// To be overridden by subclasses for unique animations
 	}
 	//  ENEMY GAMEPLAY LOGIC
+	shootProjectile() {
+		let projectile;
+		switch (this.type) {
+			case 'spread':
+				projectile = new SpreadProjectile(this.scene, this.x, this.y, this.scene.player, this.damage);
+				break;
+			case 'spiral':
+				projectile = new SpiralProjectile(this.scene, this.x, this.y, this.scene.player, this.damage);
+				break;
+			case 'burst':
+				projectile = new BurstProjectile(this.scene, this.x, this.y, this.scene.player, this.damage);
+				break;
+			default:
+				projectile = new EnemyProjectile(this.scene, this.x, this.y, this.scene.player, this.damage);
+				break;
+		}
+		projectile.fire(this.x, this.y, this.scene.player);
+	}
+
 	takeDamage(damage) {
 		const actualDamage = Math.floor(Math.random() * (damage.max - damage.min + 1)) + damage.min;
 		this.health -= actualDamage / 2; //quick fix since overlapping hitboxes cause double damage

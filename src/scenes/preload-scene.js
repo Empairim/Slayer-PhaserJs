@@ -29,6 +29,14 @@ export class PreloadScene extends Phaser.Scene {
 			frameWidth: 48,
 			frameHeight: 32
 		});
+		this.load.spritesheet('gunnerIdle', AssetKeys.CHARACTER.GUNNER.SPRITESHEET2, {
+			frameWidth: 25,
+			frameHeight: 32
+		});
+		this.load.spritesheet('gunnerWalk', AssetKeys.CHARACTER.GUNNER.SPRITESHEET3, {
+			frameWidth: 32,
+			frameHeight: 32
+		});
 
 		//WEAPON ASSETS/////////////////////
 		this.load.image('pistol', AssetKeys.CHARACTER.GUN.PISTOL);

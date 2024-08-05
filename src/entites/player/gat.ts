@@ -18,6 +18,7 @@ export default class Gat extends Phaser.Physics.Arcade.Sprite {
 
 		//Damage System
 		this.setScale(10);
+		this.setVisible(false);
 	}
 	recoil() {
 		// Check if the player exists and is not currently "reloading"

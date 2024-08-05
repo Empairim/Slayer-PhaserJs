@@ -2,7 +2,7 @@
 import Phaser from '../lib/phaser.js';
 import EnemyProjectile from '../entites/enemy/enemyProjectiles.js';
 
-class Behavior {
+export class Behavior {
 	constructor(enemy) {
 		this.enemy = enemy;
 	}
@@ -85,19 +85,6 @@ export class SpitterShootingBehavior extends Behavior {
 
 		this.updateFlip(player);
 	}
-	// shootProjectile(x, y, player) {
-	// 	// Create a new projectile
-	// 	let projectile = this.projectiles.get(x, y);
-
-	// 	if (!projectile) {
-	// 		projectile = new EnemyProjectile(this.enemy.scene, x, y, this.enemy.damage);
-	// 		console.log(this.enemy.damage);
-	// 		this.projectiles.add(projectile);
-	// 	}
-
-	// 	// Fire the projectile towards the player
-	// 	projectile.fire(x, y, player);
-	// }
 
 	runAwayFromPlayer(player) {
 		const angle = Phaser.Math.Angle.Between(this.enemy.x, this.enemy.y, player.x, player.y);
@@ -121,13 +108,8 @@ export class SpitterShootingBehavior extends Behavior {
 
 	shootProjectile(x, y, player) {
 		if (this.canShoot) {
-			let projectile = this.projectiles.get(x, y);
-
-			if (!projectile) {
-				projectile = new EnemyProjectile(this.enemy.scene, x, y, this.enemy.scene.player);
-
-				this.projectiles.add(projectile);
-			}
+			let projectile = new EnemyProjectile(this.enemy.scene, x, y, this.enemy.scene.player, this.enemy.damage);
+			this.projectiles.add(projectile);
 
 			// Fire the projectile towards the player
 			projectile.fire(x, y, player);
@@ -139,5 +121,6 @@ export class SpitterShootingBehavior extends Behavior {
 				}
 			});
 		}
+		this.canShoot = false;
 	}
 }

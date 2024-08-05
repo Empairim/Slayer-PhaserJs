@@ -15,7 +15,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.body.setCollideWorldBounds(true); //set the player to collide with the world bounds
 		this.setScale(2);
 		this.body.setSize(this.width * 2 / 3, this.height * 2 / 3);
-		this.body.setOffset(13, 10);
+		// this.body.setOffset(13, 10);
 
 		//FX
 		this.setPipeline('Light2D');
@@ -42,7 +42,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.isInvincible = false;
 		this.invincibilityDuration = 1500;
 		this.isRolling = false;
-		this.speed = 260;
+		this.speed = 200;
 		this.defense = 1;
 
 		//Ammo System
@@ -116,6 +116,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		// }
 		//for now I prefer it not swapping out the ammo type
 	}
+	//Gun ammo system
 	fireBullet() {
 		// Check if the player has ammo
 		if (this.ammoInventory[this.currentAmmoType] > 0) {
@@ -123,6 +124,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			this.ammoInventory[this.currentAmmoType]--;
 		}
 	}
+
+	//AMMO PICKUP SYSTEM
 	collectAmmo(player, ammoPickup) {
 		player.addAmmo(ammoPickup.ammoType, ammoPickup.quantity);
 		//add text to show what ammo was picked up then destroy it
@@ -131,21 +134,38 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		// Destroy the ammo pickup after it's collected
 		ammoPickup.destroy();
 	}
+
+	//AMMO SYSTEM
 	addAmmo(ammoTypeKey, quantity) {
-		// Add the picked up ammo type to the inventory
+		// Get the ammo type from the AmmoTypes object
+		console.log('ammoTypeKey:', ammoTypeKey);
+		const ammoType = AmmoTypes[ammoTypeKey];
+		console.log('AmmoTypes:', AmmoTypes);
+		console.log('ammoType:', ammoType);
+
+		// Add ammo to the clip
+		const clipSpace = ammoType.clip.size - ammoType.clip.bullets.length;
+		const ammoToAddToClip = Math.min(clipSpace, quantity);
+		ammoType.clip.bullets = [ ...ammoType.clip.bullets, ...new Array(ammoToAddToClip).fill({}) ];
+
+		// Add remaining ammo to the inventory
+		const remainingAmmo = quantity - ammoToAddToClip;
 		if (this.ammoInventory[ammoTypeKey]) {
-			this.ammoInventory[ammoTypeKey] += quantity;
+			this.ammoInventory[ammoTypeKey] += remainingAmmo;
 		} else {
-			this.ammoInventory[ammoTypeKey] = quantity;
+			this.ammoInventory[ammoTypeKey] = remainingAmmo;
 		}
 	}
 
+	//AMMO SYSTEM
 	changeAmmoType(ammoTypeKey) {
 		// Change the current ammo type only if the player has that ammo type in their inventory
 		if (this.ammoInventory[ammoTypeKey]) {
 			this.currentAmmoType = ammoTypeKey;
 		}
 	}
+
+	//AMMO SYSTEM
 	swapWeapon() {
 		// Get the keys of the ammo types
 		const ammoKeys = Object.keys(AmmoTypes);
@@ -172,6 +192,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		});
 		this.weaponText.setAlpha(0.8);
 		this.ui.floatingText(this.weaponText);
+	}
+
+	updateReloadBar() {
+		// Clear the previous reload bar
+		this.reloadBar.clear();
+
+		// Calculate the reload progress
+		const reloadProgress = Math.min((this.time.now - this.lastReloaded) / this.currentAmmoType.reloadSpeed, 1);
+
+		// Set the color of the reload bar
+		this.reloadBar.fillStyle(0xffffff, reloadProgress === 1 ? 1 : 0.2); // Draw the reload bar
+		this.reloadBar.fillRect(this.x - 10, this.y - 13, 100 * reloadProgress / 5, 3);
 	}
 
 	//PLAYER HEALTH AND DAMAGE SYSTEM////////
@@ -261,33 +293,86 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		}
 	}
 
+	// createAnimations() {
+	// 	//PLAYER MOVEMENT ANIMATIONS
+	// 	//idle
+	// 	this.anims.create({
+	// 		key: 'idle',
+	// 		frames: this.anims.generateFrameNumbers('gunner', { start: 0, end: 5 }), // Adjust frame numbers as needed
+	// 		frameRate: 5,
+	// 		repeat: -1
+	// 	});
+	// 	//side walk
+	// 	this.anims.create({
+	// 		key: 'xwalk',
+	// 		frames: this.anims.generateFrameNumbers('gunner', { start: 45, end: 52 }), // Adjust frame numbers as needed
+	// 		frameRate: 5,
+	// 		repeat: -1
+	// 	});
+	// 	//up walk
+	// 	this.anims.create({
+	// 		key: 'uwalk',
+	// 		frames: this.anims.generateFrameNumbers('gunner', { start: 45, end: 52 }), // Adjust frame numbers as needed
+	// 		frameRate: 5,
+	// 		repeat: -1
+	// 	});
+	// 	//down walk
+	// 	this.anims.create({
+	// 		key: 'dwWalk',
+	// 		frames: this.anims.generateFrameNumbers('gunner', { start: 45, end: 52 }), // Adjust frame numbers as needed
+	// 		frameRate: 5,
+	// 		repeat: -1
+	// 	});
+
+	// 	//horizontal roll
+	// 	this.anims.create({
+	// 		key: 'xRoll',
+	// 		frames: this.anims.generateFrameNumbers('gunner', { start: 63, end: 67 }), // Adjust frame numbers as needed
+	// 		frameRate: 9,
+	// 		repeat: 0
+	// 	});
+
+	// 	//vertical roll
+	// 	this.anims.create({
+	// 		key: 'yRoll',
+	// 		frames: this.anims.generateFrameNumbers('gunner', { start: 63, end: 67 }), // Adjust frame numbers as needed
+	// 		frameRate: 9,
+	// 		repeat: 0
+	// 	});
+	// }
 	createAnimations() {
 		//PLAYER MOVEMENT ANIMATIONS
 		//idle
 		this.anims.create({
 			key: 'idle',
-			frames: this.anims.generateFrameNumbers('gunner', { start: 0, end: 5 }), // Adjust frame numbers as needed
-			frameRate: 5,
+			frames: this.anims.generateFrameNumbers('gunnerIdle', { start: 0, end: 1 }), // Adjust frame numbers as needed
+			frameRate: 2,
 			repeat: -1
 		});
 		//side walk
 		this.anims.create({
-			key: 'xwalk',
-			frames: this.anims.generateFrameNumbers('gunner', { start: 45, end: 52 }), // Adjust frame numbers as needed
+			key: 'rwalk',
+			frames: this.anims.generateFrameNumbers('gunnerWalk', { start: 8, end: 11 }), // Adjust frame numbers as needed
+			frameRate: 5,
+			repeat: -1
+		});
+		this.anims.create({
+			key: 'lwalk',
+			frames: this.anims.generateFrameNumbers('gunnerWalk', { start: 12, end: 15 }), // Adjust frame numbers as needed
 			frameRate: 5,
 			repeat: -1
 		});
 		//up walk
 		this.anims.create({
 			key: 'uwalk',
-			frames: this.anims.generateFrameNumbers('gunner', { start: 45, end: 52 }), // Adjust frame numbers as needed
+			frames: this.anims.generateFrameNumbers('gunnerWalk', { start: 4, end: 7 }), // Adjust frame numbers as needed
 			frameRate: 5,
 			repeat: -1
 		});
 		//down walk
 		this.anims.create({
 			key: 'dwWalk',
-			frames: this.anims.generateFrameNumbers('gunner', { start: 45, end: 52 }), // Adjust frame numbers as needed
+			frames: this.anims.generateFrameNumbers('gunnerWalk', { start: 0, end: 3 }), // Adjust frame numbers as needed
 			frameRate: 5,
 			repeat: -1
 		});
@@ -316,11 +401,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		}
 		if (this.wasdKeys.left.isDown && !this.isRolling) {
 			this.setVelocityX(-this.speed);
-			this.play('xwalk', true);
-			this.setFlipX(true);
+			this.play('lwalk', true);
+			this.setFlipX(false);
 		} else if (this.wasdKeys.right.isDown && !this.isRolling) {
 			this.setVelocityX(this.speed);
-			this.play('xwalk', true);
+			this.play('rwalk', true);
 			this.setFlipX(false);
 		} else if (this.wasdKeys.up.isDown && !this.isRolling) {
 			this.setVelocityY(-this.speed);
@@ -329,7 +414,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		} else if (this.wasdKeys.down.isDown && !this.isRolling) {
 			this.setVelocityY(this.speed);
 			this.play('dwWalk', true);
-			this.setFlipX(true);
+			this.setFlipX(false);
 		} else if (
 			!this.wasdKeys.left.isDown &&
 			!this.wasdKeys.right.isDown &&

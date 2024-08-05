@@ -40,6 +40,7 @@ increase game world size and have a snow systems and player has to get to the ne
 and lower ammo drop percentage based on how good it is so you need to buy ammo and also think about if you want to waste it
 Procedurally generated levels or enemy placement
 *Must kill all enemies to progress to next room 
+add a wave counter that will spawn boss after a certain amount of waves
 ?Will start in a base hub room where you can by upgrades and health and ammo types
 Add a shop system where you can buy upgrades and ammo types
 Add a health system where you can buy health

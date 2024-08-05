@@ -6,14 +6,22 @@ export const AmmoTypes = {
 		animation: 'pisolAmmo',
 		gatTexture: 'pistol',
 		particleTexture: 'wSmoke',
+
 		//combat
 		bulletSpeed: 500, // how much range bullet has
 		bulletSize: { width: 15, height: 5 }, // how much spread bullet has depends on height
 		damage: { min: 5, max: 8 },
-		fireDelay: 800, // fire rate of gun/reload speed
+		fireDelay: 800, // fire rate of gun/
+		reloadSpeed: 800,
 		penetrates: false, // if bullet goes through enemies hits multiple enemies
 		screenShake: { duration: 200, intensity: 0.005 },
 		lifespan: 600, // / 500 = 4 seconds // how long bullet stays on screen also effects range
+		clip: {
+			bullets: [],
+			size: 7
+		},
+
+		//Bullet combat properties
 		quantity: { min: 5, max: 7 }, // how many bullets are picked up
 		//effects
 		emitterProperties: {
@@ -32,16 +40,22 @@ export const AmmoTypes = {
 		animation: 'shotgunAmmo',
 		gatTexture: 'shotgun',
 		particleTexture: 'fire1',
+
 		//combat
 		bulletSpeed: 500,
 		bulletSize: { width: 100, height: 100 },
 		damage: { min: 13, max: 20 },
-		fireDelay: 2000,
+		fireDelay: 1000,
+		reloadSpeed: 2000,
 		penetrates: false,
 		quantity: { min: 1, max: 2 },
 		//effects
 		screenShake: { duration: 200, intensity: 0.007 },
 		lifespan: 300, // / 500 = 1.2 seconds
+		clip: {
+			bullets: [],
+			size: 2
+		},
 
 		//Bullet combat properties
 		emitterProperties: {
@@ -60,16 +74,22 @@ export const AmmoTypes = {
 		animation: 'machineAmmo',
 		gatTexture: 'machine',
 		particleTexture: 'flamer',
+
 		//combat
 		bulletSpeed: 1000,
 		bulletSize: { width: 5, height: 5 },
 		damage: { min: 1, max: 3 },
 		fireDelay: 200,
+		reloadSpeed: 500,
 		penetrates: false,
 		quantity: { min: 10, max: 15 },
 		//effects
 		screenShake: { duration: 100, intensity: 0.004 },
 		lifespan: 2000, // / 500 = 4 seconds
+		clip: {
+			bullets: [],
+			size: 30
+		},
 
 		//Bullet combat properties
 		emitterProperties: {
@@ -92,9 +112,14 @@ export const AmmoTypes = {
 		bulletSize: { width: 12, height: 5 },
 		damage: { min: 5, max: 8 },
 		fireDelay: 800,
+		reloadSpeed: 500,
 		penetrates: false,
 		screenShake: { duration: 200, intensity: 0.005 },
 		lifespan: 600,
+		clip: {
+			bullets: [],
+			size: 999
+		},
 		quantity: { min: 5, max: 15 },
 		//Bullet combat properties
 		emitterProperties: {

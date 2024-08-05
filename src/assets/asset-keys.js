@@ -21,7 +21,9 @@ export const AssetKeys = Object.freeze({
 		GUNNER: {
 			//Gunner Pngs
 
-			SPRITESHEET: 'src/assets/gunner/gunner48x32.png'
+			SPRITESHEET: 'src/assets/gunner/gunner48x32.png',
+			SPRITESHEET2: 'src/assets/gunner/mainDudeIdle.png',
+			SPRITESHEET3: 'src/assets/gunner/mainDudeWalk.png'
 		},
 		GUN: {
 			//Gun Pngs
